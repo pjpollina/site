@@ -39,4 +39,28 @@ class HTTPServer
       #{mesg}
     HEREDOC
   end
+
+  IMAGE_TYPES = {
+    'png' => 'image/png',
+    'jpg' => 'image/jpeg',
+    'ico' => 'image/x-icon'
+  }
+
+  def self.image_response(image_path, socket)
+    if File.exist?(image_path) && !File.directory?(image_path)
+      type = IMAGE_TYPES(image_path[-3..-1]) || 'application/octet-stream'
+      File.open(image_path, 'rb') do |file|
+        socket.print <<~HEREDOC
+          HTTP/1.1 200 OK\r
+          Content-Type: #{type}\r
+          Content-Length: #{file.size}\r
+          Date: #{Time.now.httpdate}\r
+          Connection: close\r
+          \r
+        HEREDOC
+        IO.copy_stream(file, socket)
+      end
+    else
+      socket.print generic_404
+    end
 end
