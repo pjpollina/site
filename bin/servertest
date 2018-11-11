@@ -13,15 +13,19 @@ loop do
     request = socket.gets   # Gets data sent to socket
     STDERR.puts request     # Prints recieved requests to console
 
-    slug = request.split(' ')[1][1..-1] # Gets the slug of the post requested
-    data = database.query("SELECT post_title, post_body, post_timestamp FROM posts WHERE post_slug='#{slug}'").first # Gets the post that matches the slug
-
-    if(data.nil?)
-      socket.print HTTPServer.generic_404 # Sends 404 error if post doesn't exist
+    if(request.split(' ')[1].end_with?('png', 'jpg', 'ico'))
+      HTTPServer.image_response(".#{request.split(' ')[1]}", socket)
     else
-      post = BlogPost.new(data) # Creates an instance of BlogPost using the data retrived from the database
-      response = post.render # Generates HTML code from the BlogPost object
-      socket.print HTTPServer.generic_html(response) # Sends requested BlogPost HTML document back to client
+      slug = request.split(' ')[1][1..-1] # Gets the slug of the post requested
+      data = database.query("SELECT post_title, post_body, post_timestamp FROM posts WHERE post_slug='#{slug}'").first # Gets the post that matches the slug
+
+      if(data.nil?)
+        socket.print HTTPServer.generic_404 # Sends 404 error if post doesn't exist
+      else
+        post = BlogPost.new(data) # Creates an instance of BlogPost using the data retrived from the database
+        response = post.render # Generates HTML code from the BlogPost object
+        socket.print HTTPServer.generic_html(response) # Sends requested BlogPost HTML document back to client
+      end
     end
   end
 end
