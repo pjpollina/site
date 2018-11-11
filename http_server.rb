@@ -48,7 +48,7 @@ class HTTPServer
 
   def self.image_response(image_path, socket)
     if File.exist?(image_path) && !File.directory?(image_path)
-      type = IMAGE_TYPES(image_path[-3..-1]) || 'application/octet-stream'
+      type = IMAGE_TYPES[image_path[-3..-1]] || 'application/octet-stream'
       File.open(image_path, 'rb') do |file|
         socket.print <<~HEREDOC
           HTTP/1.1 200 OK\r
@@ -63,4 +63,5 @@ class HTTPServer
     else
       socket.print generic_404
     end
+  end
 end
