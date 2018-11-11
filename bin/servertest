@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'erb'
 require 'mysql2'
 require './blog_post.rb'
 require './http_server.rb'
@@ -8,15 +9,19 @@ PAGE_NAME = "PJ's Site" # The name of the site
 
 server = HTTPServer.new
 database = Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog') # Opens a connection with MySQL (MariaDB) database
+homepage = ERB.new(File.read './templates/blog_home.erb')
 loop do
   server.serve do |socket|
     request = socket.gets   # Gets data sent to socket
     STDERR.puts request     # Prints recieved requests to console
 
-    if(request.split(' ')[1].end_with?('png', 'jpg', 'ico'))
-      HTTPServer.image_response(".#{request.split(' ')[1]}", socket)
+    requested_path = request.split(' ')[1]
+    if(requested_path.end_with?('png', 'jpg', 'ico'))
+      HTTPServer.image_response(".#{requested_path}", socket)
+    elsif(requested_path == '/')
+      socket.print HTTPServer.generic_html(homepage.result)
     else
-      slug = request.split(' ')[1][1..-1] # Gets the slug of the post requested
+      slug = requested_path[1..-1] # Gets the slug of the post requested
       data = database.query("SELECT post_title, post_body, post_timestamp FROM posts WHERE post_slug='#{slug}'").first # Gets the post that matches the slug
 
       if(data.nil?)
