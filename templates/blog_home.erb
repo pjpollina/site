@@ -12,5 +12,11 @@
 
 <body>
   <h1><%= PAGE_NAME %></h1>
+  <h3>Recent Posts</h3>
+  <ul>
+  <% @recent_posts.each do |post| %>
+    <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
+  <% end %>
+  </ul>
 </body>
 </html>

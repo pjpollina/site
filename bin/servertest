@@ -19,6 +19,7 @@ loop do
     if(requested_path.end_with?('png', 'jpg', 'ico'))
       HTTPServer.image_response(".#{requested_path}", socket)
     elsif(requested_path == '/')
+      @recent_posts = controller.recent_posts(5)
       socket.print HTTPServer.generic_html(homepage.result)
     else
       slug = requested_path[1..-1] # Gets the slug of the post requested
