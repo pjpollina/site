@@ -1,6 +1,7 @@
 INSERT INTO posts(post_id, post_title, post_slug, post_body, post_timestamp) VALUES (
   0,
   'Test Post',
+  'test_post',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus quam lorem. Cras eu rhoncus ipsum, ut rhoncus risus. Sed bibendum pretium condimentum. Donec vel felis fermentum, interdum mauris vel, egestas eros. Donec vitae laoreet dui, id euismod augue. Ut a sem vel lectus maximus mollis. Vestibulum ac odio sed velit lacinia pellentesque et ac justo. Suspendisse at magna vel tellus tempor sodales. Aliquam id faucibus ipsum, in aliquam ante. Suspendisse ut egestas sem.',
   '2018-10-31 18:08:29'
 );
