@@ -2,13 +2,13 @@
 
 require 'erb'
 require 'mysql2'
-require './blog_post.rb'
 require './http_server.rb'
+require './blog_controller.rb'
 
 PAGE_NAME = "PJ's Site" # The name of the site
 
 server = HTTPServer.new
-database = Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog') # Opens a connection with MySQL (MariaDB) database
+controller = BlogController.new
 homepage = ERB.new(File.read './templates/blog_home.erb')
 loop do
   server.serve do |socket|
@@ -22,15 +22,7 @@ loop do
       socket.print HTTPServer.generic_html(homepage.result)
     else
       slug = requested_path[1..-1] # Gets the slug of the post requested
-      data = database.query("SELECT post_title, post_body, post_timestamp FROM posts WHERE post_slug='#{slug}'").first # Gets the post that matches the slug
-
-      if(data.nil?)
-        socket.print HTTPServer.generic_404 # Sends 404 error if post doesn't exist
-      else
-        post = BlogPost.new(data) # Creates an instance of BlogPost using the data retrived from the database
-        response = post.render # Generates HTML code from the BlogPost object
-        socket.print HTTPServer.generic_html(response) # Sends requested BlogPost HTML document back to client
-      end
+      socket.print controller.parse_slug_request(slug) # Sends the requested content back to the client
     end
   end
 end
