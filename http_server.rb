@@ -64,4 +64,29 @@ class HTTPServer
       socket.print generic_404
     end
   end
+
+  TEXT_TYPES = {
+    'css'  => 'text/css',
+    'js'   => 'application/javascript',
+    'json' => 'application/json'
+  }
+
+  def self.text_response(file_path, socket)
+    if File.exist?(file_path) && !File.directory?(file_path)
+      type = TEXT_TYPES[file_path[-3..-1]] || 'application/octet-stream'
+      File.open(file_path, 'rb') do |file|
+        socket.print <<~HEREDOC
+          HTTP/1.1 200 OK\r
+          Content-Type: #{type}\r
+          Content-Length: #{file.size}\r
+          Date: #{Time.now.httpdate}\r
+          Connection: close\r
+          \r
+        HEREDOC
+        IO.copy_stream(file, socket)
+      end
+    else
+      socket.print generic_404
+    end
+  end
 end
