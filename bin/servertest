@@ -25,14 +25,19 @@ loop do
     elsif(requested_path == '/archive')
       postdata = controller.all_posts
       @post_archive = {}
-      active_span = nil
+      active_year = nil
+      active_month = nil
       postdata.each do |post|
-        span = post['post_timestamp'].strftime('%B %Y')
-        if active_span != span
-          @post_archive[span] = []
-          active_span = span
+        ts = post['post_timestamp']
+        if active_year != ts.year
+          @post_archive[ts.year] = {}
+          active_year = ts.year
         end
-        @post_archive[span] << post
+        if active_month != ts.strftime('%B')
+          @post_archive[active_year][ts.strftime('%B')] = []
+          active_month = ts.strftime('%B')
+        end
+        @post_archive[active_year][active_month] << post
       end
       socket.print HTTPServer.generic_html(archive.result)
     else
