@@ -24,6 +24,10 @@ class BlogController
     stmt_n_most_recent.execute(count)
   end
 
+  def all_posts
+    recent_posts(65536)
+  end
+
   private
 
   def stmt_from_slug

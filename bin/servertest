@@ -10,6 +10,7 @@ PAGE_NAME = "PJ's Site" # The name of the site
 server = HTTPServer.new
 controller = BlogController.new
 homepage = ERB.new(File.read './templates/blog_home.erb')
+archive = ERB.new(File.read './templates/blog_archive.erb')
 loop do
   server.serve do |socket|
     request = socket.gets   # Gets data sent to socket
@@ -21,6 +22,19 @@ loop do
     elsif(requested_path == '/')
       @recent_posts = controller.recent_posts(5)
       socket.print HTTPServer.generic_html(homepage.result)
+    elsif(requested_path == '/archive')
+      postdata = controller.all_posts
+      @post_archive = {}
+      active_span = nil
+      postdata.each do |post|
+        span = post['post_timestamp'].strftime('%B %Y')
+        if active_span != span
+          @post_archive[span] = []
+          active_span = span
+        end
+        @post_archive[span] << post
+      end
+      socket.print HTTPServer.generic_html(archive.result)
     else
       slug = requested_path[1..-1] # Gets the slug of the post requested
       socket.print controller.parse_slug_request(slug) # Sends the requested content back to the client
