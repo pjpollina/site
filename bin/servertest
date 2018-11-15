@@ -17,9 +17,7 @@ loop do
     STDERR.puts request     # Prints recieved requests to console
 
     requested_path = request.split(' ')[1]
-    if(requested_path.end_with?('png', 'jpg', 'ico'))
-      HTTPServer.file_response(".#{requested_path}", socket)
-    elsif(requested_path.end_with?('css', 'js', 'json'))
+    if(requested_path.end_with?(*HTTPServer::MIME_TYPES.keys))
       HTTPServer.file_response(".#{requested_path}", socket)
     elsif(requested_path == '/')
       @recent_posts = controller.recent_posts(5)
