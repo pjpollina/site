@@ -1,11 +1,17 @@
 # Class that controls all blog features of the site
 # ...er, eventually
 
+require 'erb'
 require 'mysql2'
 require './blog_post.rb'
 require './http_server.rb'
 
 class BlogController
+  TEMPLATES = {
+    homepage: ERB.new(File.read './templates/blog_home.erb'),
+    archive:  ERB.new(File.read './templates/blog_archive.erb')
+  }
+
   def initialize(sql_client: nil)
     @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
   end
