@@ -28,6 +28,24 @@ class BlogController
     recent_posts(65536)
   end
 
+  def fetch_archive
+    archive = {}
+    active_year, active_month = nil, nil
+    all_posts.each do |post|
+      ts = post['post_timestamp']
+      if active_year != ts.year
+        archive[ts.year] = {}
+        active_year = ts.year
+      end
+      if active_month != ts.strftime('%B')
+        archive[active_year][ts.strftime('%B')] = []
+        active_month = ts.strftime('%B')
+      end
+      archive[active_year][active_month] << post
+    end
+    archive
+  end
+
   private
 
   def stmt_from_slug
