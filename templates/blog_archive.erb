@@ -8,18 +8,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
   <link rel="shortcut icon" href="/icons/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
-  <title><%= PAGE_NAME + ' | Archive' %></title>
+  <title><%= @page_name + ' | Archive' %></title>
 </head>
 
 <body>
   <h1>Archive</h1>
-  <% @post_archive.each_key do |year| %>
+  <% archive.each_key do |year| %>
     <h2><%= year %></h2>
     <ul>
-    <% @post_archive[year].each_key do |month| %>
+    <% archive[year].each_key do |month| %>
       <li><h3><%= month %></h3>
       <ul>
-        <% @post_archive[year][month].each do |post| %>
+        <% archive[year][month].each do |post| %>
           <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
         <% end %>
       </ul>

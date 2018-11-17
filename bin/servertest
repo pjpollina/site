@@ -19,8 +19,7 @@ loop do
     elsif(requested_path == '/')
       socket.print controller.render_homepage
     elsif(requested_path == '/archive')
-      @post_archive = controller.fetch_archive
-      socket.print HTTPServer.generic_html(BlogController::TEMPLATES[:archive].result)
+      socket.print controller.render_archive
     else
       slug = requested_path[1..-1] # Gets the slug of the post requested
       socket.print controller.parse_slug_request(slug) # Sends the requested content back to the client

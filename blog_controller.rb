@@ -60,6 +60,11 @@ class BlogController
     HTTPServer.generic_html(TEMPLATES[:homepage].result(binding))
   end
 
+  def render_archive
+    archive = fetch_archive
+    HTTPServer.generic_html(TEMPLATES[:archive].result(binding))
+  end
+
   private
 
   def stmt_from_slug
