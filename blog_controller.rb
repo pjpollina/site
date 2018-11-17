@@ -7,12 +7,15 @@ require './blog_post.rb'
 require './http_server.rb'
 
 class BlogController
+  attr_reader :page_name
+
   TEMPLATES = {
     homepage: ERB.new(File.read './templates/blog_home.erb'),
     archive:  ERB.new(File.read './templates/blog_archive.erb')
   }
 
-  def initialize(sql_client: nil)
+  def initialize(sql_client: nil, page_name: nil)
+    @page_name = page_name || "PJ's Site"
     @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
   end
 
@@ -50,6 +53,11 @@ class BlogController
       archive[active_year][active_month] << post
     end
     archive
+  end
+
+  def render_homepage
+    recent_posts = recent_posts(5)
+    HTTPServer.generic_html(TEMPLATES[:homepage].result(binding))
   end
 
   private

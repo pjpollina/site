@@ -17,8 +17,7 @@ loop do
     if(requested_path.end_with?(*HTTPServer::MIME_TYPES.keys))
       HTTPServer.file_response(".#{requested_path}", socket)
     elsif(requested_path == '/')
-      @recent_posts = controller.recent_posts(5)
-      socket.print HTTPServer.generic_html(BlogController::TEMPLATES[:homepage].result)
+      socket.print controller.render_homepage
     elsif(requested_path == '/archive')
       @post_archive = controller.fetch_archive
       socket.print HTTPServer.generic_html(BlogController::TEMPLATES[:archive].result)

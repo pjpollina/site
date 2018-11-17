@@ -8,14 +8,14 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
   <link rel="shortcut icon" href="/icons/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
-  <title><%= PAGE_NAME + ' | Home'%></title>
+  <title><%= @page_name + ' | Home'%></title>
 </head>
 
 <body>
-  <h1><%= PAGE_NAME %></h1>
+  <h1><%= @page_name %></h1>
   <h3>Recent Posts</h3>
   <ul>
-  <% @recent_posts.each do |post| %>
+  <% recent_posts.each do |post| %>
     <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
   <% end %>
   </ul>
