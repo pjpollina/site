@@ -22,7 +22,7 @@ loop do
       socket.print controller.render_archive
     else
       slug = requested_path[1..-1] # Gets the slug of the post requested
-      socket.print controller.parse_slug_request(slug) # Sends the requested content back to the client
+      socket.print controller.render_post(slug) # Sends the requested content back to the client
     end
   end
 end

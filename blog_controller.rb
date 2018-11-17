@@ -19,16 +19,6 @@ class BlogController
     @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
   end
 
-  def parse_slug_request(slug)
-    data = stmt_from_slug.execute(slug).first
-    if data.nil?
-      HTTPServer.generic_404
-    else
-      post = BlogPost.new(data)
-      HTTPServer.generic_html(post.render)
-    end
-  end
-
   def recent_posts(count)
     stmt_n_most_recent.execute(count)
   end
@@ -63,6 +53,16 @@ class BlogController
   def render_archive
     archive = fetch_archive
     HTTPServer.generic_html(TEMPLATES[:archive].result(binding))
+  end
+
+  def render_post(slug)
+    data = stmt_from_slug.execute(slug).first
+    if data.nil?
+      HTTPServer.generic_404
+    else
+      post = BlogPost.new(data)
+      HTTPServer.generic_html(post.render)
+    end
   end
 
   private
