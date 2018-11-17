@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'/>
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="shortcut icon" href="/icons/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <title><%= controller.page_name + ' | New Post'%></title>
+</head>
+
+<body>
+  <h1>New Post</h1>
+  <form action='/new_blog_post' method='post'>
+    <div>
+      <label for='title'>Title: </label>
+      <input type='text' id='title' name='title'>
+    </div>
+    <div>
+      <label for='slug'>Slug: </label>
+      <input type='text' id='slug' name='slug'>
+    </div>
+    <div>
+      <label for='body'>Body: </label>
+      <textarea type='text' id='body' name='body'></textarea>
+    </div>
+    <div>
+      <label for='password'>Password: </label>
+      <input type='password' id='password' name='password'>
+    </div>
+    <div>
+      <input type='submit' value='Submit'>
+    </div>
+  </form>
+</body>
+</html>
