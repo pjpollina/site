@@ -2,6 +2,7 @@
 # Models data from table defined at schema/posts.sql
 
 require 'erb'
+require 'kramdown'
 
 class BlogPost
   attr_reader :title, :date, :body
@@ -9,9 +10,9 @@ class BlogPost
   PAGE_TEMPLATE = ERB.new(File.read './templates/blog_post.erb')
 
   def initialize(data = {})
-    @title  = data['post_title']     || '404 Error'
-    @date   = data['post_timestamp'] || '01-01-1970'
-    @body   = data['post_body']      || 'Post not found'
+    @title  = data['post_title']
+    @date   = data['post_timestamp']
+    @body   = Kramdown::Document.new(data['post_body']).to_html
   end
 
   def render(template=PAGE_TEMPLATE)
