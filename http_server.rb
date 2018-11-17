@@ -49,7 +49,10 @@ class HTTPServer
     'js'   => 'application/javascript'
   }
 
-  def self.file_response(filepath, socket)
+  WEB_ROOT = './public/'
+
+  def self.file_response(raw_filepath, socket)
+    filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
       type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
       File.open(filepath, 'rb') do |file|
