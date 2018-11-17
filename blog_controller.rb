@@ -70,6 +70,10 @@ class BlogController
     archive
   end
 
+  def next_post_id
+    1 + stmt_last_post_id.execute.first['post_id']
+  end
+
   private
 
   def stmt_from_slug
@@ -86,6 +90,15 @@ class BlogController
       FROM posts
       ORDER BY post_timestamp DESC
       LIMIT ?
+    SQL
+  end
+
+  def stmt_last_post_id
+    @stmt_last_post_id ||= @sql_client.prepare <<~SQL
+      SELECT post_id
+      FROM posts
+      ORDER BY post_timestamp DESC
+      LIMIT 1
     SQL
   end
 end
