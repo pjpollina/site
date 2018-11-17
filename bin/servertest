@@ -16,13 +16,8 @@ loop do
     requested_path = request.split(' ')[1]
     if(requested_path.end_with?(*HTTPServer::MIME_TYPES.keys))
       HTTPServer.file_response(".#{requested_path}", socket)
-    elsif(requested_path == '/')
-      socket.print controller.render_homepage
-    elsif(requested_path == '/archive')
-      socket.print controller.render_archive
     else
-      slug = requested_path[1..-1] # Gets the slug of the post requested
-      socket.print controller.render_post(slug) # Sends the requested content back to the client
+      socket.print controller.respond(requested_path)
     end
   end
 end

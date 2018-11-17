@@ -1,5 +1,4 @@
 # Class that controls all blog features of the site
-# ...er, eventually
 
 require 'erb'
 require 'mysql2'
@@ -17,6 +16,16 @@ class BlogController
   def initialize(sql_client: nil, page_name: nil)
     @page_name = page_name || "PJ's Site"
     @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
+  end
+
+  def respond(path)
+    if path == '/'
+      render_homepage
+    elsif path == '/archive'
+      render_archive
+    else
+      render_post(path[1..-1])
+    end
   end
 
   def render_homepage
