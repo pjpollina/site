@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'mysql2'
 require './http_server.rb'
 require './blog_controller.rb'
 
