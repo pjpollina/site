@@ -19,32 +19,6 @@ class BlogController
     @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
   end
 
-  def recent_posts(count)
-    stmt_n_most_recent.execute(count)
-  end
-
-  def all_posts
-    recent_posts(65536)
-  end
-
-  def fetch_archive
-    archive = {}
-    active_year, active_month = nil, nil
-    all_posts.each do |post|
-      ts = post['post_timestamp']
-      if active_year != ts.year
-        archive[ts.year] = {}
-        active_year = ts.year
-      end
-      if active_month != ts.strftime('%B')
-        archive[active_year][ts.strftime('%B')] = []
-        active_month = ts.strftime('%B')
-      end
-      archive[active_year][active_month] << post
-    end
-    archive
-  end
-
   def render_homepage
     recent_posts = recent_posts(5)
     HTTPServer.generic_html(TEMPLATES[:homepage].result(binding))
@@ -63,6 +37,28 @@ class BlogController
       post = BlogPost.new(data)
       HTTPServer.generic_html(post.render)
     end
+  end
+
+  def recent_posts(count=65536)
+    stmt_n_most_recent.execute(count)
+  end
+
+  def fetch_archive
+    archive = {}
+    active_year, active_month = nil, nil
+    recent_posts.each do |post|
+      ts = post['post_timestamp']
+      if active_year != ts.year
+        archive[ts.year] = {}
+        active_year = ts.year
+      end
+      if active_month != ts.strftime('%B')
+        archive[active_year][ts.strftime('%B')] = []
+        active_month = ts.strftime('%B')
+      end
+      archive[active_year][active_month] << post
+    end
+    archive
   end
 
   private
