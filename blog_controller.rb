@@ -9,8 +9,8 @@ class BlogController
   attr_reader :page_name
 
   TEMPLATES = {
-    homepage: ERB.new(File.read './templates/blog_home.erb'),
-    archive:  ERB.new(File.read './templates/blog_archive.erb')
+    homepage: ERB.new(File.read './public/templates/blog_home.erb'),
+    archive:  ERB.new(File.read './public/templates/blog_archive.erb')
   }
 
   def initialize(sql_client: nil, page_name: nil)

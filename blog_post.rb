@@ -7,7 +7,7 @@ require 'kramdown'
 class BlogPost
   attr_reader :title, :date, :body
 
-  PAGE_TEMPLATE = ERB.new(File.read './templates/blog_post.erb')
+  PAGE_TEMPLATE = ERB.new(File.read './public/templates/blog_post.erb')
 
   def initialize(data = {})
     @title  = data['post_title']
