@@ -70,4 +70,22 @@ class HTTPServer
       socket.print generic_404
     end
   end
+
+  def self.redirect(location='/')
+    <<~HEREDOC
+      HTTP/1.1 303 See Other\r
+      Location: #{location}\r
+      \r
+    HEREDOC
+  end
+
+  def self.process_request(socket)
+    request = {}
+    request[:method], request[:path], request[:client_type] = socket.gets.split(' ')
+    request[:body] = []
+    while((line = socket.gets) && (line.chomp != ''))
+      request[:body] << line
+    end
+    request
+  end
 end
