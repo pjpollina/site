@@ -23,7 +23,7 @@ loop do
     elsif(request[:path] == '/new_blog_post')
       socket.print HTTPServer.redirect
       if(request[:method] == 'POST')
-        elements = HTTPServer.parse_post(socket.gets)
+        elements = HTTPServer.parse_form_data(socket.gets)
         if elements['password'] == File.read('password')
           poster.query <<~SQL
             INSERT INTO posts(post_id, post_title, post_slug, post_body)
