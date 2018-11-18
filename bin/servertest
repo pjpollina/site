@@ -37,7 +37,7 @@ loop do
               #{controller.next_post_id},
               '#{elements['title']}',
               '#{elements['slug']}',
-              '#{elements['body']}'
+              '#{poster.escape(elements['body'])}'
             );
           SQL
         end
