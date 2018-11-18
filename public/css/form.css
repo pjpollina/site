@@ -1,0 +1,28 @@
+.post_form {
+  max-width: 400px;
+  padding: 20px 12px 10px 20px;
+}
+
+.post_form li {
+  display: block;
+  list-style: none;
+  margin: 10px 0 0 0;
+}
+
+.post_form label {
+  margin:0 0 3px 0;
+  display:block;
+  font-weight: bold;
+}
+
+.post_form input {
+  width: 375px;
+  height: 25px;
+  padding: 2px;
+}
+
+.post_form textarea {
+  width: 800px;
+  height: 250px;
+  padding: 8px;
+}
