@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'erb'
+require 'uri'
+require 'mysql2'
 require './http_server.rb'
 require './blog_controller.rb'
 
@@ -7,16 +10,40 @@ PAGE_NAME = "PJ's Site" # The name of the site
 
 server = HTTPServer.new
 controller = BlogController.new
+poster = Mysql2::Client.new(username: 'blog_poster', password: File.read('password'), database: 'blog')
 loop do
   server.serve do |socket|
-    request = socket.gets   # Gets data sent to socket
-    STDERR.puts request     # Prints recieved requests to console
+    request = HTTPServer.process_request(socket)
+    STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"      # Prints recieved requests to console
 
-    requested_path = request.split(' ')[1]
-    if(requested_path.end_with?(*HTTPServer::MIME_TYPES.keys))
-      HTTPServer.file_response(".#{requested_path}", socket)
+    if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
+      HTTPServer.file_response(".#{request[:path]}", socket)
+    elsif(request[:path] == '/form_test')
+      form = ERB.new(File.read './public/templates/blog_post_form.erb')
+      socket.print HTTPServer.generic_html form.result
+    elsif(request[:path] == '/new_blog_post')
+      socket.print HTTPServer.redirect
+      if(request[:method] == 'POST')
+        data = socket.gets
+        elements = {}
+        data.split('&').each do |element| 
+          key, value = element.split('=', 2)
+          elements[key] = URI.decode(value).gsub('+', ' ')
+        end
+        if elements['password'] == File.read('password')
+          poster.query <<~SQL
+            INSERT INTO posts(post_id, post_title, post_slug, post_body)
+            VALUES(
+              #{controller.next_post_id},
+              '#{elements['title']}',
+              '#{elements['slug']}',
+              '#{elements['body']}'
+            );
+          SQL
+        end
+      end
     else
-      socket.print controller.respond(requested_path)
+      socket.print controller.respond(request[:path])
     end
   end
 end
