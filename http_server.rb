@@ -3,6 +3,7 @@
 
 require 'socket'
 require 'time'
+require 'uri'
 
 class HTTPServer
   def initialize(hostname: 'localhost', port: 4000)
@@ -87,5 +88,14 @@ class HTTPServer
       request[:body] << line
     end
     request
+  end
+
+  def self.parse_form_data(form_data)
+    elements = {}
+    form_data.split('&').each do |element| 
+      key, value = element.split('=', 2)
+      elements[key] = URI.decode(value).gsub('+', ' ')
+    end
+    elements
   end
 end

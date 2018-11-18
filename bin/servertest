@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'erb'
-require 'uri'
 require 'mysql2'
 require './http_server.rb'
 require './blog_controller.rb'
@@ -24,12 +23,7 @@ loop do
     elsif(request[:path] == '/new_blog_post')
       socket.print HTTPServer.redirect
       if(request[:method] == 'POST')
-        data = socket.gets
-        elements = {}
-        data.split('&').each do |element| 
-          key, value = element.split('=', 2)
-          elements[key] = URI.decode(value).gsub('+', ' ')
-        end
+        elements = HTTPServer.parse_post(socket.gets)
         if elements['password'] == File.read('password')
           poster.query <<~SQL
             INSERT INTO posts(post_id, post_title, post_slug, post_body)
