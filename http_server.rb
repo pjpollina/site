@@ -6,6 +6,17 @@ require 'time'
 require 'uri'
 
 class HTTPServer
+  WEB_ROOT = './public/'
+
+  MIME_TYPES = {
+    'css'  => 'text/css',
+    'png'  => 'image/png',
+    'jpg'  => 'image/jpeg',
+    'ico'  => 'image/x-icon',
+    'json' => 'application/json',
+    'js'   => 'application/javascript'
+  }
+
   def initialize(hostname: 'localhost', port: 4000)
     @tcp = TCPServer.new(hostname, port)
   end
@@ -40,17 +51,6 @@ class HTTPServer
       #{mesg}
     HEREDOC
   end
-
-  MIME_TYPES = {
-    'css'  => 'text/css',
-    'png'  => 'image/png',
-    'jpg'  => 'image/jpeg',
-    'ico'  => 'image/x-icon',
-    'json' => 'application/json',
-    'js'   => 'application/javascript'
-  }
-
-  WEB_ROOT = './public/'
 
   def self.file_response(raw_filepath, socket)
     filepath = WEB_ROOT + raw_filepath
