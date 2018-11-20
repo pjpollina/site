@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+# Script that sets up everything the app needs of the database
+# Also resets everything if it's already set up
+
+require 'mysql2'
+
+$dbclient = Mysql2::Client.new(
+  username: 'root',
+  password: ENV['dbrootpass']
+)
+
+$dbclient.query('DROP DATABASE IF EXISTS blog')
+$dbclient.query('CREATE DATABASE blog')
+$dbclient.query('USE blog')
+
+$dbclient.query(File.read('./sql/posts.sql').chomp(';'))
+File.read('./sql/populate.sql').split(';').each do |insert|
+  $dbclient.query(insert)
+end
+
+$dbclient.query('DROP USER IF EXISTS blogapp@localhost')
+$dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{File.read('password')}'")
+$dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.posts TO blogapp@localhost')
