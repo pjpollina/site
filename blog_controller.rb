@@ -15,7 +15,7 @@ class BlogController
 
   def initialize(sql_client: nil, page_name: nil)
     @page_name = page_name || "PJ's Site"
-    @sql_client = sql_client || Mysql2::Client.new(username: 'blog_server', password: '', database: 'blog')
+    @sql_client = sql_client || Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
   end
 
   def respond(path)
