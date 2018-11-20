@@ -36,7 +36,7 @@ loop do
         end
       end
     else
-      socket.serve_html controller.respond(socket.request[:path])
+      socket.socket.print controller.respond(socket.request[:path])
     end
   end
 end
