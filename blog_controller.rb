@@ -10,7 +10,8 @@ class BlogController
 
   TEMPLATES = {
     homepage: ERB.new(File.read './public/templates/blog_home.erb'),
-    archive:  ERB.new(File.read './public/templates/blog_archive.erb')
+    archive:  ERB.new(File.read './public/templates/blog_archive.erb'),
+    new_post: ERB.new(File.read './public/templates/blog_post_form.erb')
   }
 
   def initialize(sql_client: nil, page_name: nil)
@@ -23,6 +24,8 @@ class BlogController
       render_homepage
     elsif path == '/archive'
       render_archive
+    elsif path == '/new_post'
+      render_new_post
     else
       render_post(path[1..-1])
     end
@@ -36,6 +39,10 @@ class BlogController
   def render_archive
     archive = fetch_archive
     HTTPServer.generic_html(TEMPLATES[:archive].result(binding))
+  end
+
+  def render_new_post
+    HTTPServer.generic_html(TEMPLATES[:new_post].result(binding))
   end
 
   def render_post(slug)

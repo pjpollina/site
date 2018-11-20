@@ -9,16 +9,13 @@ PAGE_NAME = "PJ's Site" # The name of the site
 
 server = HTTPServer.new
 controller = BlogController.new
-poster = Mysql2::Client.new(username: 'blog_poster', password: File.read('password'), database: 'blog')
+poster = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
 loop do
   server.serve do |socket|
     STDERR.puts "#{socket.request[:method]} #{socket.request[:path]} #{socket.request[:client_type]}"      # Prints recieved socket requests to console
 
     if(socket.request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
       socket.serve_file(socket.request[:path])
-    elsif(socket.request[:path] == '/form_test')
-      form = ERB.new(File.read './public/templates/blog_post_form.erb')
-      socket.serve_html form.result
     elsif(socket.request[:path] == '/new_blog_post')
       socket.serve_redirect
       if(socket.request[:method] == 'POST')
