@@ -97,7 +97,7 @@ class BlogController
     @stmt_last_post_id ||= @sql_client.prepare <<~SQL
       SELECT post_id
       FROM posts
-      ORDER BY post_timestamp DESC
+      ORDER BY post_id DESC
       LIMIT 1
     SQL
   end
