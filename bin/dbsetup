@@ -7,7 +7,7 @@ require 'mysql2'
 
 $dbclient = Mysql2::Client.new(
   username: 'root',
-  password: ENV['dbrootpass']
+  password: ENV['mysql_root_password']
 )
 
 $dbclient.query('DROP DATABASE IF EXISTS blog')
@@ -20,5 +20,5 @@ File.read('./sql/populate.sql').split(';').each do |insert|
 end
 
 $dbclient.query('DROP USER IF EXISTS blogapp@localhost')
-$dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{File.read('password')}'")
+$dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{ENV['mysql_blogapp_password']}'")
 $dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.posts TO blogapp@localhost')
