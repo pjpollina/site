@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'erb'
-require 'mysql2'
 require './http_server.rb'
 require './blog_controller.rb'
 
@@ -9,10 +7,9 @@ PAGE_NAME = "PJ's Site" # The name of the site
 
 server = HTTPServer.new
 controller = BlogController.new
-poster = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
 loop do
   server.serve do |socket|
-    STDERR.puts "#{socket.request[:method]} #{socket.request[:path]} #{socket.request[:client_type]}"      # Prints recieved socket requests to console
+    STDERR.puts "#{socket.request[:method]} #{socket.request[:path]} #{socket.request[:client_type]}"
 
     if(socket.request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
       socket.serve_file(socket.request[:path])
@@ -20,17 +17,7 @@ loop do
       socket.serve_redirect
       if(socket.request[:method] == 'POST')
         elements = HTTPServer.parse_form_data(socket.socket.gets)
-        if elements['password'] == File.read('password')
-          poster.query <<~SQL
-            INSERT INTO posts(post_id, post_title, post_slug, post_body)
-            VALUES(
-              #{controller.next_post_id},
-              '#{elements['title']}',
-              '#{elements['slug']}',
-              '#{poster.escape(elements['body'])}'
-            );
-          SQL
-        end
+        controller.insert_new_post(elements)
       end
     else
       socket.socket.print controller.respond(socket.request[:path])

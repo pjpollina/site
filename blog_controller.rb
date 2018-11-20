@@ -81,6 +81,16 @@ class BlogController
     1 + stmt_last_post_id.execute.first['post_id']
   end
 
+  def insert_new_post(values)
+    return unless(values['password'] == File.read('password'))
+    stmt_insert_new_post.execute(
+      next_post_id,
+      @sql_client.escape(values['title']),
+      @sql_client.escape(values['slug']),
+      @sql_client.escape(values['body'])
+    )
+  end
+
   private
 
   def stmt_from_slug
@@ -106,6 +116,13 @@ class BlogController
       FROM posts
       ORDER BY post_id DESC
       LIMIT 1
+    SQL
+  end
+
+  def stmt_insert_new_post
+    @stmt_insert_new_post ||= @sql_client.prepare <<~SQL
+      INSERT INTO posts(post_id, post_title, post_slug, post_body)
+      VALUES(?, ?, ?, ?)
     SQL
   end
 end
