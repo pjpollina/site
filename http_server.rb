@@ -4,6 +4,7 @@
 require 'socket'
 require 'time'
 require 'uri'
+require './http_socket.rb'
 
 class HTTPServer
   WEB_ROOT = './public/'
@@ -22,7 +23,7 @@ class HTTPServer
   end
 
   def serve
-    socket = @tcp.accept
+    socket = HTTPSocket.new(@tcp.accept)
     yield(socket)
     socket.close
   end
