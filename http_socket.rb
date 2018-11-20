@@ -7,7 +7,7 @@ class HTTPSocket
 
   def initialize(socket)
     @socket = socket
-    @request = HTTPServer.parse_request(socket)
+    @request = HTTPServer.process_request(socket)
   end
 
   def serve_html(html)
