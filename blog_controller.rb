@@ -91,6 +91,23 @@ class BlogController
     )
   end
 
+  def validate_post(values)
+    all_posts = recent_posts
+    errors = {}
+    if !slug_valid?(values['slug'])
+      errors[:slug] = "Invalid slug!"
+    elsif all_posts.any? {|post| post['post_slug'] == values['slug']}
+      errors[:slug] = "Slug already in use!"
+    end
+    if all_posts.any? {|post| post['post_title'] == values['title']}
+      errors[:title] = "Title already in use!"
+    end
+  end
+
+  def slug_valid?(slug)
+    regexp = /^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+){1,255}$/
+    !(regexp =~ slug).nil?
+  end
   private
 
   def stmt_from_slug
