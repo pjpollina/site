@@ -4,6 +4,7 @@
 require 'socket'
 require 'time'
 require 'uri'
+require 'json'
 require './http_socket.rb'
 
 class HTTPServer
@@ -15,7 +16,8 @@ class HTTPServer
     'jpg'  => 'image/jpeg',
     'ico'  => 'image/x-icon',
     'json' => 'application/json',
-    'js'   => 'application/javascript'
+    'js'   => 'application/javascript',
+    'jsx'  => 'application/javascript'
   }
 
   def initialize(hostname: 'localhost', port: 4000)
@@ -91,12 +93,16 @@ class HTTPServer
     request
   end
 
-  def self.parse_form_data(form_data)
-    elements = {}
-    form_data.split('&').each do |element| 
-      key, value = element.split('=', 2)
-      elements[key] = URI.decode(value).gsub('+', ' ')
+  def self.parse_form_data(form_data, type='form')
+    if type == 'form'
+      elements = {}
+      form_data.split('&').each do |element| 
+        key, value = element.split('=', 2)
+        elements[key] = URI.decode(value).gsub('+', ' ')
+      end
+      elements
+    elsif type == 'json'
+      JSON.parse(form_data)
     end
-    elements
   end
 end

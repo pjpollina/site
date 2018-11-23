@@ -16,7 +16,7 @@ loop do
     elsif(socket.request[:path] == '/new_blog_post')
       socket.serve_redirect
       if(socket.request[:method] == 'POST')
-        elements = HTTPServer.parse_form_data(socket.socket.gets)
+        elements = HTTPServer.parse_form_data(socket.socket.gets, 'json')
         controller.insert_new_post(elements)
       end
     else
