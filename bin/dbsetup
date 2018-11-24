@@ -5,20 +5,33 @@
 
 require 'mysql2'
 
+ARG_SOFT  = '--soft'    # Only resets post table and not database/user data
+ARG_NOPOP = '--no-pop'  # Skips reading populate.sql
+
 $dbclient = Mysql2::Client.new(
   username: 'root',
   password: ENV['mysql_root_password']
 )
 
-$dbclient.query('DROP DATABASE IF EXISTS blog')
-$dbclient.query('CREATE DATABASE blog')
-$dbclient.query('USE blog')
-
-$dbclient.query(File.read('./sql/posts.sql').chomp(';'))
-File.read('./sql/populate.sql').split(';').each do |insert|
-  $dbclient.query(insert)
+if(ARGV.include? ARG_SOFT)
+  $dbclient.query('USE blog')
+  $dbclient.query('DROP TABLE posts')
+else
+  $dbclient.query('DROP DATABASE IF EXISTS blog')
+  $dbclient.query('CREATE DATABASE blog')
+  $dbclient.query('USE blog')
 end
 
-$dbclient.query('DROP USER IF EXISTS blogapp@localhost')
-$dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{ENV['mysql_blogapp_password']}'")
-$dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.posts TO blogapp@localhost')
+$dbclient.query(File.read('./sql/posts.sql').chomp(';'))
+
+unless(ARGV.include? ARG_NOPOP)
+  File.read('./sql/populate.sql').split(';').each do |insert|
+    $dbclient.query(insert)
+  end
+end
+
+unless(ARGV.include? ARG_SOFT)
+  $dbclient.query('DROP USER IF EXISTS blogapp@localhost')
+  $dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{ENV['mysql_blogapp_password']}'")
+  $dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.posts TO blogapp@localhost')
+end
