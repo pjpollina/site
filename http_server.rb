@@ -86,9 +86,10 @@ class HTTPServer
   def self.process_request(socket)
     request = {}
     request[:method], request[:path], request[:client_type] = socket.gets.split(' ')
-    request[:body] = []
+    request[:headers] = {}
     while((line = socket.gets) && (line.chomp != ''))
-      request[:body] << line
+      key, value = line.chomp.split(': ', 2)
+      request[:headers][key] = value
     end
     request
   end
