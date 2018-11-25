@@ -102,12 +102,14 @@ class BlogController
     if all_posts.any? {|post| post['post_title'] == values['title']}
       errors[:title] = "Title already in use!"
     end
+    errors
   end
 
   def slug_valid?(slug)
-    regexp = /^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+){1,255}$/
+    regexp = /^[A-Za-z0-9]+(?:[A-Za-z0-9_-]+[A-Za-z0-9]){0,255}$/
     !(regexp =~ slug).nil?
   end
+
   private
 
   def stmt_from_slug
