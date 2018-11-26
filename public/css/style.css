@@ -4,6 +4,53 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .site-header, .site-title {
   font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.site-title {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 54px;
+  letter-spacing: -1px;
+  margin-bottom: 0;
+  float: left;
+  color: #424242;
+  text-decoration: none;
+}
+
+.site-header {
+  border-top: 5px solid #424242;
+  border-bottom: 1px solid #e8e8e8;
+  min-height: 55.95px;
+  position: relative;
+}
+
+.fancy-wrapper {
+  max-width: -webkit-calc(800px - (30px * 2));
+  max-width: calc(800px - (30px * 2));
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.site-navigator {
+  float: right;
+  line-height: 54px;
+}
+
+.site-navigator .page-link {
+  color: #111;
+  line-height: 1.5;
+}
+
+.site-navigator .page-link:not(:last-child) {
+  margin-right: 20px;
 }
