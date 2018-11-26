@@ -12,13 +12,24 @@
 </head>
 
 <body>
-  <h1><%= @page_name %></h1>
-  <h3>Recent Posts</h3>
-  <ul>
-  <% recent_posts.each do |post| %>
-    <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
-  <% end %>
-  </ul>
-  <h4><a href='/archive'>Archive</a></h4>
+  <header class="site-header" role="banner">
+    <div class="fancy-wrapper">
+      <a class="site-title" href='/'><%= @page_name %></a>
+      <nav class="site-navigator">
+        <a class="page-link" href='/archive'>Archive</a>
+        <a class="page-link" href='/new_post'>New Post</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="fancy-wrapper">
+      <h3>Recent Posts</h3>
+      <ul>
+      <% recent_posts.each do |post| %>
+        <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
+      <% end %>
+      </ul>
+    </div>
+  </main>
 </body>
 </html>

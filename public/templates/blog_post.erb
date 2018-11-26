@@ -12,8 +12,21 @@
 </head>
 
 <body>
-  <h1><%= @title %></h1>
-  Posted <%= @date %>
-  <p><%= @body %></p>
+  <header class="site-header" role="banner">
+    <div class="fancy-wrapper">
+      <a class="site-title" href='/'><%= PAGE_NAME %></a>
+      <nav class="site-navigator">
+        <a class="page-link" href='/archive'>Archive</a>
+        <a class="page-link" href='/new_post'>New Post</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="fancy-wrapper">
+      <h1><%= @title %></h1>
+      Posted <%= @date %>
+      <p><%= @body %></p>
+    </div>
+  </main>
 </body>
 </html>

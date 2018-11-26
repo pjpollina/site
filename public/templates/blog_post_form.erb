@@ -16,7 +16,20 @@
 </head>
 
 <body>
-  <h1>New Post</h1>
-  <div id='root'></div>
+  <header class="site-header" role="banner">
+    <div class="fancy-wrapper">
+      <a class="site-title" href='/'><%= @page_name %></a>
+      <nav class="site-navigator">
+        <a class="page-link" href='/archive'>Archive</a>
+        <a class="page-link" href='/new_post'>New Post</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="fancy-wrapper">
+      <h1>New Post</h1>
+      <div id='root'></div>
+    </div>
+  </main>
 </body>
 </html>
