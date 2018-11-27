@@ -14,10 +14,16 @@ loop do
     if(socket.request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
       socket.serve_file(socket.request[:path])
     elsif(socket.request[:path] == '/new_blog_post')
-      socket.serve_redirect
       if(socket.request[:method] == 'POST')
-        elements = HTTPServer.parse_form_data(socket.socket.gets, 'json')
-        controller.insert_new_post(elements)
+        elements = HTTPServer.parse_form_data(socket.socket.read(socket.request[:headers]['Content-Length'].to_i))
+        if(controller.validate_post(elements))
+          socket.serve_404
+        else
+          controller.insert_new_post(elements)
+          socket.serve_redirect elements['slug']
+        end
+      else
+        socket.serve_404
       end
     else
       socket.socket.print controller.respond(socket.request[:path])
