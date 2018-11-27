@@ -54,3 +54,8 @@ body {
 .site-navigator .page-link:not(:last-child) {
   margin-right: 20px;
 }
+
+.post-timestamp {
+  font-size: 14px;
+  color: #828282;
+}
