@@ -9,10 +9,8 @@
   <link rel="stylesheet" href="/css/form.css">
   <title><%= @page_name + ' | New Post'%></title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
-  <script type="text/babel" src="/javascript/new_post_form.jsx"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+  <script src="/javascript/post_script.js"></script>
 </head>
 
 <body>
@@ -28,7 +26,28 @@
   <main>
     <div class="fancy-wrapper">
       <h1>New Post</h1>
-      <div id='root'></div>
+      <form name="new-post" action='/new_blog_post' method='post'>
+        <ul class='post_form'>
+          <li>
+            <label for='title'>Title</label>
+            <input type='text' id='title' name='title' placeholder='New Post' required>
+          </li>
+          <li>
+            <label for='slug'>Slug</label>
+            <input type='text' id='slug' name='slug' placeholder='post_slug' required>
+          </li>
+          <li>
+            <label for='body'>Body</label>
+            <textarea type='text' id='body' name='body' placeholder='Lorem ipsum' required></textarea>
+          </li>
+          <li>
+            <label for='password'>Password</label>
+            <input type='password' id='password' name='password' required>
+          </li>
+          <li>
+            <input type='submit' value='Submit'>
+          </li>
+        </ul>
     </div>
   </main>
 </body>
