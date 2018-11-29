@@ -23,7 +23,7 @@
   </header>
   <main>
     <div class="fancy-wrapper">
-      <h3>Recent Posts</h3>
+      <h1 class="post-list-header">Recent Posts</h1>
       <ul>
       <% recent_posts.each do |post| %>
         <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>

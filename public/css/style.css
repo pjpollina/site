@@ -21,7 +21,7 @@ body {
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left;
-  color: #424242;
+  color: white;
   text-decoration: none;
 }
 
@@ -30,6 +30,7 @@ body {
   border-bottom: 1px solid #e8e8e8;
   min-height: 55.95px;
   position: relative;
+  background-color: black;
 }
 
 .fancy-wrapper {
@@ -47,7 +48,7 @@ body {
 }
 
 .site-navigator .page-link {
-  color: #111;
+  color: white;
   line-height: 1.5;
 }
 
@@ -58,4 +59,8 @@ body {
 .post-timestamp {
   font-size: 14px;
   color: #828282;
+}
+
+.page-title {
+  font-size: 28px;
 }
