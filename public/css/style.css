@@ -50,8 +50,11 @@ body {
 .site-navigator .page-link {
   color: white;
   line-height: 1.5;
+  text-decoration: none;
 }
-
+.site-navigator .page-link:hover {
+  text-decoration: underline;
+}
 .site-navigator .page-link:not(:last-child) {
   margin-right: 20px;
 }
@@ -64,6 +67,11 @@ body {
 .post-link {
   display: block;
   font-size: 24px;
+  text-decoration: none;
+  color: #1756a9;
+}
+.post-link:hover {
+  text-decoration: underline;
 }
 
 .page-title {
