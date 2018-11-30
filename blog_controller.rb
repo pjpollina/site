@@ -11,7 +11,8 @@ class BlogController
   TEMPLATES = {
     homepage: ERB.new(File.read './public/templates/blog_home.erb'),
     archive:  ERB.new(File.read './public/templates/blog_archive.erb'),
-    new_post: ERB.new(File.read './public/templates/blog_post_form.erb')
+    new_post: ERB.new(File.read './public/templates/blog_post_form.erb'),
+    post:     ERB.new(File.read './public/templates/blog_post.erb')
   }
 
   def initialize
@@ -51,7 +52,7 @@ class BlogController
       HTTPServer.generic_404
     else
       post = BlogPost.new(data)
-      HTTPServer.generic_html(post.render)
+      HTTPServer.generic_html(TEMPLATES[:post].result(binding))
     end
   end
 

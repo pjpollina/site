@@ -8,13 +8,13 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
   <link rel="shortcut icon" href="/icons/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
-  <title><%= PAGE_NAME + ' | ' + @title %></title>
+  <title><%= @page_name + ' | ' + post.title %></title>
 </head>
 
 <body>
   <header class="site-header" role="banner">
     <div class="fancy-wrapper">
-      <a class="site-title" href='/'><%= PAGE_NAME %></a>
+      <a class="site-title" href='/'><%= @page_name %></a>
       <nav class="site-navigator">
         <a class="page-link" href='/archive'>Archive</a>
         <a class="page-link" href='/new_post'>New Post</a>
@@ -23,9 +23,9 @@
   </header>
   <main>
     <div class="fancy-wrapper">
-      <h1><%= @title %></h1>
-      <div class="post-timestamp">Posted <%= @date %></div>
-      <p><%= @body %></p>
+      <h1><%= post.title %></h1>
+      <div class="post-timestamp">Posted <%= post.date %></div>
+      <p><%= post.body %></p>
     </div>
   </main>
 </body>
