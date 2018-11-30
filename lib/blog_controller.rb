@@ -2,8 +2,8 @@
 
 require 'erb'
 require 'mysql2'
-require './blog_post.rb'
-require './http_server.rb'
+require './lib/blog_post.rb'
+require './lib/http_server.rb'
 
 class BlogController
   attr_reader :page_name

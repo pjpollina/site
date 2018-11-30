@@ -5,7 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'json'
-require './http_socket.rb'
+require './lib/http_socket.rb'
 
 class HTTPServer
   WEB_ROOT = './public/'

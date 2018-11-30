@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require './http_server.rb'
-require './blog_controller.rb'
+require './lib/http_server.rb'
+require './lib/blog_controller.rb'
 
 PAGE_NAME = "PJ's Site" # The name of the site
 

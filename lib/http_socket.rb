@@ -1,6 +1,6 @@
 # Wrapper class for a TCPSocket to simplify HTTP serving process
 
-require './http_server.rb'
+require './lib/http_server.rb'
 
 class HTTPSocket
   attr_reader :socket, :request
