@@ -28,7 +28,7 @@
         <% recent_posts.each do |post| %>
         <li>
           <a class="post-link" href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a>
-          <div class="post-timestamp">Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></div>
+          <div class="post-timestamp">Posted <%= post['post_timestamp'].strftime('%B %d, %Y') %></div>
         </li>
         <% end %>
       </ul>

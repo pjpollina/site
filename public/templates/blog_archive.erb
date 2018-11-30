@@ -1,4 +1,4 @@
-<!-- HTML template for blog post page -->
+<!-- HTML template for blog post archive -->
 
 <!DOCTYPE html>
 <html>
@@ -24,21 +24,22 @@
   <main>
     <div class="fancy-wrapper">
       <h1>Archive</h1>
-        <% archive.each_key do |year| %>
-          <h2><%= year %></h2>
-          <ul>
-          <% archive[year].each_key do |month| %>
-            <li><h3><%= month %></h3>
+      <% archive.each_key do |year| %>
+        <h2><%= year %></h2>
+        <ul>
+        <% archive[year].each_key do |month| %>
+          <li>
+            <h3><%= month %></h3>
             <ul>
               <% archive[year][month].each do |post| %>
                 <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
               <% end %>
             </ul>
-            </li>
-          <% end %>
-          </ul>
+          </li>
         <% end %>
-      </div>
+        </ul>
+      <% end %>
+    </div>
   </main>
 </body>
 </html>
