@@ -88,7 +88,6 @@ class BlogController
   end
 
   def insert_new_post(values)
-    return unless(values['password'] == File.read('password'))
     stmt_insert_new_post.execute(
       next_post_id,
       @sql_client.escape(values['title']),
@@ -100,6 +99,9 @@ class BlogController
   def validate_post(values)
     all_posts = recent_posts
     errors = {}
+    unless values['password'] == ENV['blogapp_author_password']
+      errors[:password] = "Incorrect password!"
+    end
     if !slug_valid?(values['slug'])
       errors[:slug] = "Invalid slug!"
     elsif all_posts.any? {|post| post['post_slug'] == values['slug']}
