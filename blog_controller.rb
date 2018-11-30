@@ -79,7 +79,12 @@ class BlogController
   end
 
   def next_post_id
-    1 + stmt_last_post_id.execute.first['post_id']
+    last_post = stmt_last_post_id.execute.first
+    if last_post.nil?
+      return 0
+    else
+      return 1 + stmt_last_post_id.execute.first['post_id']
+    end
   end
 
   def insert_new_post(values)
