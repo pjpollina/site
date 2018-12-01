@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'json'
 require './lib/http_server.rb'
 require './lib/blog_controller.rb'
 
@@ -16,8 +17,9 @@ loop do
     elsif(socket.request[:path] == '/new_blog_post')
       if(socket.request[:method] == 'POST')
         elements = HTTPServer.parse_form_data(socket.socket.read(socket.request[:headers]['Content-Length'].to_i))
-        unless(controller.validate_post(elements) == {})
-          socket.serve_404
+        errors = controller.validate_post(elements)
+        unless(errors == {})
+          socket.socket.print "HTTP/1.1 409 Conflict\r\n\r\n#{errors.to_json}\r\n\r\n"
         else
           controller.insert_new_post(elements)
           socket.socket.print "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
