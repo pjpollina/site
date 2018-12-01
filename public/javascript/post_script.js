@@ -5,8 +5,20 @@ $(document).ready(function() {
       type: "POST",
       url: "new_blog_post",
       data: $("#new-post").serialize(),
-      success:function(event) {
-        document.location = event;
+      success:function(data) {
+        document.location = data;
+      },
+      error:function(data) {
+        let errors = JSON.parse(data.responseText);
+        if(errors.title != null) {
+          alert(errors.title)
+        }
+        if(errors.slug != null) {
+          alert(errors.slug)
+        }
+        if(errors.password != null) {
+          alert(errors.password);
+        }
       }
     });
   });
