@@ -21,6 +21,11 @@
   padding: 2px;
 }
 
+.post_form .error {
+  border-color: red;
+  background-color: lightsalmon;
+}
+
 .post_form textarea {
   width: 800px;
   height: 250px;
