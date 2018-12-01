@@ -20,7 +20,7 @@ loop do
           socket.serve_404
         else
           controller.insert_new_post(elements)
-          socket.serve_redirect elements['slug']
+          socket.socket.print "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
         end
       else
         socket.serve_404
