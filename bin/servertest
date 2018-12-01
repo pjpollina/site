@@ -27,6 +27,9 @@ loop do
       else
         socket.serve_404
       end
+    elsif(socket.request[:path].start_with? '/validate')
+      data = HTTPServer.parse_form_data(socket.request[:path].split("?")[1])
+      socket.socket.print "HTTP/1.1 200 OK\r\n\r\n#{controller.validate_post(data)[data.keys[0].to_sym].nil?}\r\n\r\n"
     else
       socket.socket.print controller.respond(socket.request[:path])
     end
