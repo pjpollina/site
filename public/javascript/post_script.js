@@ -1,4 +1,24 @@
 $(document).ready(function() {
+  $("#new-post").validate({
+    errorClass: "error",
+    rules: {
+      title: {
+        remote: "/validate"
+      },
+      slug: {
+        remote: "/validate"
+      }
+    },
+    messages: {
+      title: {
+        remote: "Title already in use!"
+      },
+      slug: {
+        remote: "Slug already in use!"
+      }
+    }
+  });
+
   $("#new-post").submit(event => {
     event.preventDefault();
     $.ajax({
@@ -10,12 +30,6 @@ $(document).ready(function() {
       },
       error:function(data) {
         let errors = JSON.parse(data.responseText);
-        if(errors.title != null) {
-          alert(errors.title)
-        }
-        if(errors.slug != null) {
-          alert(errors.slug)
-        }
         if(errors.password != null) {
           alert(errors.password);
         }
