@@ -12,6 +12,7 @@ h1, h2, h3, h4, h5, h6, .site-header, .site-title {
 body {
   margin: 0;
   padding: 0;
+  background-image: url("/pictures/background.jpg");
 }
 
 .site-title {
@@ -26,8 +27,8 @@ body {
 }
 
 .site-header {
-  border-top: 5px solid #424242;
-  border-bottom: 1px solid #e8e8e8;
+  border-top: 5px solid;
+  border-bottom: 1px solid;
   min-height: 55.95px;
   position: relative;
   background-color: black;
@@ -83,4 +84,10 @@ body {
   list-style: none; }
 .post-list > li {
   margin-bottom: 30px;
+}
+
+main div.fancy-wrapper {
+  background: #e8e8e8;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
