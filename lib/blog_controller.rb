@@ -152,4 +152,16 @@ class BlogController
       VALUES(?, ?, ?, ?)
     SQL
   end
+
+  def stmt_title_check
+    @stmt_title_check ||= @sql_client.prepare <<~SQL
+      SELECT post_id FROM posts WHERE post_title=?
+    SQL
+  end
+
+  def stmt_slug_check
+    @stmt_title_check ||= @sql_client.prepare <<~SQL
+      SELECT post_id FROM posts WHERE post_slug=?
+    SQL
+  end
 end
