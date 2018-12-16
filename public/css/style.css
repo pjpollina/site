@@ -95,6 +95,8 @@ main div.fancy-wrapper {
   padding-top: 12px;
   padding-bottom: 12px;
   min-height: 81vh;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 footer {
