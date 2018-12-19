@@ -118,6 +118,10 @@ class BlogController
     !(regexp =~ slug).nil? && !stmt_slug_check.execute(slug).first.nil?
   end
 
+  def title_valid?(title)
+    !stmt_title_check.execute(title).first.nil?
+  end
+
   private
 
   def stmt_from_slug
