@@ -5,6 +5,7 @@ $(document).ready(function() {
 
   $("#new-post").validate({
     errorClass: "error",
+    onkeyup: false,
     rules: {
       title: {
         remote: "/validate"
@@ -22,6 +23,14 @@ $(document).ready(function() {
         regex: "Slug is invalid!",
         remote: "Slug already in use!"
       }
+    }
+  });
+
+  $("#new-post").bind('blur click', () => {
+    if($("#new-post").validate().checkForm()) {
+      $("#submit").prop('disabled', false);
+    } else {
+      $("#submit").prop('disabled', true);
     }
   });
 
