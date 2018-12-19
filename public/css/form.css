@@ -6,19 +6,24 @@
 .post-form div {
   display: block;
   list-style: none;
-  margin: 10px 0 0 0;
+  margin-bottom: 20px;
 }
 
 .post-form label {
-  margin:0 0 3px 0;
-  display:block;
-  font-weight: bold;
+  margin-bottom: 3px;
+  display: block;
 }
 
 .post-form input {
   width: 375px;
   height: 25px;
   padding: 2px;
+}
+.post-form input#submit {
+  width: 383px;
+  height: 30px;
+  padding: 0px;
+  margin-top: 10px;
 }
 
 .post-form .error {
