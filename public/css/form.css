@@ -1,6 +1,6 @@
 .post-form {
-  max-width: 400px;
-  padding: 20px 12px 10px 20px;
+  max-width: 860px;
+  padding: 20px;
 }
 
 .post-form div {
@@ -27,7 +27,7 @@
 }
 
 .post-form textarea {
-  width: 800px;
+  width: 680px;
   height: 250px;
   padding: 8px;
 }
