@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  $.validator.addMethod("regex", function(value, element, regex) {
+    return this.optional(element) || new RegExp(regex).test(value);
+  });
+
   $("#new-post").validate({
     errorClass: "error",
     rules: {
@@ -6,6 +10,7 @@ $(document).ready(function() {
         remote: "/validate"
       },
       slug: {
+        regex: /^[A-Za-z0-9]+(?:[A-Za-z0-9_-]+[A-Za-z0-9]){0,255}$/,
         remote: "/validate"
       }
     },
@@ -14,6 +19,7 @@ $(document).ready(function() {
         remote: "Title already in use!"
       },
       slug: {
+        regex: "Slug is invalid!",
         remote: "Slug already in use!"
       }
     }
