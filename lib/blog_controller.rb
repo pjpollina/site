@@ -92,7 +92,7 @@ class BlogController
       next_post_id,
       @sql_client.escape(values['title']),
       @sql_client.escape(values['slug']),
-      @sql_client.escape(values['body'])
+      values['body']
     )
   end
 
