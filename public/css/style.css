@@ -29,13 +29,16 @@ body {
   color: white;
   text-decoration: none;
 }
+.site-title:hover {
+  text-decoration: underline;
+}
 
 .site-header {
   border-top: 5px solid;
   border-bottom: 1px solid;
   min-height: 55.95px;
   position: relative;
-  background-color: black;
+  background-color: #101010;
 }
 
 .fancy-wrapper {
@@ -109,8 +112,8 @@ footer {
 .site-footer {
   position: relative;
   padding: 20px 0;
-  color: white;
-  background-color: black;
+  color: #979797;
+  background-color: #101010;
 }
 
 /* Flex */
