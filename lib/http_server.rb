@@ -25,8 +25,9 @@ class HTTPServer
   end
 
   def serve
-    socket = HTTPSocket.new(@tcp.accept)
-    yield(socket)
+    socket = @tcp.accept
+    request = self.class.process_request(socket)
+    yield(socket, request)
     socket.close
   end
 
