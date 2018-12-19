@@ -115,11 +115,11 @@ class BlogController
 
   def slug_valid?(slug)
     regexp = /^[A-Za-z0-9]+(?:[A-Za-z0-9_-]+[A-Za-z0-9]){0,255}$/
-    !(regexp =~ slug).nil? && !stmt_slug_check.execute(slug).first.nil?
+    (!(regexp =~ slug).nil?) && stmt_slug_check.execute(slug).first.nil?
   end
 
   def title_valid?(title)
-    !stmt_title_check.execute(title).first.nil?
+    stmt_title_check.execute(title).first.nil?
   end
 
   private
