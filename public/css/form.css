@@ -1,32 +1,32 @@
-.post_form {
+.post-form {
   max-width: 400px;
   padding: 20px 12px 10px 20px;
 }
 
-.post_form div {
+.post-form div {
   display: block;
   list-style: none;
   margin: 10px 0 0 0;
 }
 
-.post_form label {
+.post-form label {
   margin:0 0 3px 0;
   display:block;
   font-weight: bold;
 }
 
-.post_form input {
+.post-form input {
   width: 375px;
   height: 25px;
   padding: 2px;
 }
 
-.post_form .error {
+.post-form .error {
   border-color: red;
   background-color: lightsalmon;
 }
 
-.post_form textarea {
+.post-form textarea {
   width: 800px;
   height: 250px;
   padding: 8px;
