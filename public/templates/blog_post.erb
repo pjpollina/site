@@ -26,6 +26,7 @@
       <h1><%= post.title %></h1>
       <div class="post-timestamp">Posted <%= post.date %></div>
       <p><%= post.body %></p>
+      <% if @admin %><button onclick="updatePostButton();">Edit</button><% end %>
     </div>
   </main>
   <footer class="site-footer">
@@ -33,5 +34,12 @@
       <p style="text-align: center;">&copy; 2018 PJ Pollina</p>
     </div>
   </footer>
+
+  <script>
+    function updatePostButton() {
+      window.location.search += '?edit=true';
+      return 0;
+    }
+  </script>
 </body>
 </html>
