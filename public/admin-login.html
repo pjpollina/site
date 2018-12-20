@@ -1,0 +1,40 @@
+<!-- Static Admin Login Page -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>Admin Login</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  </head>
+
+  <body>
+    <h1>Admin Login</h1>
+    <form id='admin-login' action='/admin-login' method='post'>
+      <input type='password' id='password' name='password'/>
+      <input type='submit' value='Submit'/>
+      <br/>
+      <label id='error' style='color: red; font-weight: bold;'></label>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+          $("#admin-login").submit(event => {
+            event.preventDefault();
+            $.ajax({
+              type: "POST",
+              url: "admin-login",
+              data: $("#admin-login").serialize(),
+              success:function(data) {
+                document.location = data;
+              },
+              error:function(data) {
+                $("#error").text("Incorrect password");
+              }
+            });
+          });
+          return 0;
+        });
+    </script>
+  </body>
+</html>
