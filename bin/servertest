@@ -17,7 +17,7 @@ loop do
     elsif(request[:path].end_with?('html'))
       socket.print HTTPServer.static_html(request[:path])
     elsif(request[:path] == '/new_blog_post')
-      if(request[:method] == 'POST')
+      if(request[:method] == 'POST' && request[:admin])
         elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
         errors = controller.validate_post(elements)
         unless(errors == {})
