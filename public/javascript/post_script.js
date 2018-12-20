@@ -45,9 +45,7 @@ $(document).ready(function() {
       },
       error:function(data) {
         let errors = JSON.parse(data.responseText);
-        if(errors.password != null) {
-          alert(errors.password);
-        }
+        alert(errors);
       }
     });
   });
