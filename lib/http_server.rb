@@ -5,6 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'json'
+require './lib/session.rb'
 
 class HTTPServer
   WEB_ROOT = './public/'
@@ -122,5 +123,15 @@ class HTTPServer
     elsif type == 'json'
       JSON.parse(form_data)
     end
+  end
+
+  def self.login_admin(client_ip, redirect='/')
+    Session.set(client_ip)
+    <<~HEREDOC
+      HTTP/1.1 200 OK\r
+      Set-Cookie: session_id=#{$admin_session.session_id}; Expires=#{$admin_session.expiration.httpdate}; HttpOnly\r
+      \r
+      #{redirect}
+    HEREDOC
   end
 end
