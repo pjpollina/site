@@ -10,10 +10,11 @@ class BlogController
   attr_reader :page_name
 
   TEMPLATES = {
-    homepage: ERB.new(File.read './public/templates/blog_home.erb'),
-    archive:  ERB.new(File.read './public/templates/blog_archive.erb'),
-    new_post: ERB.new(File.read './public/templates/blog_post_form.erb'),
-    post:     ERB.new(File.read './public/templates/blog_post.erb')
+    homepage:  ERB.new(File.read './public/templates/blog_home.erb'),
+    archive:   ERB.new(File.read './public/templates/blog_archive.erb'),
+    new_post:  ERB.new(File.read './public/templates/blog_post_form.erb'),
+    post:      ERB.new(File.read './public/templates/blog_post.erb'),
+    edit_post: ERB.new(File.read './public/templates/blog_post_editor_form.erb')
   }
 
   def initialize
@@ -30,7 +31,11 @@ class BlogController
     elsif path == '/new_post'
       render_new_post
     else
-      render_post(path[1..-1])
+      if(path.end_with?('?edit=true'))
+        render_post_editor(path[1..-1].chomp('?edit=true'))
+      else
+        render_post(path[1..-1])
+      end
     end
   end
 
@@ -60,6 +65,20 @@ class BlogController
     else
       post = BlogPost.new(data)
       HTTPServer.generic_html(TEMPLATES[:post].result(binding))
+    end
+  end
+
+  def render_post_editor(slug)
+    if(@admin)
+      data = stmt_from_slug.execute(slug).first
+      if data.nil?
+        HTTPServer.generic_404
+      else
+        post = BlogPost.new(data)
+        HTTPServer.generic_html(TEMPLATES[:edit_post].result(binding))
+      end
+    else
+      HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
     end
   end
 
@@ -116,6 +135,7 @@ class BlogController
     end
   end
 
+  # Data inserters
   def insert_new_post(values)
     stmt_insert_new_post.execute(
       next_post_id,
