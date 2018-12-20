@@ -10,34 +10,34 @@ loop do
   server.serve do |socket, request|
     STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"
 
-    if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
-      HTTPServer.file_response(request[:path], socket)
-    elsif(request[:path].end_with?('html'))
-      socket.print HTTPServer.static_html(request[:path])
-    elsif(request[:path] == '/new_blog_post')
-      if(request[:method] == 'POST' && request[:admin])
-        socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i))
+    case(request[:method])
+    when 'GET'
+      if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
+        HTTPServer.file_response(request[:path], socket)
+      elsif(request[:path].end_with?('html'))
+        socket.print HTTPServer.static_html(request[:path])
+      elsif(request[:path].start_with? '/validate')
+        data = HTTPServer.parse_form_data(request[:path].split("?")[1])
+        value = false
+        case data.keys[0]
+        when 'title'
+          value = controller.title_valid?(data['title'])
+        when 'slug'
+          value = controller.slug_valid?(data['slug'])
+        end
+        socket.print "HTTP/1.1 200 OK\r\n\r\n#{value}\r\n\r\n"
       else
-        socket.print HTTPServer.generic_404
+        socket.print controller.respond(request[:path], request[:admin])
       end
-    elsif(request[:path].start_with? '/validate')
-      data = HTTPServer.parse_form_data(request[:path].split("?")[1])
-      value = false
-      case data.keys[0]
-      when 'title'
-        value = controller.title_valid?(data['title'])
-      when 'slug'
-        value = controller.slug_valid?(data['slug'])
-      end
-      socket.print "HTTP/1.1 200 OK\r\n\r\n#{value}\r\n\r\n"
-    elsif(request[:path] == '/admin-login')
-      if(request[:method] == 'POST')
+    when 'POST'
+      case request[:path]
+      when '/new_blog_post'
+        if(request[:admin])
+          socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i))
+        end
+      when '/admin-login'
         socket.print controller.post_admin_login(socket.read(request[:headers]['Content-Length'].to_i), request[:ip])
-      else
-        socket.print HTTPServer.generic_404
       end
-    else
-      socket.print controller.respond(request[:path], request[:admin])
     end
   end
 end
