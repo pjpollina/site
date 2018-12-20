@@ -4,15 +4,23 @@
 require 'kramdown'
 
 class BlogPost
-  attr_reader :title, :body
+  attr_reader :title
 
   def initialize(data = {})
     @title  = data['post_title']
     @date   = data['post_timestamp']
-    @body   = Kramdown::Document.new(data['post_body']).to_html
+    @body   = data['post_body']
   end
 
   def date
     @date.strftime("%B %d, %Y")
+  end
+
+  def body
+    Kramdown::Document.new(@body).to_html
+  end
+
+  def body_raw
+    @body
   end
 end
