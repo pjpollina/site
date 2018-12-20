@@ -29,7 +29,7 @@ class BlogController
     elsif path == '/new_post'
       render_new_post
     else
-      render_post(path[1..-1], admin)
+      render_post(path[1..-1])
     end
   end
 
