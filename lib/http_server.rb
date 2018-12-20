@@ -109,6 +109,7 @@ class HTTPServer
       end
     end
     request[:ip] = socket.peeraddr[3]
+    request[:admin] = Session.validate(request[:cookies]['session_id'], request[:ip])
     request
   end
 
