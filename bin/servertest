@@ -4,8 +4,6 @@ require 'json'
 require './lib/http_server.rb'
 require './lib/blog_controller.rb'
 
-PAGE_NAME = "PJ's Site" # The name of the site
-
 server = HTTPServer.new
 controller = BlogController.new
 loop do
