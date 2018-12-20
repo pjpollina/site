@@ -17,7 +17,7 @@
       <a class="site-title" href='/'><%= @page_name %></a>
       <nav class="site-navigator">
         <a class="page-link" href='/archive'>Archive</a>
-        <a class="page-link" href='/new_post'>New Post</a>
+        <% if @admin %><a class="page-link" href='/new_post'>New Post</a><% end %>
       </nav>
     </div>
   </header>
