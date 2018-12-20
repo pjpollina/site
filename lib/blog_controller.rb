@@ -20,7 +20,8 @@ class BlogController
     @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
   end
 
-  def respond(path)
+  def respond(path, admin)
+    @admin = admin
     if path == '/'
       render_homepage
     elsif path == '/archive'
@@ -28,7 +29,7 @@ class BlogController
     elsif path == '/new_post'
       render_new_post
     else
-      render_post(path[1..-1])
+      render_post(path[1..-1], admin)
     end
   end
 
@@ -43,7 +44,11 @@ class BlogController
   end
 
   def render_new_post
-    HTTPServer.generic_html(TEMPLATES[:new_post].result(binding))
+    if(@admin)
+      HTTPServer.generic_html(TEMPLATES[:new_post].result(binding))
+    else
+      HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
+    end
   end
 
   def render_post(slug)

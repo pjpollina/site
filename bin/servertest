@@ -11,9 +11,6 @@ controller = BlogController.new
 loop do
   server.serve do |socket, request|
     STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"
-    if(Session.validate(request[:cookies]['session_id'], request[:ip]))
-      puts "Admin here!"
-    end
 
     if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
       HTTPServer.file_response(request[:path], socket)
@@ -56,7 +53,7 @@ loop do
         socket.print HTTPServer.generic_404
       end
     else
-      socket.print controller.respond(request[:path])
+      socket.print controller.respond(request[:path], request[:admin])
     end
   end
 end
