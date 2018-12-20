@@ -145,6 +145,10 @@ class BlogController
     )
   end
 
+  def update_post(values)
+    stmt_update_post.execute(values['body'], values['slug'])
+  end
+
   # Validators
   def validate_post(values)
     all_posts = recent_posts
@@ -213,6 +217,14 @@ class BlogController
   def stmt_slug_check
     @stmt_title_check ||= @sql_client.prepare <<~SQL
       SELECT post_id FROM posts WHERE post_slug=?
+    SQL
+  end
+
+  def stmt_update_post
+    @stmt_update_post ||= @sql_client.prepare <<~SQL
+      UPDATE posts
+      SET post_body=?
+      WHERE post_slug=?
     SQL
   end
 end
