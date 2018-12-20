@@ -16,14 +16,7 @@ loop do
       socket.print HTTPServer.static_html(request[:path])
     elsif(request[:path] == '/new_blog_post')
       if(request[:method] == 'POST' && request[:admin])
-        elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
-        errors = controller.validate_post(elements)
-        unless(errors == {})
-          socket.print "HTTP/1.1 409 Conflict\r\n\r\n#{errors.to_json}\r\n\r\n"
-        else
-          controller.insert_new_post(elements)
-          socket.print "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
-        end
+        socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i))
       else
         socket.print HTTPServer.generic_404
       end

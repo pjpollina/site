@@ -1,6 +1,7 @@
 # Class that controls all blog features of the site
 
 require 'erb'
+require 'json'
 require 'mysql2'
 require './lib/blog_post.rb'
 require './lib/http_server.rb'
@@ -33,6 +34,7 @@ class BlogController
     end
   end
 
+  # Page Renderers
   def render_homepage
     recent_posts = recent_posts(5)
     HTTPServer.generic_html(TEMPLATES[:homepage].result(binding))
@@ -61,6 +63,19 @@ class BlogController
     end
   end
 
+  # POST processors
+  def post_new_blogpost(form_data)
+    elements = HTTPServer.parse_form_data(form_data)
+    errors = validate_post(elements)
+    unless(errors == {})
+      return "HTTP/1.1 409 Conflict\r\n\r\n#{errors.to_json}\r\n\r\n"
+    else
+      insert_new_post(elements)
+      return "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
+    end
+  end
+
+  # Data fetchers
   def recent_posts(count=65536)
     stmt_n_most_recent.execute(count)
   end
@@ -101,6 +116,7 @@ class BlogController
     )
   end
 
+  # Validators
   def validate_post(values)
     all_posts = recent_posts
     errors = {}
