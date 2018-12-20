@@ -86,11 +86,19 @@ class HTTPServer
   def self.process_request(socket)
     request = {}
     request[:method], request[:path], request[:client_type] = socket.gets.split(' ')
-    request[:headers] = {}
+    request[:headers], request[:cookies] = {}, {}
     while((line = socket.gets) && (line.chomp != ''))
       key, value = line.chomp.split(': ', 2)
-      request[:headers][key] = value
+      if(key == "Cookie")
+        value.split("; ").each do |cookie|
+          key, value = cookie.split("=")
+          request[:cookies][key] = value
+        end
+      else
+        request[:headers][key] = value
+      end
     end
+    request[:ip] = socket.peeraddr[3]
     request
   end
 
