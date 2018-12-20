@@ -75,6 +75,15 @@ class BlogController
     end
   end
 
+  def post_admin_login(form_data, ip)
+    password = HTTPServer.parse_form_data(form_data)['password']
+    if(password == ENV['blogapp_author_password'])
+      return HTTPServer.login_admin(ip)
+    else
+      return "HTTP/1.1 401 Unauthorized\r\n\r\nFoobazz\r\n\r\n"
+    end
+  end
+
   # Data fetchers
   def recent_posts(count=65536)
     stmt_n_most_recent.execute(count)
