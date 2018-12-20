@@ -14,6 +14,8 @@ loop do
 
     if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
       HTTPServer.file_response(request[:path], socket)
+    elsif(request[:path].end_with?('html'))
+      socket.print HTTPServer.static_html(request[:path])
     elsif(request[:path] == '/new_blog_post')
       if(request[:method] == 'POST')
         elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
