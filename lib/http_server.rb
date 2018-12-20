@@ -55,6 +55,15 @@ class HTTPServer
     HEREDOC
   end
 
+  def self.static_html(raw_filepath)
+    filepath = WEB_ROOT + raw_filepath
+    if File.exist?(filepath) && !File.directory?(filepath)
+      return generic_html(File.read(filepath))
+    else
+      return generic_404
+    end
+  end
+
   def self.file_response(raw_filepath, socket)
     filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
