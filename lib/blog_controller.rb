@@ -135,7 +135,7 @@ class BlogController
     end
   end
 
-  # Data inserters
+  # Data editors
   def insert_new_post(values)
     stmt_insert_new_post.execute(
       next_post_id,
@@ -147,6 +147,10 @@ class BlogController
 
   def update_post(values)
     stmt_update_post.execute(values['body'], values['slug'])
+  end
+
+  def delete_post(values)
+    stmt_delete_post.execute(values['slug'])
   end
 
   # Validators
@@ -224,6 +228,13 @@ class BlogController
     @stmt_update_post ||= @sql_client.prepare <<~SQL
       UPDATE posts
       SET post_body=?
+      WHERE post_slug=?
+    SQL
+  end
+
+  def stmt_delete_post
+    @stmt_delete_post ||= @sql_client.prepare <<~SQL
+      DELETE FROM posts
       WHERE post_slug=?
     SQL
   end
