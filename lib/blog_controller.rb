@@ -72,7 +72,7 @@ class BlogController
       layout = PageBuilder::load_layout("layout.erb")
       context = PageBuilder::page_info(@page_name, post.title, @admin)
       page = layout.render(context) do
-        PageBuilder::load_view("blog_post.erb").render(nil, post: post, admin: @admin)
+        PageBuilder::load_view("post.erb").render(nil, post: post, admin: @admin)
       end
       HTTPServer.generic_html(page)
     end
