@@ -1,6 +1,5 @@
 # Class that controls all blog features of the site
 
-require 'erb'
 require 'json'
 require 'mysql2'
 require './lib/blog_post.rb'
@@ -9,14 +8,6 @@ require './lib/page_builder.rb'
 
 class BlogController
   attr_reader :page_name
-
-  TEMPLATES = {
-    homepage:  ERB.new(File.read './public/templates/blog_home.erb'),
-    archive:   ERB.new(File.read './public/templates/blog_archive.erb'),
-    new_post:  ERB.new(File.read './public/templates/blog_post_form.erb'),
-    post:      ERB.new(File.read './public/templates/blog_post.erb'),
-    edit_post: ERB.new(File.read './public/templates/blog_post_editor_form.erb')
-  }
 
   def initialize
     @page_name = "PJ's Site"
