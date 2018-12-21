@@ -5,6 +5,7 @@ require 'json'
 require 'mysql2'
 require './lib/blog_post.rb'
 require './lib/http_server.rb'
+require './lib/page_builder.rb'
 
 class BlogController
   attr_reader :page_name
@@ -41,18 +42,31 @@ class BlogController
 
   # Page Renderers
   def render_homepage
-    recent_posts = recent_posts(5)
-    HTTPServer.generic_html(TEMPLATES[:homepage].result(binding))
+    layout = PageBuilder::load_layout("layout.erb")
+    context = PageBuilder::page_info(@page_name, "Home", @admin)
+    page = layout.render(context) do
+      PageBuilder::load_view("blog_home.erb").render(nil, recent_posts: recent_posts(5))
+    end
+    HTTPServer.generic_html(page)
   end
 
   def render_archive
-    archive = fetch_archive
-    HTTPServer.generic_html(TEMPLATES[:archive].result(binding))
+    layout = PageBuilder::load_layout("layout.erb")
+    context = PageBuilder::page_info(@page_name, "Archive", @admin)
+    page = layout.render(context) do
+      PageBuilder::load_view("blog_archive.erb").render(nil, archive: fetch_archive)
+    end
+    HTTPServer.generic_html(page)
   end
 
   def render_new_post
     if(@admin)
-      HTTPServer.generic_html(TEMPLATES[:new_post].result(binding))
+      layout = PageBuilder::load_layout("layout.erb")
+      context = PageBuilder::page_info(@page_name, "New Post", @admin)
+      page = layout.render(context) do
+        PageBuilder::load_view("blog_post_form.erb").render(nil)
+      end
+      HTTPServer.generic_html(page)
     else
       HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
     end
@@ -64,7 +78,12 @@ class BlogController
       HTTPServer.generic_404
     else
       post = BlogPost.new(data)
-      HTTPServer.generic_html(TEMPLATES[:post].result(binding))
+      layout = PageBuilder::load_layout("layout.erb")
+      context = PageBuilder::page_info(@page_name, post.title, @admin)
+      page = layout.render(context) do
+        PageBuilder::load_view("blog_post.erb").render(nil, post: post, admin: @admin)
+      end
+      HTTPServer.generic_html(page)
     end
   end
 
@@ -75,7 +94,12 @@ class BlogController
         HTTPServer.generic_404
       else
         post = BlogPost.new(data)
-        HTTPServer.generic_html(TEMPLATES[:edit_post].result(binding))
+        layout = PageBuilder::load_layout("layout.erb")
+        context = PageBuilder::page_info(@page_name, "Editing Post #{post.title}", @admin)
+        page = layout.render(context) do
+          PageBuilder::load_view("blog_post_editor_form.erb").render(nil, post: post, slug: slug)
+        end
+        HTTPServer.generic_html(page)
       end
     else
       HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
