@@ -109,7 +109,7 @@ class HTTPServer
       end
     end
     request[:ip] = socket.peeraddr[3]
-    request[:admin] = Session.validate(request[:cookies]['session_id'], request[:ip])
+    request[:admin] = AdminSession.validate(request[:cookies]['session_id'], request[:ip])
     request
   end
 
@@ -127,7 +127,7 @@ class HTTPServer
   end
 
   def self.login_admin(client_ip, redirect='/')
-    Session.set(client_ip)
+    AdminSession.set(client_ip)
     <<~HEREDOC
       HTTP/1.1 200 OK\r
       Set-Cookie: session_id=#{$admin_session.session_id}; Expires=#{$admin_session.expiration.httpdate}; HttpOnly\r

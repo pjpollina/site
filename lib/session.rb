@@ -5,7 +5,7 @@ require 'securerandom'
 
 $admin_session = nil
 
-class Session
+class AdminSession
   attr_reader :session_id, :client_ip, :expiration
 
   def initialize(client_ip)
@@ -19,7 +19,7 @@ class Session
   end
 
   def self.set(client_ip)
-    $admin_session = Session.new(client_ip)
+    $admin_session = AdminSession.new(client_ip)
   end
 
   def self.validate(session_id, client_ip)
