@@ -9,6 +9,16 @@ require './lib/page_builder.rb'
 class BlogController
   attr_reader :page_name
 
+  LAYOUT = 'layout.erb'
+
+  VIEWS = {
+    homepage:  'homepage.erb',
+    archive:   'archive.erb',
+    new_post:  'new_post.erb',
+    post:      'post.erb',
+    edit_post: 'edit_post'
+  }
+
   def initialize
     @page_name = "PJ's Site"
     @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
@@ -33,29 +43,29 @@ class BlogController
 
   # Page Renderers
   def render_homepage
-    layout = PageBuilder::load_layout("layout.erb")
+    layout = PageBuilder::load_layout(LAYOUT)
     context = PageBuilder::page_info(@page_name, "Home", @admin)
     page = layout.render(context) do
-      PageBuilder::load_view("homepage.erb").render(nil, recent_posts: recent_posts(5))
+      PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts(5))
     end
     HTTPServer.generic_html(page)
   end
 
   def render_archive
-    layout = PageBuilder::load_layout("layout.erb")
+    layout = PageBuilder::load_layout(LAYOUT)
     context = PageBuilder::page_info(@page_name, "Archive", @admin)
     page = layout.render(context) do
-      PageBuilder::load_view("archive.erb").render(nil, archive: fetch_archive)
+      PageBuilder::load_view(VIEWS[:archive]).render(nil, archive: fetch_archive)
     end
     HTTPServer.generic_html(page)
   end
 
   def render_new_post
     if(@admin)
-      layout = PageBuilder::load_layout("layout.erb")
+      layout = PageBuilder::load_layout(LAYOUT)
       context = PageBuilder::page_info(@page_name, "New Post", @admin)
       page = layout.render(context) do
-        PageBuilder::load_view("new_post.erb").render(nil)
+        PageBuilder::load_view(VIEWS[:new_post]).render(nil)
       end
       HTTPServer.generic_html(page)
     else
@@ -69,10 +79,10 @@ class BlogController
       HTTPServer.generic_404
     else
       post = BlogPost.new(data)
-      layout = PageBuilder::load_layout("layout.erb")
+      layout = PageBuilder::load_layout(LAYOUT)
       context = PageBuilder::page_info(@page_name, post.title, @admin)
       page = layout.render(context) do
-        PageBuilder::load_view("post.erb").render(nil, post: post, admin: @admin)
+        PageBuilder::load_view(VIEWS[:post]).render(nil, post: post, admin: @admin)
       end
       HTTPServer.generic_html(page)
     end
@@ -85,10 +95,10 @@ class BlogController
         HTTPServer.generic_404
       else
         post = BlogPost.new(data)
-        layout = PageBuilder::load_layout("layout.erb")
+        layout = PageBuilder::load_layout(LAYOUT)
         context = PageBuilder::page_info(@page_name, "Editing Post #{post.title}", @admin)
         page = layout.render(context) do
-          PageBuilder::load_view("edit_post.erb").render(nil, post: post, slug: slug)
+          PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post, slug: slug)
         end
         HTTPServer.generic_html(page)
       end
