@@ -5,7 +5,7 @@ require 'tilt/erb'
 require './lib/http_server.rb'
 
 module PageBuilder
-  VIEWS   = "#{HTTPServer::WEB_ROOT}templates"
+  VIEWS   = "#{HTTPServer::WEB_ROOT}templates/views"
   LAYOUTS = "#{HTTPServer::WEB_ROOT}templates/layouts"
 
   def self.page_info(site_name, page_name, admin)
@@ -16,11 +16,11 @@ module PageBuilder
     return info
   end
 
-  def self.load_layout(name)
-    Tilt::ERBTemplate.new("#{LAYOUTS}/#{name}")
-  end
-
   def self.load_view(name)
     Tilt::ERBTemplate.new("#{VIEWS}/#{name}")
+  end
+
+  def self.load_layout(name)
+    Tilt::ERBTemplate.new("#{LAYOUTS}/#{name}")
   end
 end
