@@ -88,7 +88,7 @@ class BlogController
         layout = PageBuilder::load_layout("layout.erb")
         context = PageBuilder::page_info(@page_name, "Editing Post #{post.title}", @admin)
         page = layout.render(context) do
-          PageBuilder::load_view("blog_post_editor_form.erb").render(nil, post: post, slug: slug)
+          PageBuilder::load_view("edit_post.erb").render(nil, post: post, slug: slug)
         end
         HTTPServer.generic_html(page)
       end
