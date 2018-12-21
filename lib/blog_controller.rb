@@ -45,7 +45,7 @@ class BlogController
     layout = PageBuilder::load_layout("layout.erb")
     context = PageBuilder::page_info(@page_name, "Archive", @admin)
     page = layout.render(context) do
-      PageBuilder::load_view("blog_archive.erb").render(nil, archive: fetch_archive)
+      PageBuilder::load_view("archive.erb").render(nil, archive: fetch_archive)
     end
     HTTPServer.generic_html(page)
   end
