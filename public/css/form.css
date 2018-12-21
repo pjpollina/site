@@ -47,3 +47,18 @@
   height: 250px;
   padding: 8px;
 }
+
+.post-form button#delete-post {
+  width: 340px;
+  height: 30px;
+  margin-top: 10px;
+  color: #FFF;
+  background-color: #E33B4B;
+  border: 1px solid #D43F3A;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+.post-form button#delete-post:hover {
+  background-color: #D43F3A;
+}
