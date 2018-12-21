@@ -41,6 +41,10 @@ loop do
       elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
       controller.update_post(elements)
       socket.print "HTTP/1.1 200 OK\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
+    when 'DELETE'
+      elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
+      controller.delete_post(elements)
+      socket.print "HTTP/1.1 200 OK\r\nLocation: /#{elements['slug']}\r\n\r\n"
     end
   end
 end
