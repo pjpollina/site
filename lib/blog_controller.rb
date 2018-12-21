@@ -55,7 +55,7 @@ class BlogController
       layout = PageBuilder::load_layout("layout.erb")
       context = PageBuilder::page_info(@page_name, "New Post", @admin)
       page = layout.render(context) do
-        PageBuilder::load_view("blog_post_form.erb").render(nil)
+        PageBuilder::load_view("new_post.erb").render(nil)
       end
       HTTPServer.generic_html(page)
     else
