@@ -1,45 +1,10 @@
-<!-- HTML template for blog post page -->
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='UTF-8'/>
-  <link rel="icon" type="image/png" sizes="32x32" href="/pictures/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/pictures/icons/favicon-16x16.png">
-  <link rel="shortcut icon" href="/pictures/icons/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
-  <title><%= @page_name + ' | ' + post.title %></title>
-</head>
-
-<body>
-  <header class="site-header" role="banner">
-    <div class="fancy-wrapper">
-      <a class="site-title" href='/'><%= @page_name %></a>
-      <nav class="site-navigator">
-        <a class="page-link" href='/archive'>Archive</a>
-        <% if @admin %><a class="page-link" href='/new_post'>New Post</a><% end %>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <div class="fancy-wrapper">
-      <h1><%= post.title %></h1>
-      <div class="post-timestamp">Posted <%= post.date %></div>
-      <p><%= post.body %></p>
-      <% if @admin %><button onclick="updatePostButton();">Edit</button><% end %>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <div class="fancy-wrapper">
-      <p style="text-align: center;">&copy; 2018 PJ Pollina</p>
-    </div>
-  </footer>
-
-  <script>
-    function updatePostButton() {
-      window.location.search += '?edit=true';
-      return 0;
-    }
-  </script>
-</body>
-</html>
+<h1><%= post.title %></h1>
+<div class="post-timestamp">Posted <%= post.date %></div>
+<p><%= post.body %></p>
+<% if admin %><button onclick="updatePostButton();">Edit</button><% end %>
+<script>
+  function updatePostButton() {
+    window.location.search += '?edit=true';
+    return 0;
+  }
+</script>

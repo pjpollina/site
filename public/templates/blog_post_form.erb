@@ -1,54 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='UTF-8'/>
-  <link rel="icon" type="image/png" sizes="32x32" href="/pictures/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/pictures/icons/favicon-16x16.png">
-  <link rel="shortcut icon" href="/pictures/icons/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/form.css">
-  <title><%= @page_name + ' | New Post'%></title>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-  <script src="/javascript/post_script.js"></script>
-</head>
-
-<body>
-  <header class="site-header" role="banner">
-    <div class="fancy-wrapper">
-      <a class="site-title" href='/'><%= @page_name %></a>
-      <nav class="site-navigator">
-        <a class="page-link" href='/archive'>Archive</a>
-        <% if @admin %><a class="page-link" href='/new_post'>New Post</a><% end %>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <div class="fancy-wrapper">
-      <h1>New Post</h1>
-      <form id="new-post" action='/new_blog_post' method='post' class='post-form'>
-        <div>
-          <label for='title'>Title</label>
-          <input type='text' id='title' name='title' placeholder='New Post' required>
-        </div>
-        <div>
-          <label for='slug'>Slug</label>
-          <input type='text' id='slug' name='slug' placeholder='post_slug' required>
-        </div>
-        <div>
-          <label for='body'>Body</label>
-          <textarea type='text' id='body' name='body' placeholder='Lorem ipsum' required></textarea>
-        </div>
-        <div>
-          <input type='submit' id='submit' value='Submit' disabled>
-        </div>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <div class="fancy-wrapper">
-      <p style="text-align: center;">&copy; 2018 PJ Pollina</p>
-    </div>
-  </footer>
-</body>
-</html>
+<h1>New Post</h1>
+<form id="new-post" action='/new_blog_post' method='post' class='post-form'>
+  <div>
+    <label for='title'>Title</label>
+    <input type='text' id='title' name='title' placeholder='New Post' required>
+  </div>
+  <div>
+    <label for='slug'>Slug</label>
+    <input type='text' id='slug' name='slug' placeholder='post_slug' required>
+  </div>
+  <div>
+    <label for='body'>Body</label>
+    <textarea type='text' id='body' name='body' placeholder='Lorem ipsum' required></textarea>
+  </div>
+  <div>
+    <input type='submit' id='submit' value='Submit' disabled>
+  </div>
+</form>
