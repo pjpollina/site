@@ -16,7 +16,7 @@ class BlogController
     archive:   'archive.erb',
     new_post:  'new_post.erb',
     post:      'post.erb',
-    edit_post: 'edit_post'
+    edit_post: 'edit_post.erb'
   }
 
   def initialize
