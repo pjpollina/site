@@ -17,8 +17,7 @@
 .post-form input {
   width: 375px;
   height: 25px;
-  padding: 2px;
-}
+  padding: 2px; }
 .post-form input#submit {
   width: 383px;
   height: 30px;
@@ -27,15 +26,15 @@
   border: 1px solid;
   border-radius: 4px;
   background-color: #FFF;
-  cursor: pointer;
-}
-.post-form input#submit:hover {
+  cursor: pointer; }
+.post-form input#submit:disabled {
+  cursor: not-allowed; }
+.post-form input#submit:hover:not(:disabled) {
   background-color: #CCC;
 }
 
 .post-form .error {
-  border-color: red;
-}
+  border-color: #D43F3A; }
 .post-form label.error {
   width: 375px;
   padding: 4px;
@@ -57,8 +56,7 @@
   border: 1px solid #D43F3A;
   border-radius: 4px;
   cursor: pointer;
-  float: right;
-}
+  float: right; }
 .post-form button#delete-post:hover {
   background-color: #D43F3A;
 }
