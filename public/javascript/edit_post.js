@@ -9,8 +9,8 @@ $(document).ready(function() {
         document.location = data;
       },
       error:function(data) {
-        let errors = JSON.parse(data.responseText);
-        alert(errors);
+        alert("Access denied!");
+        document.location = '/';
       }
     });
   });
@@ -28,8 +28,8 @@ $(document).ready(function() {
         document.location = '/';
       },
       error:function(data) {
-        let errors = JSON.parse(data.responseText);
-        alert(errors);
+        alert("Access denied!");
+        document.location = '/';
       }
     });
   });
