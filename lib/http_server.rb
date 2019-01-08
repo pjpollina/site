@@ -43,16 +43,15 @@ class HTTPServer
     HEREDOC
   end
 
-  def self.generic_404
-    mesg = '<title>404 Error</title><h1>404 Not Found</h1>'
+  def self.generic_404(content='<title>404 Error</title><h1>404 Not Found</h1>')
     <<~HEREDOC
       HTTP/1.1 404 Not Found\r
       Content-Type: text/html\r
-      Content-Length: #{mesg.bytesize}\r
+      Content-Length: #{content.bytesize}\r
       Date: #{Time.now.httpdate}\r
       Connection: close\r
       \r
-      #{mesg}
+      #{content}
     HEREDOC
   end
 
