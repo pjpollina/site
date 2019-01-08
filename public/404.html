@@ -1,0 +1,34 @@
+<style>
+  .error-page {
+    text-align: center;
+    font-size: 2em; }
+  .error-page h1 {
+    text-align: center;
+    font-size: 6em;
+    margin: 40px; }
+  .error-page button {
+    width: 200px;
+    height: 30px;
+    padding: 0px;
+    margin-top: 40px;
+    border: 1px solid;
+    border-radius: 4px;
+    background-color: #FFF;
+    cursor: pointer; }
+  .error-page button:hover {
+    background-color: #CCC;
+  }
+</style>
+
+<div class="error-page">
+  <h1>404</h1>
+  The requested page could not be found!<br/>
+  <button onclick="backButton();">Go Back</button>
+</div>
+
+<script>
+  function backButton() {
+    window.history.back();
+    return 0;
+  }
+</script>
