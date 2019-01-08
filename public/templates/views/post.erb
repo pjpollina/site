@@ -1,10 +1,5 @@
+<script src='/javascript/special_buttons.js'></script>
 <h1><%= post.title %></h1>
 <div class="post-timestamp">Posted <%= post.date %></div>
 <p><%= post.body %></p>
 <% if admin %><button onclick="updatePostButton();">Edit</button><% end %>
-<script>
-  function updatePostButton() {
-    window.location.search += '?edit=true';
-    return 0;
-  }
-</script>
