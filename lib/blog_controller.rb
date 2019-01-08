@@ -76,7 +76,7 @@ class BlogController
   def render_post(slug)
     data = stmt_from_slug.execute(slug).first
     if data.nil?
-      HTTPServer.generic_404
+      render_404
     else
       post = BlogPost.new(data)
       layout = PageBuilder::load_layout(LAYOUT)
@@ -92,7 +92,7 @@ class BlogController
     if(@admin)
       data = stmt_from_slug.execute(slug).first
       if data.nil?
-        HTTPServer.generic_404
+        render_404
       else
         post = BlogPost.new(data)
         layout = PageBuilder::load_layout(LAYOUT)
@@ -105,6 +105,15 @@ class BlogController
     else
       HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
     end
+  end
+
+  def render_404
+    layout = PageBuilder::load_layout(LAYOUT)
+    context = PageBuilder::page_info(@page_name, "404", @admin)
+    page = layout.render(context) do
+      File.read("#{HTTPServer::WEB_ROOT}404.html")
+    end
+    HTTPServer::generic_404(page)
   end
 
   # POST processors
