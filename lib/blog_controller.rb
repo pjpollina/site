@@ -230,7 +230,7 @@ class BlogController
     errors = {}
     if !slug_valid?(values['slug'])
       errors[:slug] = "Invalid slug!"
-    elsif all_posts.any? {|post| post['post_slug'] == values['slug']}
+    elsif !slug_unique?(values['slug'])
       errors[:slug] = "Slug already in use!"
     end
     if all_posts.any? {|post| post['post_title'] == values['title']}
@@ -241,7 +241,11 @@ class BlogController
 
   def slug_valid?(slug)
     regexp = /^[A-Za-z0-9]+(?:[A-Za-z0-9_-]+[A-Za-z0-9]){0,255}$/
-    (!(regexp =~ slug).nil?) && stmt_slug_check.execute(slug).first.nil?
+    !(regexp =~ slug).nil?
+  end
+
+  def slug_unique?(slug)
+    !recent_posts.any? {|post| post['post_slug'] == slug}
   end
 
   def title_valid?(title)
@@ -286,12 +290,6 @@ class BlogController
   def stmt_title_check
     @stmt_title_check ||= @sql_client.prepare <<~SQL
       SELECT post_id FROM posts WHERE post_title=?
-    SQL
-  end
-
-  def stmt_slug_check
-    @stmt_title_check ||= @sql_client.prepare <<~SQL
-      SELECT post_id FROM posts WHERE post_slug=?
     SQL
   end
 
