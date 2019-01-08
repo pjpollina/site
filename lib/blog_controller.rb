@@ -146,6 +146,16 @@ class BlogController
     end
   end
 
+  # PUT Processors
+  def put_updated_blogpost(form_data, admin)
+    unless(admin)
+      return render_403
+    end
+    elements = HTTPServer.parse_form_data(form_data)
+    update_post(elements)
+    return HTTPServer.redirect(elements["slug"])
+  end
+
   # Data fetchers
   def recent_posts(count=65536)
     stmt_n_most_recent.execute(count)
