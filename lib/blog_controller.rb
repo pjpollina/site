@@ -1,6 +1,5 @@
 # Class that controls all blog features of the site
 
-require 'json'
 require 'mysql2'
 require './lib/blog_post.rb'
 require './lib/http_server.rb'
@@ -135,7 +134,11 @@ class BlogController
     elements = HTTPServer.parse_form_data(form_data)
     errors = validate_post(elements)
     unless(errors == {})
-      return "HTTP/1.1 409 Conflict\r\n\r\n#{errors.to_json}\r\n\r\n"
+      errmesg = ''
+      errors.each do |type, message|
+        errmesg << "#{type} error: #{message}\n" 
+      end
+      return "HTTP/1.1 409 Conflict\r\n\r\n#{errmesg.chomp}\r\n\r\n"
     else
       insert_new_post(elements)
       return "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
