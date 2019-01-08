@@ -38,21 +38,9 @@ loop do
         socket.print controller.post_admin_login(socket.read(request[:headers]['Content-Length'].to_i), request[:ip])
       end
     when 'PUT'
-      elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
-      if(request[:admin])
-        controller.update_post(elements)
-        socket.print "HTTP/1.1 200 OK\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
-      else
-        controller.render_403
-      end
+      socket.print controller.put_updated_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
     when 'DELETE'
-      elements = HTTPServer.parse_form_data(socket.read(request[:headers]['Content-Length'].to_i))
-      if(request[:admin])
-        controller.delete_post(elements)
-        socket.print "HTTP/1.1 200 OK\r\nLocation: /#{elements['slug']}\r\n\r\n"
-      else
-        controller.render_403
-      end
+      socket.print controller.delete_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
     end
   end
 end
