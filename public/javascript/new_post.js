@@ -44,8 +44,7 @@ $(document).ready(function() {
         document.location = data;
       },
       error:function(data) {
-        let errors = JSON.parse(data.responseText);
-        alert(errors);
+        document.location = '/error_403'
       }
     });
   });

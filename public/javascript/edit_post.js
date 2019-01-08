@@ -1,16 +1,16 @@
 $(document).ready(function() {
   $("#edit-post").submit(event => {
+    let url = window.location.href.split('?')[0];
     event.preventDefault();
     $.ajax({
       type: "PUT",
-      url: window.location.href.split('?')[0],
+      url: url,
       data: $("#edit-post").serialize(),
       success:function(data) {
-        document.location = data;
+        document.location = url;
       },
       error:function(data) {
-        alert("Access denied!");
-        document.location = '/';
+        document.location = '/error_403';
       }
     });
   });
@@ -28,8 +28,7 @@ $(document).ready(function() {
         document.location = '/';
       },
       error:function(data) {
-        alert("Access denied!");
-        document.location = '/';
+        document.location = '/error_403';
       }
     });
   });
