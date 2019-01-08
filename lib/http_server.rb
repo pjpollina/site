@@ -105,6 +105,7 @@ class HTTPServer
   end
 
   def self.process_request(socket)
+    return nil if(socket.eof?)
     request = {}
     request[:method], request[:path], request[:client_type] = socket.gets.split(' ')
     request[:headers], request[:cookies] = {}, {}

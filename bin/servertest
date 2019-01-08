@@ -7,6 +7,11 @@ server = HTTPServer.new
 controller = BlogController.new
 loop do
   server.serve do |socket, request|
+    if(request.nil?)
+      STDERR.puts "nil request"
+      next
+    end
+
     STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"
 
     case(request[:method])
