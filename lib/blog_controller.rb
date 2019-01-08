@@ -146,7 +146,7 @@ class BlogController
     end
   end
 
-  # PUT Processors
+  # PUT processors
   def put_updated_blogpost(form_data, admin)
     unless(admin)
       return render_403
@@ -154,6 +154,16 @@ class BlogController
     elements = HTTPServer.parse_form_data(form_data)
     update_post(elements)
     return HTTPServer.redirect(elements["slug"])
+  end
+
+  # DELETE processors
+  def delete_blogpost(form_data, admin)
+    unless(admin)
+      return render_403
+    end
+    elements = HTTPServer.parse_form_data(form_data)
+    delete_post(elements)
+    return HTTPServer.redirect('/')
   end
 
   # Data fetchers
