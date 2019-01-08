@@ -69,7 +69,7 @@ class BlogController
       end
       HTTPServer.generic_html(page)
     else
-      HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
+      render_403
     end
   end
 
@@ -103,8 +103,17 @@ class BlogController
         HTTPServer.generic_html(page)
       end
     else
-      HTTPServer.generic_html("<h1>FORBIDDEN</h1>")
+      render_403
     end
+  end
+
+  def render_403
+    layout = PageBuilder::load_layout(LAYOUT)
+    context = PageBuilder::page_info(@page_name, "403", @admin)
+    page = layout.render(context) do
+      File.read("#{HTTPServer::WEB_ROOT}403.html")
+    end
+    HTTPServer::generic_403(page)
   end
 
   def render_404
