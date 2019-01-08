@@ -31,9 +31,7 @@ loop do
     when 'POST'
       case request[:path]
       when '/new_blog_post'
-        if(request[:admin])
-          socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i))
-        end
+        socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
       when '/admin-login'
         socket.print controller.post_admin_login(socket.read(request[:headers]['Content-Length'].to_i), request[:ip])
       end

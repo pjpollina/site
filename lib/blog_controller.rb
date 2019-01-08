@@ -128,7 +128,10 @@ class BlogController
   end
 
   # POST processors
-  def post_new_blogpost(form_data)
+  def post_new_blogpost(form_data, admin)
+    unless(admin)
+      return render_403
+    end
     elements = HTTPServer.parse_form_data(form_data)
     errors = validate_post(elements)
     unless(errors == {})
