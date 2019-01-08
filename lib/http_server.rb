@@ -43,6 +43,18 @@ class HTTPServer
     HEREDOC
   end
 
+  def self.generic_403(content='<title>FORBIDDEN</title><h1>FORBIDDEN</h1>')
+    <<~HEREDOC
+      HTTP/1.1 403 Forbidden\r
+      Content-Type: text/html\r
+      Content-Length: #{content.bytesize}\r
+      Date: #{Time.now.httpdate}\r
+      Connection: close\r
+      \r
+      #{content}
+    HEREDOC
+  end
+
   def self.generic_404(content='<title>404 Error</title><h1>404 Not Found</h1>')
     <<~HEREDOC
       HTTP/1.1 404 Not Found\r
