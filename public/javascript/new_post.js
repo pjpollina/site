@@ -44,7 +44,17 @@ $(document).ready(function() {
         document.location = data;
       },
       error:function(data) {
-        document.location = '/error_403'
+        switch(data.status) {
+          case 403:
+            document.location = '/error_403';
+            break;
+          case 409:
+            alert(data.responseText);
+            break;
+          default:
+            alert('An unknown error occured');
+            break;
+        }
       }
     });
   });
