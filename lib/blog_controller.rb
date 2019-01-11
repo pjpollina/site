@@ -19,7 +19,7 @@ class BlogController
   }
 
   def initialize
-    @site_name = "PJ's Site"
+    @site_name = ENV['blogapp_site_name']
     @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
   end
 
