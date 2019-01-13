@@ -31,6 +31,18 @@ class HTTPServer
     socket.close
   end
 
+  def self.html_response(html, status_code=200, status_text='OK')
+    <<~RESPONSE
+      HTTP/1.1 #{status_code} #{status_text}\r
+      Content-Type: text/html\r
+      Content-Length: #{html.bytesize}\r
+      Date: #{Time.now.httpdate}\r
+      Connection: close\r
+      \r
+      #{html}
+    RESPONSE
+  end
+
   def self.generic_html(response_html)
     <<~HEREDOC
       HTTP/1.1 200 OK\r
@@ -70,7 +82,7 @@ class HTTPServer
   def self.static_html(raw_filepath)
     filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
-      return generic_html(File.read(filepath))
+      return html_response(File.read(filepath))
     else
       return generic_404
     end
