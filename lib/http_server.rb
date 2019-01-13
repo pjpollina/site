@@ -123,4 +123,8 @@ class HTTPServer
       #{redirect}
     HEREDOC
   end
+
+  def self.web_file(path)
+    WEB_ROOT + path
+  end
 end
