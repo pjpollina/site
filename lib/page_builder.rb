@@ -5,8 +5,8 @@ require 'tilt/erb'
 require './lib/http_server.rb'
 
 module PageBuilder
-  VIEWS   = "#{HTTPServer::WEB_ROOT}templates/views"
-  LAYOUTS = "#{HTTPServer::WEB_ROOT}templates/layouts"
+  VIEWS   = HTTPServer.web_file("templates/views")
+  LAYOUTS = HTTPServer.web_file("templates/layouts")
 
   def self.page_info(site_name, page_name, admin)
     info = OpenStruct.new

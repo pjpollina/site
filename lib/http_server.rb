@@ -44,7 +44,7 @@ class HTTPServer
   end
 
   def self.static_html(raw_filepath, controller)
-    filepath = WEB_ROOT + raw_filepath
+    filepath = web_file(raw_filepath)
     if File.exist?(filepath) && !File.directory?(filepath)
       return html_response(File.read(filepath))
     else
@@ -53,7 +53,7 @@ class HTTPServer
   end
 
   def self.file_response(raw_filepath, socket, controller)
-    filepath = WEB_ROOT + raw_filepath
+    filepath = web_file(raw_filepath)
     if File.exist?(filepath) && !File.directory?(filepath)
       type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
       File.open(filepath, 'rb') do |file|

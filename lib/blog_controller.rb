@@ -109,7 +109,7 @@ class BlogController
   end
 
   def render_403(simple=false)
-    page = File.read("#{HTTPServer::WEB_ROOT}403.html")
+    page = File.read HTTPServer.web_file("403.html")
     unless(simple)
       layout = PageBuilder::load_layout(LAYOUT)
       context = PageBuilder::page_info(@site_name, "403", @admin)
@@ -124,7 +124,7 @@ class BlogController
     layout = PageBuilder::load_layout(LAYOUT)
     context = PageBuilder::page_info(@site_name, "404", @admin)
     page = layout.render(context) do
-      File.read("#{HTTPServer::WEB_ROOT}404.html")
+      File.read HTTPServer.web_file("404.html")
     end
     HTTPServer::html_response(page, 404, 'Not Found')
   end
