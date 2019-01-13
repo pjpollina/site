@@ -43,42 +43,6 @@ class HTTPServer
     RESPONSE
   end
 
-  def self.generic_html(response_html)
-    <<~HEREDOC
-      HTTP/1.1 200 OK\r
-      Content-Type: text/html\r
-      Content-Length: #{response_html.bytesize}\r
-      Date: #{Time.now.httpdate}\r
-      Connection: close\r
-      \r
-      #{response_html}
-    HEREDOC
-  end
-
-  def self.generic_403(content='<title>FORBIDDEN</title><h1>FORBIDDEN</h1>')
-    <<~HEREDOC
-      HTTP/1.1 403 Forbidden\r
-      Content-Type: text/html\r
-      Content-Length: #{content.bytesize}\r
-      Date: #{Time.now.httpdate}\r
-      Connection: close\r
-      \r
-      #{content}
-    HEREDOC
-  end
-
-  def self.generic_404(content='<title>404 Error</title><h1>404 Not Found</h1>')
-    <<~HEREDOC
-      HTTP/1.1 404 Not Found\r
-      Content-Type: text/html\r
-      Content-Length: #{content.bytesize}\r
-      Date: #{Time.now.httpdate}\r
-      Connection: close\r
-      \r
-      #{content}
-    HEREDOC
-  end
-
   def self.static_html(raw_filepath, controller)
     filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
