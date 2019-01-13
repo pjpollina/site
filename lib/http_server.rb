@@ -63,7 +63,7 @@ class HTTPServer
           Content-Type: #{type}\r
           Content-Length: #{file.size}\r
           Date: #{Time.now.httpdate}\r
-          Cache-Control: max-age=7200\r
+          Cache-Control: max-age=#{cache_time(type)}\r
           Etag: "#{Digest::MD5.digest(file.to_s)}"\r
           Connection: close\r
           \r
@@ -129,5 +129,14 @@ class HTTPServer
 
   def self.web_file(path)
     WEB_ROOT + path
+  end
+
+  def self.cache_time(type)
+    case type.split('/')[0]
+    when 'image'
+      return 60 * 60 * 2
+    else
+      return 60 * 5
+    end
   end
 end
