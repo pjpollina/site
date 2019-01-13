@@ -5,6 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'json'
+require 'digest'
 require './lib/admin_session.rb'
 
 class HTTPServer
@@ -62,6 +63,8 @@ class HTTPServer
           Content-Type: #{type}\r
           Content-Length: #{file.size}\r
           Date: #{Time.now.httpdate}\r
+          Cache-Control: max-age=7200\r
+          Etag: "#{Digest::MD5.digest(file.to_s)}"\r
           Connection: close\r
           \r
         HEREDOC
