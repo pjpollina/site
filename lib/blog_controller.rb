@@ -49,7 +49,7 @@ class BlogController
     page = layout.render(context) do
       PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts(5))
     end
-    HTTPServer.generic_html(page)
+    HTTPServer.html_response(page)
   end
 
   def render_archive
@@ -58,7 +58,7 @@ class BlogController
     page = layout.render(context) do
       PageBuilder::load_view(VIEWS[:archive]).render(nil, archive: fetch_archive)
     end
-    HTTPServer.generic_html(page)
+    HTTPServer.html_response(page)
   end
 
   def render_new_post
@@ -68,7 +68,7 @@ class BlogController
       page = layout.render(context) do
         PageBuilder::load_view(VIEWS[:new_post]).render(nil)
       end
-      HTTPServer.generic_html(page)
+      HTTPServer.html_response(page)
     else
       render_403
     end
@@ -85,7 +85,7 @@ class BlogController
       page = layout.render(context) do
         PageBuilder::load_view(VIEWS[:post]).render(nil, post: post, admin: @admin)
       end
-      HTTPServer.generic_html(page)
+      HTTPServer.html_response(page)
     end
   end
 
@@ -101,7 +101,7 @@ class BlogController
         page = layout.render(context) do
           PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post, slug: slug)
         end
-        HTTPServer.generic_html(page)
+        HTTPServer.html_response(page)
       end
     else
       render_403
