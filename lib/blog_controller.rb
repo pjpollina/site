@@ -108,11 +108,14 @@ class BlogController
     end
   end
 
-  def render_403
-    layout = PageBuilder::load_layout(LAYOUT)
-    context = PageBuilder::page_info(@site_name, "403", @admin)
-    page = layout.render(context) do
-      File.read("#{HTTPServer::WEB_ROOT}403.html")
+  def render_403(simple=false)
+    page = File.read("#{HTTPServer::WEB_ROOT}403.html")
+    unless(simple)
+      layout = PageBuilder::load_layout(LAYOUT)
+      context = PageBuilder::page_info(@site_name, "403", @admin)
+      page = layout.render(context) do
+        page
+      end
     end
     HTTPServer::generic_403(page)
   end
@@ -157,7 +160,7 @@ class BlogController
   # PUT processors
   def put_updated_blogpost(form_data, admin)
     unless(admin)
-      return render_403
+      return render_403(true)
     end
     elements = HTTPServer.parse_form_data(form_data)
     update_post(elements)
@@ -167,7 +170,7 @@ class BlogController
   # DELETE processors
   def delete_blogpost(form_data, admin)
     unless(admin)
-      return render_403
+      return render_403(true)
     end
     elements = HTTPServer.parse_form_data(form_data)
     delete_post(elements)
