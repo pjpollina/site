@@ -79,16 +79,16 @@ class HTTPServer
     HEREDOC
   end
 
-  def self.static_html(raw_filepath)
+  def self.static_html(raw_filepath, controller)
     filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
       return html_response(File.read(filepath))
     else
-      return generic_404
+      return controller.render_404
     end
   end
 
-  def self.file_response(raw_filepath, socket)
+  def self.file_response(raw_filepath, socket, controller)
     filepath = WEB_ROOT + raw_filepath
     if File.exist?(filepath) && !File.directory?(filepath)
       type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
@@ -104,7 +104,7 @@ class HTTPServer
         IO.copy_stream(file, socket)
       end
     else
-      socket.print generic_404
+      socket.print controller.render_404
     end
   end
 
