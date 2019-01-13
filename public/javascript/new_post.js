@@ -46,7 +46,7 @@ $(document).ready(function() {
       error:function(data) {
         switch(data.status) {
           case 403:
-            document.location = '/error_403';
+            $("main").html(data.responseText);
             break;
           case 409:
             alert(data.responseText);
