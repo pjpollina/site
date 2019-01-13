@@ -117,7 +117,7 @@ class BlogController
         page
       end
     end
-    HTTPServer::generic_403(page)
+    HTTPServer::html_response(page, 403, 'Forbidden')
   end
 
   def render_404
@@ -126,7 +126,7 @@ class BlogController
     page = layout.render(context) do
       File.read("#{HTTPServer::WEB_ROOT}404.html")
     end
-    HTTPServer::generic_404(page)
+    HTTPServer::html_response(page, 404, 'Not Found')
   end
 
   # POST processors
