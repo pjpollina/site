@@ -10,7 +10,7 @@ $(document).ready(function() {
         document.location = url;
       },
       error:function(data) {
-        document.location = '/error_403';
+        $("main").html(data.responseText);
       }
     });
   });
@@ -28,7 +28,7 @@ $(document).ready(function() {
         document.location = '/';
       },
       error:function(data) {
-        document.location = '/error_403';
+        $("main").html(data.responseText);
       }
     });
   });
