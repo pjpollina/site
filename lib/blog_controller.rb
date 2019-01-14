@@ -25,11 +25,12 @@ module Website
 
     def respond(path, admin)
       @admin = admin
-      if path == '/'
+      case path
+      when '/'
         render_homepage
-      elsif path == '/archive'
+      when '/archive'
         render_archive
-      elsif path == '/new_post'
+      when '/new_post'
         render_new_post
       else
         if(path.end_with?('?edit=true'))
