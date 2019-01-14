@@ -4,7 +4,6 @@
 require 'socket'
 require 'time'
 require 'uri'
-require 'json'
 require 'openssl'
 require './lib/admin_session.rb'
 
@@ -105,17 +104,13 @@ class HTTPServer
     request
   end
 
-  def self.parse_form_data(form_data, type='form')
-    if type == 'form'
-      elements = {}
-      form_data.split('&').each do |element| 
-        key, value = element.split('=', 2)
-        elements[key] = URI.decode(value).gsub('+', ' ')
-      end
-      elements
-    elsif type == 'json'
-      JSON.parse(form_data)
+  def self.parse_form_data(form_data)
+    elements = {}
+    form_data.split('&').each do |element| 
+      key, value = element.split('=', 2)
+      elements[key] = URI.decode(value).gsub('+', ' ')
     end
+    elements
   end
 
   def self.login_admin(client_ip, redirect='/')
