@@ -3,8 +3,8 @@
 require './lib/http_server.rb'
 require './lib/blog_controller.rb'
 
-server = HTTPServer.new
-controller = BlogController.new
+server = Website::HTTPServer.new
+controller = Website::BlogController.new
 loop do
   server.serve(https: true) do |socket, request|
     next if(request.nil?)
@@ -13,12 +13,12 @@ loop do
 
     case(request[:method])
     when 'GET'
-      if(request[:path].end_with?(*HTTPServer::MIME_TYPES.keys))
-        HTTPServer.file_response(request[:path], socket, controller)
+      if(request[:path].end_with?(*Website::HTTPServer::MIME_TYPES.keys))
+        Website::HTTPServer.file_response(request[:path], socket, controller)
       elsif(request[:path].end_with?('html'))
-        socket.print HTTPServer.static_html(request[:path], controller)
+        socket.print Website::HTTPServer.static_html(request[:path], controller)
       elsif(request[:path].start_with? '/validate')
-        data = HTTPServer.parse_form_data(request[:path].split("?")[1])
+        data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1])
         value = false
         case data.keys[0]
         when 'title'
