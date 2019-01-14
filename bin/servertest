@@ -6,11 +6,8 @@ require './lib/blog_controller.rb'
 server = HTTPServer.new
 controller = BlogController.new
 loop do
-  server.serve do |socket, request|
-    if(request.nil?)
-      STDERR.puts "nil request"
-      next
-    end
+  server.serve(https: true) do |socket, request|
+    next if(request.nil?)
 
     STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"
 
