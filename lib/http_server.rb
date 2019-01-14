@@ -21,7 +21,7 @@ module Website
       'jsx'  => 'application/javascript'
     }
 
-    def initialize(hostname: 'localhost', port: 4000)
+    def initialize(hostname: $config_info[:host_name], port: $config_info[:port])
       @tcp = TCPServer.new(hostname, port)
       @ssl = OpenSSL::SSL::SSLServer.new(@tcp, ssl_context)
     end
