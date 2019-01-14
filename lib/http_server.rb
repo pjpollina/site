@@ -5,7 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'json'
-require 'digest'
+require 'openssl'
 require './lib/admin_session.rb'
 
 class HTTPServer
@@ -23,10 +23,11 @@ class HTTPServer
 
   def initialize(hostname: 'localhost', port: 4000)
     @tcp = TCPServer.new(hostname, port)
+    @ssl = OpenSSL::SSL::SSLServer.new(@tcp, ssl_context)
   end
 
-  def serve
-    socket = @tcp.accept
+  def serve(https: false)
+    socket = (https) ? @ssl.accept : @tcp.accept
     request = self.class.process_request(socket)
     yield(socket, request)
     socket.close
@@ -64,7 +65,7 @@ class HTTPServer
           Content-Length: #{file.size}\r
           Date: #{Time.now.httpdate}\r
           Cache-Control: max-age=#{cache_time(type)}\r
-          Etag: "#{Digest::MD5.digest(file.to_s)}"\r
+          Etag: "#{OpenSSL::Digest::MD5.digest(file.to_s)}"\r
           Connection: close\r
           \r
         HEREDOC
@@ -138,5 +139,14 @@ class HTTPServer
     else
       return 60 * 5
     end
+  end
+
+  private
+
+  def ssl_context
+    ssl_context = OpenSSL::SSL::SSLContext.new
+    ssl_context.ssl_version = :SSLv23
+    ssl_context.add_certificate(OpenSSL::X509::Certificate.new(File.open(ENV['blogapp_ssl_cert'])), OpenSSL::PKey::RSA.new(File.open(ENV['blogapp_ssl_key'])))
+    return ssl_context
   end
 end
