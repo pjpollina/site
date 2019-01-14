@@ -9,9 +9,8 @@ module Website
     VIEWS   = HTTPServer.web_file("templates/views")
     LAYOUTS = HTTPServer.web_file("templates/layouts")
 
-    def self.page_info(site_name, page_name, admin)
+    def self.page_info(page_name, admin)
       info = OpenStruct.new
-      info.site_name = site_name
       info.page_name = page_name
       info.admin = admin
       return info

@@ -20,7 +20,6 @@ module Website
     }
 
     def initialize
-      @site_name = ENV['blogapp_site_name']
       @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
     end
 
@@ -46,7 +45,7 @@ module Website
     # Page Renderers
     def render_homepage
       layout = PageBuilder::load_layout(LAYOUT)
-      context = PageBuilder::page_info(@site_name, "Home", @admin)
+      context = PageBuilder::page_info("Home", @admin)
       page = layout.render(context) do
         PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts(5))
       end
@@ -55,7 +54,7 @@ module Website
 
     def render_archive
       layout = PageBuilder::load_layout(LAYOUT)
-      context = PageBuilder::page_info(@site_name, "Archive", @admin)
+      context = PageBuilder::page_info("Archive", @admin)
       page = layout.render(context) do
         PageBuilder::load_view(VIEWS[:archive]).render(nil, archive: fetch_archive)
       end
@@ -65,7 +64,7 @@ module Website
     def render_new_post
       if(@admin)
         layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info(@site_name, "New Post", @admin)
+        context = PageBuilder::page_info("New Post", @admin)
         page = layout.render(context) do
           PageBuilder::load_view(VIEWS[:new_post]).render(nil)
         end
@@ -82,7 +81,7 @@ module Website
       else
         post = BlogPost.new(data)
         layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info(@site_name, post.title, @admin)
+        context = PageBuilder::page_info(post.title, @admin)
         page = layout.render(context) do
           PageBuilder::load_view(VIEWS[:post]).render(nil, post: post, admin: @admin)
         end
@@ -98,7 +97,7 @@ module Website
         else
           post = BlogPost.new(data)
           layout = PageBuilder::load_layout(LAYOUT)
-          context = PageBuilder::page_info(@site_name, "Editing Post #{post.title}", @admin)
+          context = PageBuilder::page_info("Editing Post #{post.title}", @admin)
           page = layout.render(context) do
             PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post, slug: slug)
           end
@@ -113,7 +112,7 @@ module Website
       page = File.read HTTPServer.web_file("403.html")
       unless(simple)
         layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info(@site_name, "403", @admin)
+        context = PageBuilder::page_info("403", @admin)
         page = layout.render(context) do
           page
         end
@@ -123,7 +122,7 @@ module Website
 
     def render_404
       layout = PageBuilder::load_layout(LAYOUT)
-      context = PageBuilder::page_info(@site_name, "404", @admin)
+      context = PageBuilder::page_info("404", @admin)
       page = layout.render(context) do
         File.read HTTPServer.web_file("404.html")
       end
