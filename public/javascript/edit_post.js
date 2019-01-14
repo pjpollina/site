@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  function errorCallback(data) {
+    $("main").html(data.responseText);
+  } 
+
   $("#edit-post").submit(event => {
     let url = window.location.href.split('?')[0];
     event.preventDefault();
@@ -6,12 +10,8 @@ $(document).ready(function() {
       type: "PUT",
       url: url,
       data: $("#edit-post").serialize(),
-      success:function(data) {
-        document.location = url;
-      },
-      error:function(data) {
-        $("main").html(data.responseText);
-      }
+      success:() => document.location = url,
+      error:(data) => errorCallback(data)
     });
   });
 
@@ -24,12 +24,8 @@ $(document).ready(function() {
       type: "DELETE",
       url: window.location.href.split('?')[0],
       data: $("#edit-post").serialize(),
-      success:function(data) {
-        document.location = '/';
-      },
-      error:function(data) {
-        $("main").html(data.responseText);
-      }
+      success:() => document.location = '/',
+      error:(data) => errorCallback(data)
     });
   });
 });
