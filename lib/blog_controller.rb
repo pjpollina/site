@@ -31,8 +31,6 @@ module Website
         render_archive
       elsif path == '/new_post'
         render_new_post
-      elsif path.start_with?('/error_403')
-        render_403
       else
         if(path.end_with?('?edit=true'))
           render_post_editor(path[1..-1].chomp('?edit=true'))
