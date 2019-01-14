@@ -1,0 +1,3 @@
+site_name: "PJ's Site"
+host_name: "localhost"
+port:       4000
