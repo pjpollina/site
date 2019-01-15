@@ -27,5 +27,9 @@ module Website
       return false if($admin_session.nil? || $admin_session.expired?)
       (session_id == $admin_session.session_id) && (client_ip == $admin_session.client_ip)
     end
+
+    def self.unset
+      $admin_session = nil
+    end
   end
 end

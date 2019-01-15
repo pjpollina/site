@@ -124,6 +124,18 @@ module Website
       HEREDOC
     end
 
+    def self.logout_admin
+      mesg = 'Logout successful'
+      <<~HEREDOC
+        HTTP/1.1 200 OK\r
+        Content-Type: text/html
+        Content-Length: #{mesg.bytesize}
+        Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
+        \r
+        #{mesg}
+      HEREDOC
+    end
+
     def self.web_file(path)
       WEB_ROOT + path
     end

@@ -18,6 +18,8 @@ loop do
         Website::HTTPServer.file_response(request[:path], socket, controller)
       elsif(request[:path].end_with?('html'))
         socket.print Website::HTTPServer.static_html(request[:path], controller)
+      elsif(request[:path] == '/admin-logout')
+        socket.print Website::HTTPServer.logout_admin
       elsif(request[:path].start_with? '/validate')
         data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1])
         value = false
