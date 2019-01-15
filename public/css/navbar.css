@@ -1,0 +1,77 @@
+header {
+  margin-bottom:100px;
+}
+
+.navbar {
+  display:block;
+  overflow:hidden;
+  background-color:#101010; }
+.navbar * {
+  color:#FFF;
+  text-decoration:none;
+  font-family:'Open Sans', sans-serif;
+}
+
+.navbar-title {
+  float: left;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 60px;
+  letter-spacing: -1px;
+  padding-left: 30px;
+  font-family: 'Ubuntu', sans-serif; }
+.navbar-title:hover {
+  text-decoration: underline;
+}
+
+.navbar-link {
+  display: block;
+  float: right;
+  text-align: center;
+  font-size: 16px;
+  line-height: 60px;
+  width: 120px;
+  border: 0;
+  background-color: #101010;
+  text-decoration: none;
+  margin: 0;
+  padding: 0; }
+.navbar-link:hover, .navbar-link:active {
+  color:#101010;
+  background-color:#FFF;
+  cursor: pointer;
+}
+
+.navbar-dropdown {
+  float:right;
+  text-align:center;
+  line-height:60px;
+  width:120px;
+  text-decoration:none;
+  border:none;
+  outline:none;
+  margin:0;
+}
+
+.navbar-dropdown-content {
+  display:none;
+  position:absolute;
+  background-color:#f1f1f1;
+  font-size:16px;
+  min-width:120px;
+  text-align:center;
+  box-shadow:0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index:1;
+  float:right; }
+.navbar-dropdown-content a {
+  color:#000;
+  text-decoration:none;
+  display:block;
+  line-height:40px; }
+.navbar-dropdown-content a:hover {
+  background-color:#ddd;
+}
+
+.show {
+  display:block;
+}
