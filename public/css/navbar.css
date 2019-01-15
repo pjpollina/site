@@ -1,7 +1,8 @@
 .navbar {
-  display: block;
+  display: flex;
+  flex-direction: row;
   overflow: hidden;
-  background-color: #101010; }
+  float: right; }
 .navbar * {
   color: #FFF;
   text-decoration: none;
@@ -9,12 +10,13 @@
 }
 
 .navbar-title {
+  color: #FFF;
   float: left;
   font-size: 26px;
   font-weight: 300;
   line-height: 60px;
   letter-spacing: -1px;
-  padding-left: 30px;
+  padding: 0px 30px;
   font-family: 'Ubuntu', sans-serif; }
 .navbar-title:hover {
   text-decoration: underline;
@@ -22,7 +24,6 @@
 
 .navbar-link {
   display: block;
-  float: right;
   text-align: center;
   font-size: 16px;
   line-height: 60px;
@@ -40,7 +41,6 @@
 }
 
 .navbar-dropdown {
-  float: right;
   text-align: center;
   line-height: 60px;
   width: 120px;
@@ -58,8 +58,7 @@
   min-width: 120px;
   text-align: center;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  z-index: 1;
-  float: right; }
+  z-index: 1; }
 .navbar-dropdown-content a {
   color: #000;
   text-decoration: none;
