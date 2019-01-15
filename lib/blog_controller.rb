@@ -18,6 +18,7 @@ module Website
     }
 
     def initialize
+      @ip_login_attempts = Hash.new(0)
       @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
     end
 
@@ -146,12 +147,15 @@ module Website
     end
 
     def post_admin_login(form_data, ip)
-      password = HTTPServer.parse_form_data(form_data)['password']
-      if(password == ENV['blogapp_author_password'])
-        return HTTPServer.login_admin(ip)
-      else
-        return "HTTP/1.1 401 Unauthorized\r\n\r\nFoobazz\r\n\r\n"
+      unless(@ip_login_attempts[ip] >= 3)
+        @ip_login_attempts[ip] += 1
+        password = HTTPServer.parse_form_data(form_data)['password']
+        if(password == ENV['blogapp_author_password'])
+          @ip_login_attempts[ip] = 0
+          return HTTPServer.login_admin(ip)
+        end
       end
+      return "HTTP/1.1 401 Unauthorized\r\n\r\nFoobazz\r\n\r\n"
     end
 
     # PUT processors
