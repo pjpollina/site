@@ -9,6 +9,7 @@
   <title><%= "#{$config_info[:site_name]} | #{page_name}" %></title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+  <script src="/javascript/dropdown.js"></script>
   <script src="/javascript/new_post.js"></script>
   <script src="/javascript/edit_post.js"></script>
   <script src="/javascript/special_buttons.js"></script>
@@ -17,10 +18,19 @@
 <body>
   <header>
     <div class="wrapper">
-      <a class="site-title" href='/'><%= $config_info[:site_name] %></a>
-      <nav class="site-navigator">
-        <a href='/archive'>Archive</a>
-        <% if admin %><a href='/new_post'>New Post</a><% end %>
+      <nav class="navbar">
+        <a class="navbar-title" href='/'><%= $config_info[:site_name] %></a>
+        <a class="navbar-link" href='/archive'>Archive</a>
+        <% if admin %>
+        <div class="navbar-dropdown" id="admin-tab">
+          <button class="navbar-link">
+            Admin
+            <div class="navbar-dropdown-content" id="admin-tab-content">
+              <a href='/new_post'>New Post</a>
+            </div>
+          </button>
+        </div>
+        <% end %>
       </nav>
     </div>
   </header>
