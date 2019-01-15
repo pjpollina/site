@@ -7,8 +7,6 @@ require './lib/page_builder.rb'
 
 module Website
   class BlogController
-    attr_reader :site_name
-
     LAYOUT = 'layout.erb'
 
     VIEWS = {
