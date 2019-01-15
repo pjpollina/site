@@ -67,27 +67,6 @@ h1, h2, h3 {
   padding-left: 30px;
 }
 
-.site-title {
-  font-size: 26px;
-  font-weight: 300;
-  line-height: 54px;
-  letter-spacing: -1px;
-  margin-bottom: 0;
-  float: left;
-  color: white;
-  font-family: 'Ubuntu', sans-serif;
-}
-
-.site-navigator {
-  float: right;
-  line-height: 54px; }
-.site-navigator > a {
-  color: white;
-  line-height: 1.5; }
-.site-navigator > a:not(:last-child) {
-  margin-right: 20px;
-}
-
 .post-list {
   margin-left: 0;
   list-style: none; }
