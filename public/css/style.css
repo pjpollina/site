@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu');
 @import url('/css/form.css');
+@import url('/css/navbar.css');
 
 html {
   width: 100%;
@@ -19,9 +20,7 @@ body {
 }
 
 header {
-  border-top: 5px solid;
-  border-bottom: 1px solid;
-  min-height: 55.95px;
+  height: 60px;
   position: relative;
   background-color: #101010;
   flex-shrink: 0;
