@@ -18,7 +18,9 @@ module Website
     def expired?
       Time.now > @expiration
     end
+  end
 
+  class AdminSession
     def self.set(client_ip)
       $admin_session = AdminSession.new(client_ip)
     end
