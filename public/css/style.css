@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu|Nunito');
 @import url('/css/form.css');
 @import url('/css/navbar.css');
 
@@ -6,7 +6,7 @@ html {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 body {
