@@ -30,6 +30,10 @@ module Website
       (session_id == $admin_session.session_id) && (client_ip == $admin_session.client_ip)
     end
 
+    def self.cookie
+      "session_id=#{$admin_session.session_id}; Expires=#{$admin_session.expiration.httpdate}; HttpOnly"
+    end
+
     def self.unset
       $admin_session = nil
     end

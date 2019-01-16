@@ -129,7 +129,7 @@ module Website
       AdminSession.set(client_ip)
       <<~HEREDOC
         HTTP/1.1 200 OK\r
-        Set-Cookie: session_id=#{$admin_session.session_id}; Expires=#{$admin_session.expiration.httpdate}; HttpOnly\r
+        Set-Cookie: #{AdminSession.cookie}\r
         \r
         #{redirect}
       HEREDOC
