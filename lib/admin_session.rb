@@ -4,8 +4,6 @@ require 'digest'
 require 'securerandom'
 
 module Website
-  $admin_session = nil
-
   class AdminSession
     attr_reader :session_id, :client_ip, :expiration
 
@@ -21,21 +19,23 @@ module Website
   end
 
   class AdminSession
+    @@session = nil
+
     def self.set(client_ip)
-      $admin_session = AdminSession.new(client_ip)
+      @@session = AdminSession.new(client_ip)
     end
 
     def self.validate(session_id, client_ip)
-      return false if($admin_session.nil? || $admin_session.expired?)
-      (session_id == $admin_session.session_id) && (client_ip == $admin_session.client_ip)
+      return false if(@@session.nil? || @@session.expired?)
+      (session_id == @@session.session_id) && (client_ip == @@session.client_ip)
     end
 
     def self.cookie
-      "session_id=#{$admin_session.session_id}; Expires=#{$admin_session.expiration.httpdate}; HttpOnly"
+      "session_id=#{@@session.session_id}; Expires=#{@@session.expiration.httpdate}; HttpOnly"
     end
 
     def self.unset
-      $admin_session = nil
+      @@session = nil
     end
   end
 end
