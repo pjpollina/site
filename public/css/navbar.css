@@ -29,13 +29,13 @@
   line-height: 60px;
   width: 120px;
   border: 0;
-  background-color: #101010;
+  background-color: var(--dopalette-blue);
   text-decoration: none;
   margin: 0;
   padding: 0; }
 .navbar-link:hover, .navbar-link:active {
-  color:#101010;
-  background-color:#FFF;
+  color: var(--dopalette-blue);
+  background-color: #FFF;
   cursor: pointer;
   text-decoration: none;
 }
@@ -53,17 +53,17 @@
 .navbar-dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: #F1F1F1;
   font-size: 16px;
   min-width: 120px;
   text-align: center;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1; }
 .navbar-dropdown-content a {
-  color: #000;
+  color: var(--dopalette-text-dark);
   text-decoration: none;
   display: block;
   line-height: 40px; }
 .navbar-dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #DDD;
 }

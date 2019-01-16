@@ -2,7 +2,16 @@
 @import url('/css/form.css');
 @import url('/css/navbar.css');
 
+:root {
+  --dopalette-blue: #0069FF;
+  --dopalette-navy: #010E28;
+  --dopalette-text-dark: #031B4E;
+  --dopalette-text-light: #868696;
+  --dopalette-background: #F3F5F9;
+}
+
 html {
+  color: var(--dopalette-text-dark);
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -22,13 +31,13 @@ body {
 header {
   height: 60px;
   position: relative;
-  background-color: #101010;
+  background-color: var(--dopalette-blue);
   flex-shrink: 0;
 }
 
 main {
   width: 100%;
-  background: #e8e8e8;
+  background-color: var(--dopalette-background);
   padding-top: 12px;
   padding-bottom: 12px;
   min-height: 81vh;
@@ -40,13 +49,13 @@ footer {
   position: relative;
   padding: 20px 0;
   width: 100%;
-  color: #979797;
-  background-color: #101010;
+  color: var(--dopalette-text-light);
+  background-color: var(--dopalette-navy);
   flex-shrink: 0;
 }
 
 a {
-  color: #1756a9;
+  color: var(--dopalette-blue);
   text-decoration: none; }
 a:hover {
   text-decoration: underline;
@@ -76,7 +85,7 @@ h1, h2, h3 {
 
 .post-timestamp {
   font-size: 14px;
-  color: #828282;
+  color: var(--dopalette-text-light);
 }
 
 .error-page {
