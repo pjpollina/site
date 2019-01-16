@@ -17,8 +17,10 @@
 .post-form input {
   width: 375px;
   height: 25px;
-  padding: 2px; }
-.post-form input#submit {
+  padding: 2px;
+}
+
+.post-form #submit {
   width: 383px;
   height: 30px;
   padding: 0px;
@@ -27,9 +29,9 @@
   border-radius: 4px;
   background-color: #FFF;
   cursor: pointer; }
-.post-form input#submit:disabled {
+.post-form #submit:disabled {
   cursor: not-allowed; }
-.post-form input#submit:hover:not(:disabled) {
+.post-form #submit:hover:not(:disabled) {
   background-color: #CCC;
 }
 
@@ -47,7 +49,7 @@
   padding: 8px;
 }
 
-.post-form button#delete-post {
+.post-form #delete-post {
   width: 340px;
   height: 30px;
   margin-top: 10px;
@@ -57,6 +59,6 @@
   border-radius: 4px;
   cursor: pointer;
   float: right; }
-.post-form button#delete-post:hover {
+.post-form #delete-post:hover {
   background-color: #D43F3A;
 }

@@ -32,8 +32,6 @@ main {
   padding-top: 12px;
   padding-bottom: 12px;
   min-height: 81vh;
-  padding-left: 60px !important;
-  padding-right: 60px !important;
   flex-grow: 1;
   flex-shrink: 0;
 }
@@ -63,8 +61,7 @@ h1, h2, h3 {
   max-width: 740px;
   margin-right: auto;
   margin-left: auto;
-  padding-right: 30px;
-  padding-left: 30px;
+  padding: 0px 45px;
 }
 
 .post-list {
