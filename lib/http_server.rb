@@ -9,18 +9,6 @@ require './lib/admin_session.rb'
 
 module Website
   class HTTPServer
-    WEB_ROOT = './public/'
-
-    MIME_TYPES = {
-      'css'  => 'text/css',
-      'png'  => 'image/png',
-      'jpg'  => 'image/jpeg',
-      'ico'  => 'image/x-icon',
-      'json' => 'application/json',
-      'js'   => 'application/javascript',
-      'jsx'  => 'application/javascript'
-    }
-
     def initialize(hostname: $config_info[:host_name], port: $config_info[:port])
       @tcp = TCPServer.new(hostname, port)
       @ssl = OpenSSL::SSL::SSLServer.new(@tcp, ssl_context)
@@ -32,6 +20,29 @@ module Website
       yield(socket, request)
       socket.close
     end
+
+    private
+
+    def ssl_context
+      ssl_context = OpenSSL::SSL::SSLContext.new
+      ssl_context.ssl_version = :SSLv23
+      ssl_context.add_certificate(OpenSSL::X509::Certificate.new(File.open(ENV['blogapp_ssl_cert'])), OpenSSL::PKey::RSA.new(File.open(ENV['blogapp_ssl_key'])))
+      return ssl_context
+    end
+  end
+
+  class HTTPServer
+    WEB_ROOT = './public/'
+
+    MIME_TYPES = {
+      'css'  => 'text/css',
+      'png'  => 'image/png',
+      'jpg'  => 'image/jpeg',
+      'ico'  => 'image/x-icon',
+      'json' => 'application/json',
+      'js'   => 'application/javascript',
+      'jsx'  => 'application/javascript'
+    }
 
     def self.html_response(html, status_code=200, status_text='OK')
       <<~RESPONSE
@@ -147,15 +158,6 @@ module Website
       else
         return 60 * 5
       end
-    end
-
-    private
-
-    def ssl_context
-      ssl_context = OpenSSL::SSL::SSLContext.new
-      ssl_context.ssl_version = :SSLv23
-      ssl_context.add_certificate(OpenSSL::X509::Certificate.new(File.open(ENV['blogapp_ssl_cert'])), OpenSSL::PKey::RSA.new(File.open(ENV['blogapp_ssl_key'])))
-      return ssl_context
     end
   end
 end
