@@ -1,11 +1,7 @@
 $(document).ready(function() {
-  $(".navbar-dropdown").mouseenter((event) => {
+  $(".navbar-dropdown").on("mouseenter mouseleave", (event) => {
     let contentId = "#" + event.currentTarget.id + "-content";
-    $(contentId).css({"display": "block"});
-  });
-
-  $(".navbar-dropdown").mouseleave((event) => {
-    let contentId = "#" + event.currentTarget.id + "-content";
-    $(contentId).css({"display": "none"});
+    let displayType = (event.type == "mouseenter") ? "block" : "none";
+    $(contentId).css({"display": displayType});
   });
 });
