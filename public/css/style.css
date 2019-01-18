@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu|Nunito');
 @import url('/css/form.css');
 @import url('/css/navbar.css');
+@import url('/css/post_feed.css');
 
 :root {
   --dopalette-blue: #0069FF;
@@ -67,7 +68,7 @@ h1, h2, h3 {
 }
 
 .wrapper {
-  max-width: 740px;
+  max-width: 1040px;
   margin-right: auto;
   margin-left: auto;
   padding: 0px 45px;
@@ -106,4 +107,8 @@ h1, h2, h3 {
   cursor: pointer; }
 .error-page button:hover {
   background-color: #CCC;
+}
+
+.section-header {
+  text-align: center;
 }
