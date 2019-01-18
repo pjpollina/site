@@ -45,7 +45,7 @@ module Website
       layout = PageBuilder::load_layout(LAYOUT)
       context = PageBuilder::page_info("Home", @admin)
       page = layout.render(context) do
-        PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts(5))
+        PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts_previews)
       end
       HTTPServer.html_response(page)
     end
@@ -210,6 +210,10 @@ module Website
       end
     end
 
+    def recent_posts_previews(count=6)
+      stmt_n_most_recent_2.execute(count)
+    end
+
     # Data editors
     def insert_new_post(values)
       stmt_insert_new_post.execute(
@@ -269,6 +273,15 @@ module Website
     def stmt_n_most_recent
       @stmt_n_most_recent ||= @sql_client.prepare <<~SQL
         SELECT post_slug, post_title, post_timestamp
+        FROM posts
+        ORDER BY post_timestamp DESC
+        LIMIT ?
+      SQL
+    end
+
+    def stmt_n_most_recent_2
+      @stmt_n_most_recent_2 ||= @sql_client.prepare <<~SQL
+        SELECT post_slug, post_title, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
         FROM posts
         ORDER BY post_timestamp DESC
         LIMIT ?
