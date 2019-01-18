@@ -1,0 +1,48 @@
+.post-feed {
+  width: 1040px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-card {
+  margin: 20px 20px 40px;
+  border-radius: 5px;
+  width: 320px;
+  height: 240px;
+  background-color: #FFF;
+  transition: all .5s ease;
+  flex: 1 1 300px;
+  box-shadow: 8px 14px 38px #010E280E, 1px 3px 8px #010E2807;
+  transition: all .6s ease; }
+.post-card:hover {
+  backface-visibility: hidden;
+  transform: scale(1.05);
+}
+
+.post-card-content {
+  padding: 25px 25px 0px;
+  height: 215px;
+  display: block;
+  text-decoration: none;
+  font-stretch: 100%;
+  color: var(--dopalette-text-dark); }
+.post-card-content, .post-card-content:hover {
+  text-decoration: none;
+}
+
+.post-card-content .title {
+  font-size: 1.25em;
+  font-weight: normal;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.post-card-content .body {
+  font-size: 0.875em;
+  padding-top: 10px;
+  overflow: hidden;
+  max-height: 8em;
+}
+
+.post-card-content .post-timestamp {
+  font-size: 0.75em;
+}
