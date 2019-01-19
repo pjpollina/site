@@ -1,29 +1,24 @@
 # Class for a blog post object
-# Models data from table defined at schema/posts.sql
 
 require 'kramdown'
 
-module Website
-  class BlogPost
-    attr_reader :title, :slug
+module Website::Blog
+  class Post
+    attr_reader :title, :slug, :body, :timestamp
 
-    def initialize(data = {})
-      @title  = data['post_title']
-      @slug   = data['slug']
-      @date   = data['post_timestamp']
-      @body   = data['post_body']
+    def initialize(title, slug, body, timestamp)
+      @title     = title
+      @slug      = slug
+      @body      = body
+      @timestamp = timestamp
     end
 
-    def date
+    def date_formatted
       @date.strftime("%B %d, %Y")
     end
 
-    def body
+    def parsed_body
       Kramdown::Document.new(@body).to_html
-    end
-
-    def body_raw
-      @body
     end
   end
 end
