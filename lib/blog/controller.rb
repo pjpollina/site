@@ -4,6 +4,7 @@ require 'mysql2'
 require './lib/http_server.rb'
 require './lib/page_builder.rb'
 require './lib/blog/post.rb'
+require './lib/blog/database.rb'
 
 module Website
   module Blog
@@ -20,7 +21,7 @@ module Website
 
       def initialize
         @ip_login_attempts = Hash.new(0)
-        @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
+        @database = Database.new
       end
 
       def respond(path, admin)
@@ -74,11 +75,10 @@ module Website
       end
 
       def render_post(slug)
-        data = stmt_from_slug.execute(slug).first
-        if data.nil?
+        post = @database.get_post(slug)
+        if post.nil?
           render_404
         else
-          post = Blog::Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
           layout = PageBuilder::load_layout(LAYOUT)
           context = PageBuilder::page_info(post.title, @admin)
           page = layout.render(context) do
@@ -90,11 +90,10 @@ module Website
 
       def render_post_editor(slug)
         if(@admin)
-          data = stmt_from_slug.execute(slug).first
-          if data.nil?
+          post = @database.get_post(slug)
+          if post.nil?
             render_404
           else
-            post = Blog::Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
             layout = PageBuilder::load_layout(LAYOUT)
             context = PageBuilder::page_info("Editing Post #{post.title}", @admin)
             page = layout.render(context) do
@@ -181,7 +180,7 @@ module Website
 
       # Data fetchers
       def recent_posts(count=65536)
-        stmt_n_most_recent.execute(count)
+        @database.recent_posts(false, count)
       end
 
       def fetch_archive
@@ -203,34 +202,24 @@ module Website
       end
 
       def next_post_id
-        last_post = stmt_last_post_id.execute.first
-        if last_post.nil?
-          return 0
-        else
-          return 1 + stmt_last_post_id.execute.first['post_id']
-        end
+        @database.available_id
       end
 
       def recent_posts_previews(count=6)
-        stmt_n_most_recent_2.execute(count)
+        @database.recent_posts(true, count)
       end
 
       # Data editors
       def insert_new_post(values)
-        stmt_insert_new_post.execute(
-          next_post_id,
-          @sql_client.escape(values['title']),
-          @sql_client.escape(values['slug']),
-          values['body']
-        )
+        @database.insert(values['title'], values['slug'], values['body'])
       end
 
       def update_post(values)
-        stmt_update_post.execute(values['body'], values['slug'])
+        @database.update(values['slug'], values['body'])
       end
 
       def delete_post(values)
-        stmt_delete_post.execute(values['slug'])
+        @database.delete(values['slug'])
       end
 
       # Validators
@@ -254,11 +243,11 @@ module Website
       end
 
       def slug_unique?(slug)
-        !recent_posts.any? {|post| post['post_slug'] == slug}
+        @database.slug_free?(slug)
       end
 
       def title_valid?(title)
-        stmt_title_check.execute(title).first.nil?
+        @database.title_free?(title)
       end
 
       private
