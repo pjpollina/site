@@ -205,19 +205,6 @@ module Website
         errors
       end
 
-      def slug_valid?(slug)
-        regexp = /^[A-Za-z0-9]+(?:[A-Za-z0-9_-]+[A-Za-z0-9]){0,255}$/
-        !(regexp =~ slug).nil?
-      end
-
-      def slug_unique?(slug)
-        @database.slug_free?(slug)
-      end
-
-      def title_valid?(title)
-        @database.title_free?(title)
-      end
-
       def field_free?(field, value)
         case field
         when :title
