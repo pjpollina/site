@@ -52,7 +52,9 @@ module Website::Blog
 
     # Post getters
     def get_post(slug)
-      @get_post.execute(slug).first
+      data = @get_post.execute(slug).first
+      return nil if(data.nil?)
+      Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
     end
 
     def recent_posts(previews, quantity)
