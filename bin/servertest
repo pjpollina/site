@@ -2,10 +2,10 @@
 
 require './lib/config_info.rb'
 require './lib/http_server.rb'
-require './lib/blog_controller.rb'
+require './lib/blog/controller.rb'
 
 server = Website::HTTPServer.new
-controller = Website::BlogController.new
+controller = Website::Blog::Controller.new
 loop do
   server.serve(https: true) do |socket, request|
     next if(request.nil?)
@@ -21,14 +21,8 @@ loop do
       elsif(request[:path] == '/admin-logout')
         socket.print Website::HTTPServer.logout_admin
       elsif(request[:path].start_with? '/validate')
-        data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1])
-        value = false
-        case data.keys[0]
-        when 'title'
-          value = controller.title_valid?(data['title'])
-        when 'slug'
-          value = controller.slug_unique?(data['slug'])
-        end
+        data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1]).to_a.flatten
+        value = controller.field_free?(data[0].to_sym, data[1])
         socket.print "HTTP/1.1 200 OK\r\n\r\n#{value}\r\n\r\n"
       else
         socket.print controller.respond(request[:path], request[:admin])
