@@ -27,11 +27,11 @@ module Website
         @admin = admin
         case path
         when '/'
-          render_homepage
+          render_page("Home", :homepage, recent_posts: @database.recent_posts(true, 6))
         when '/archive'
-          render_archive
+          render_page("Archive", :archive, archive: fetch_archive)
         when '/new_post'
-          render_new_post
+          render_page("New Post", :new_post, nil)
         else
           if(path.end_with?('?edit=true'))
             render_post_editor(path[1..-1].chomp('?edit=true'))
@@ -48,37 +48,6 @@ module Website
           PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
         end
         HTTPServer.html_response(page)
-      end
-
-      def render_homepage
-        layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info("Home", @admin)
-        page = layout.render(context) do
-          PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: @database.recent_posts(true, 6))
-        end
-        HTTPServer.html_response(page)
-      end
-
-      def render_archive
-        layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info("Archive", @admin)
-        page = layout.render(context) do
-          PageBuilder::load_view(VIEWS[:archive]).render(nil, archive: fetch_archive)
-        end
-        HTTPServer.html_response(page)
-      end
-
-      def render_new_post
-        if(@admin)
-          layout = PageBuilder::load_layout(LAYOUT)
-          context = PageBuilder::page_info("New Post", @admin)
-          page = layout.render(context) do
-            PageBuilder::load_view(VIEWS[:new_post]).render(nil)
-          end
-          HTTPServer.html_response(page)
-        else
-          render_403
-        end
       end
 
       def render_post(slug)
