@@ -47,7 +47,7 @@ module Website
         layout = PageBuilder::load_layout(LAYOUT)
         context = PageBuilder::page_info("Home", @admin)
         page = layout.render(context) do
-          PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: recent_posts_previews)
+          PageBuilder::load_view(VIEWS[:homepage]).render(nil, recent_posts: @database.recent_posts(true, 6))
         end
         HTTPServer.html_response(page)
       end
@@ -141,7 +141,7 @@ module Website
           end
           return "HTTP/1.1 409 Conflict\r\n\r\n#{errmesg.chomp}\r\n\r\n"
         else
-          insert_new_post(elements)
+          @database.insert(elements['title'], elements['slug'], elements['body'])
           return "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
         end
       end
@@ -164,7 +164,7 @@ module Website
           return render_403(true)
         end
         elements = HTTPServer.parse_form_data(form_data)
-        update_post(elements)
+        @database.update(elements['slug'], elements['body'])
         return HTTPServer.redirect(elements["slug"])
       end
 
@@ -174,7 +174,7 @@ module Website
           return render_403(true)
         end
         elements = HTTPServer.parse_form_data(form_data)
-        delete_post(elements)
+        @database.delete(values['slug'])
         return HTTPServer.redirect('/')
       end
 
@@ -186,7 +186,7 @@ module Website
       def fetch_archive
         archive = {}
         active_year, active_month = nil, nil
-        recent_posts.each do |post|
+        @database.recent_posts(false, 65536).each do |post|
           ts = post['post_timestamp']
           if active_year != ts.year
             archive[ts.year] = {}
@@ -224,7 +224,7 @@ module Website
 
       # Validators
       def validate_post(values)
-        all_posts = recent_posts
+        all_posts = recent_posts(false, 65536)
         errors = {}
         if !slug_valid?(values['slug'])
           errors[:slug] = "Invalid slug!"
