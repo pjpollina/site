@@ -174,7 +174,7 @@ module Website
           return render_403(true)
         end
         elements = HTTPServer.parse_form_data(form_data)
-        @database.delete(values['slug'])
+        @database.delete(elements['slug'])
         return HTTPServer.redirect('/')
       end
 
@@ -224,7 +224,7 @@ module Website
 
       # Validators
       def validate_post(values)
-        all_posts = recent_posts(false, 65536)
+        all_posts = @database.recent_posts(false, 65536)
         errors = {}
         if !slug_valid?(values['slug'])
           errors[:slug] = "Invalid slug!"
