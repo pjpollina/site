@@ -50,6 +50,16 @@ module Website
         HTTPServer.html_response(page)
       end
 
+      def render_post_page(slug, edit=false)
+        post = @database.get_post(slug)
+        if(post.nil?)
+          render_404
+        else
+          name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
+          render_page(name, view, post: post, admin: @admin)
+        end
+      end
+
       def render_post(slug)
         post = @database.get_post(slug)
         if post.nil?
