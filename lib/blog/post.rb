@@ -14,7 +14,7 @@ module Website::Blog
     end
 
     def date_formatted
-      @date.strftime("%B %d, %Y")
+      @timestamp.strftime("%B %d, %Y")
     end
 
     def parsed_body
