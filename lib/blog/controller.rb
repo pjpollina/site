@@ -1,6 +1,5 @@
 # Class that controls all blog features of the site
 
-require 'mysql2'
 require './lib/http_server.rb'
 require './lib/page_builder.rb'
 require './lib/blog/post.rb'
@@ -179,10 +178,6 @@ module Website
       end
 
       # Data fetchers
-      def recent_posts(count=65536)
-        @database.recent_posts(false, count)
-      end
-
       def fetch_archive
         archive = {}
         active_year, active_month = nil, nil
@@ -199,27 +194,6 @@ module Website
           archive[active_year][active_month] << post
         end
         archive
-      end
-
-      def next_post_id
-        @database.available_id
-      end
-
-      def recent_posts_previews(count=6)
-        @database.recent_posts(true, count)
-      end
-
-      # Data editors
-      def insert_new_post(values)
-        @database.insert(values['title'], values['slug'], values['body'])
-      end
-
-      def update_post(values)
-        @database.update(values['slug'], values['body'])
-      end
-
-      def delete_post(values)
-        @database.delete(values['slug'])
       end
 
       # Validators
