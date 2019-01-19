@@ -15,10 +15,14 @@ module Website
     end
 
     def serve(https: false)
-      socket = (https) ? @ssl.accept : @tcp.accept
-      request = self.class.process_request(socket)
-      yield(socket, request)
-      socket.close
+      begin
+        socket = (https) ? @ssl.accept : @tcp.accept
+        request = self.class.process_request(socket)
+        yield(socket, request)
+        socket.close
+      rescue OpenSSL::SSL::SSLError => error
+        STDERR.puts("SSL Error: #{error.message}")
+      end
     end
 
     private
