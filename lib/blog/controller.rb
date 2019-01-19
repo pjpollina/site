@@ -33,11 +33,7 @@ module Website
         when '/new_post'
           render_page("New Post", :new_post, nil)
         else
-          if(path.end_with?('?edit=true'))
-            render_post_editor(path[1..-1].chomp('?edit=true'))
-          else
-            render_post(path[1..-1])
-          end
+          render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
         end
       end
 
@@ -57,38 +53,6 @@ module Website
         else
           name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
           render_page(name, view, post: post, admin: @admin)
-        end
-      end
-
-      def render_post(slug)
-        post = @database.get_post(slug)
-        if post.nil?
-          render_404
-        else
-          layout = PageBuilder::load_layout(LAYOUT)
-          context = PageBuilder::page_info(post.title, @admin)
-          page = layout.render(context) do
-            PageBuilder::load_view(VIEWS[:post]).render(nil, post: post, admin: @admin)
-          end
-          HTTPServer.html_response(page)
-        end
-      end
-
-      def render_post_editor(slug)
-        if(@admin)
-          post = @database.get_post(slug)
-          if post.nil?
-            render_404
-          else
-            layout = PageBuilder::load_layout(LAYOUT)
-            context = PageBuilder::page_info("Editing Post #{post.title}", @admin)
-            page = layout.render(context) do
-              PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post)
-            end
-            HTTPServer.html_response(page)
-          end
-        else
-          render_403
         end
       end
 
