@@ -27,23 +27,27 @@ module Website
         @admin = admin
         case path
         when '/'
-          render_page("Home", :homepage, recent_posts: @database.recent_posts(true, 6))
+          render_page("Home", :homepage, false, recent_posts: @database.recent_posts(true, 6))
         when '/archive'
-          render_page("Archive", :archive, archive: fetch_archive)
+          render_page("Archive", :archive, false, archive: fetch_archive)
         when '/new_post'
-          render_page("New Post", :new_post, nil)
+          render_page("New Post", :new_post, true, nil)
         else
           render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
         end
       end
 
       # Page Renderers
-      def render_page(name, view, locals)
-        layout = PageBuilder.load_layout(LAYOUT)
-        page = layout.render(PageBuilder.page_info(name, @admin)) do
-          PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
+      def render_page(name, view, admin_locked, locals)
+        if(admin_locked && !@admin)
+          render_403
+        else
+          layout = PageBuilder.load_layout(LAYOUT)
+          page = layout.render(PageBuilder.page_info(name, @admin)) do
+            PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
+          end
+          HTTPServer.html_response(page)
         end
-        HTTPServer.html_response(page)
       end
 
       def render_post_page(slug, edit=false)
@@ -52,7 +56,7 @@ module Website
           render_404
         else
           name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
-          render_page(name, view, post: post, admin: @admin)
+          render_page(name, view, edit, post: post, admin: @admin)
         end
       end
 
