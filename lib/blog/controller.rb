@@ -223,6 +223,17 @@ module Website
       def title_valid?(title)
         @database.title_free?(title)
       end
+
+      def field_free?(field, value)
+        case field
+        when :title
+          @database.title_free?(value)
+        when :slug
+          @database.slug_free?(value)
+        else
+          false
+        end
+      end
     end
   end
 end
