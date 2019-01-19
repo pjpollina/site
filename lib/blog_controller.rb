@@ -1,9 +1,9 @@
 # Class that controls all blog features of the site
 
 require 'mysql2'
-require './lib/blog_post.rb'
 require './lib/http_server.rb'
 require './lib/page_builder.rb'
+require './lib/blog/post.rb'
 
 module Website
   class BlogController
@@ -77,7 +77,7 @@ module Website
       if data.nil?
         render_404
       else
-        post = BlogPost.new(data)
+        post = Blog::Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
         layout = PageBuilder::load_layout(LAYOUT)
         context = PageBuilder::page_info(post.title, @admin)
         page = layout.render(context) do
@@ -93,11 +93,11 @@ module Website
         if data.nil?
           render_404
         else
-          post = BlogPost.new(data)
+          post = Blog::Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
           layout = PageBuilder::load_layout(LAYOUT)
           context = PageBuilder::page_info("Editing Post #{post.title}", @admin)
           page = layout.render(context) do
-            PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post, slug: slug)
+            PageBuilder::load_view(VIEWS[:edit_post]).render(nil, post: post)
           end
           HTTPServer.html_response(page)
         end
