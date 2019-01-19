@@ -42,6 +42,14 @@ module Website
       end
 
       # Page Renderers
+      def render_page(name, view, locals)
+        layout = PageBuilder.load_layout(LAYOUT)
+        page = layout.render(PageBuilder.page_info(name, @admin)) do
+          PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
+        end
+        HTTPServer.html_response(page)
+      end
+
       def render_homepage
         layout = PageBuilder::load_layout(LAYOUT)
         context = PageBuilder::page_info("Home", @admin)
