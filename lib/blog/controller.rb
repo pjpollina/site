@@ -198,15 +198,9 @@ module Website
 
       # Validators
       def validate_post(values)
-        all_posts = @database.recent_posts(false, 65536)
         errors = {}
-        if !slug_valid?(values['slug'])
-          errors[:slug] = "Invalid slug!"
-        elsif !slug_unique?(values['slug'])
-          errors[:slug] = "Slug already in use!"
-        end
-        if all_posts.any? {|post| post['post_title'] == values['title']}
-          errors[:title] = "Title already in use!"
+        unless(field_free?(:title, values['title']) && field_free?(:slug, values['slug']))
+          errors[:conflict] = "Title or slug already in use!"
         end
         errors
       end
