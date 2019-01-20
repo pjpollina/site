@@ -2,6 +2,7 @@
 
 require './lib/http_server.rb'
 require './lib/page_builder.rb'
+require './lib/path_pattern.rb'
 require './lib/blog/post.rb'
 require './lib/blog/database.rb'
 
@@ -15,7 +16,8 @@ module Website
         archive:   'archive.erb',
         new_post:  'new_post.erb',
         post:      'post.erb',
-        edit_post: 'edit_post.erb'
+        edit_post: 'edit_post.erb',
+        category:  'category.erb'
       }
 
       def initialize
@@ -25,6 +27,7 @@ module Website
 
       def respond(path, admin)
         @admin = admin
+        @category_pattern ||= PathPattern.new("/category/:cat")
         case path
         when '/'
           render_page("Home", :homepage, false, recent_posts: @database.recent_posts(true, 6))
@@ -32,6 +35,13 @@ module Website
           render_page("Archive", :archive, false, archive: fetch_archive)
         when '/new_post'
           render_page("New Post", :new_post, true, categories: @database.categories)
+        when @category_pattern
+          cat = @category_pattern[path][:cat].capitalize
+          if(@database.categories.include?(cat))
+            render_page(cat, :category, false, cat: cat, recent_posts: @database.category_posts(cat))
+          else
+            render_404
+          end
         else
           render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
         end
