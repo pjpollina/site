@@ -11,17 +11,19 @@ module Website::Blog
       @insert = @sql_client.prepare "INSERT INTO posts(post_id, post_title, post_slug, post_body) VALUES(?, ?, ?, ?)"
       @update = @sql_client.prepare "UPDATE posts SET post_body=? WHERE post_slug=?"
       @delete = @sql_client.prepare "DELETE FROM posts WHERE post_slug=?"
-      # Info checkers
+      # Info getters
       @next_id    = @sql_client.prepare "SELECT COALESCE(MAX(post_id) + 1, 0) AS next_id FROM posts"
       @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
-      # Post Getters
+      @categories = @sql_client.prepare "SELECT DISTINCT post_category FROM posts"
+      # Post getters
       @get_post       = @sql_client.prepare "SELECT post_title, post_body, post_category, post_timestamp FROM posts WHERE post_slug=?"
       @recent_posts_1 = @sql_client.prepare "SELECT post_slug, post_title, post_category, post_timestamp FROM posts ORDER BY post_timestamp DESC LIMIT ?"
       @recent_posts_2 = @sql_client.prepare <<~SQL
         SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
         FROM posts ORDER BY post_timestamp DESC LIMIT ?
       SQL
+      # Category Info Getters
     end
 
     # Post modifiers
@@ -37,7 +39,7 @@ module Website::Blog
       @delete.execute(slug)
     end
 
-    # Post info checkers
+    # Info checkers
     def available_id
       @next_id.execute.first['next_id']
     end
@@ -48,6 +50,10 @@ module Website::Blog
 
     def slug_free?(slug)
       @slug_free.execute(slug).first['used'] == 0
+    end
+
+    def categories
+      @categories.execute({as: :array}).collect {|cat| cat[0]}
     end
 
     # Post getters
