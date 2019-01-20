@@ -23,6 +23,10 @@ module Website::Blog
         SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
         FROM posts ORDER BY post_timestamp DESC LIMIT ?
       SQL
+      @category_posts = @sql_client.prepare <<~SQL
+        SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
+        FROM posts WHERE post_category=?
+      SQL
       # Category Info Getters
     end
 
@@ -66,6 +70,10 @@ module Website::Blog
     def recent_posts(previews, quantity)
       statement = ((previews) ? @recent_posts_2 : @recent_posts_1)
       statement.execute(quantity)
+    end
+
+    def category_posts(category)
+      @category_posts.execute(category)
     end
   end
 end
