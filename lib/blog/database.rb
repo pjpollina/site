@@ -16,10 +16,10 @@ module Website::Blog
       @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
       # Post Getters
-      @get_post       = @sql_client.prepare "SELECT post_title, post_body, post_timestamp FROM posts WHERE post_slug=?"
-      @recent_posts_1 = @sql_client.prepare "SELECT post_slug, post_title, post_timestamp FROM posts ORDER BY post_timestamp DESC LIMIT ?"
+      @get_post       = @sql_client.prepare "SELECT post_title, post_body, post_category, post_timestamp FROM posts WHERE post_slug=?"
+      @recent_posts_1 = @sql_client.prepare "SELECT post_slug, post_title, post_category, post_timestamp FROM posts ORDER BY post_timestamp DESC LIMIT ?"
       @recent_posts_2 = @sql_client.prepare <<~SQL
-        SELECT post_slug, post_title, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
+        SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
         FROM posts ORDER BY post_timestamp DESC LIMIT ?
       SQL
     end
@@ -54,7 +54,7 @@ module Website::Blog
     def get_post(slug)
       data = @get_post.execute(slug).first
       return nil if(data.nil?)
-      Post.new(data['post_title'], slug, data['post_body'], data['post_timestamp'])
+      Post.new(data['post_title'], slug, data['post_body'], data['post_category'], data['post_timestamp'])
     end
 
     def recent_posts(previews, quantity)
