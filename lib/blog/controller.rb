@@ -31,7 +31,7 @@ module Website
         when '/archive'
           render_page("Archive", :archive, false, archive: fetch_archive)
         when '/new_post'
-          render_page("New Post", :new_post, true, nil)
+          render_page("New Post", :new_post, true, categories: @database.categories)
         else
           render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
         end
@@ -95,7 +95,7 @@ module Website
           end
           return "HTTP/1.1 409 Conflict\r\n\r\n#{errmesg.chomp}\r\n\r\n"
         else
-          @database.insert(elements[:title], elements[:slug], elements[:body])
+          @database.insert(elements[:title], elements[:slug], elements[:body], elements[:category])
           return "HTTP/1.1 201 Created\r\nLocation: /#{elements[:slug]}\r\n\r\n/#{elements[:slug]}\r\n\r\n"
         end
       end
