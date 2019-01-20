@@ -9,6 +9,15 @@
     <input type='text' id='slug' name='slug' placeholder='post_slug' required>
   </div>
   <div>
+    <label for="category">Category</label>
+    <input list="categories" id="category" name="category" placeholder="Misc" required>
+    <datalist id="categories">
+      <% categories.each do |category| %>
+      <option value="<%= category %>">
+      <% end %>
+    </datalist>
+  </div>
+  <div>
     <label for='body'>Body</label>
     <textarea type='text' id='body' name='body' placeholder='Lorem ipsum' required></textarea>
   </div>
