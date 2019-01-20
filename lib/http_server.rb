@@ -124,7 +124,7 @@ module Website
       elements = {}
       form_data.split('&').each do |element| 
         key, value = element.split('=', 2)
-        elements[key] = URI.decode(value).gsub('+', ' ')
+        elements[key.to_sym] = URI.decode(value).gsub('+', ' ')
       end
       elements
     end

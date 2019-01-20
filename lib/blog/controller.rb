@@ -95,15 +95,15 @@ module Website
           end
           return "HTTP/1.1 409 Conflict\r\n\r\n#{errmesg.chomp}\r\n\r\n"
         else
-          @database.insert(elements['title'], elements['slug'], elements['body'])
-          return "HTTP/1.1 201 Created\r\nLocation: /#{elements['slug']}\r\n\r\n/#{elements['slug']}\r\n\r\n"
+          @database.insert(elements[:title], elements[:slug], elements[:body])
+          return "HTTP/1.1 201 Created\r\nLocation: /#{elements[:slug]}\r\n\r\n/#{elements[:slug]}\r\n\r\n"
         end
       end
 
       def post_admin_login(form_data, ip)
         unless(@ip_login_attempts[ip] >= 3)
           @ip_login_attempts[ip] += 1
-          password = HTTPServer.parse_form_data(form_data)['password']
+          password = HTTPServer.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
             @ip_login_attempts[ip] = 0
             return HTTPServer.login_admin(ip)
@@ -118,8 +118,8 @@ module Website
           return render_403(true)
         end
         elements = HTTPServer.parse_form_data(form_data)
-        @database.update(elements['slug'], elements['body'])
-        return HTTPServer.redirect(elements["slug"])
+        @database.update(elements[:slug], elements[:body])
+        return HTTPServer.redirect(elements[:slug])
       end
 
       # DELETE processors
@@ -128,7 +128,7 @@ module Website
           return render_403(true)
         end
         elements = HTTPServer.parse_form_data(form_data)
-        @database.delete(elements['slug'])
+        @database.delete(elements[:slug])
         return HTTPServer.redirect('/')
       end
 
@@ -154,7 +154,7 @@ module Website
       # Validators
       def validate_post(values)
         errors = {}
-        unless(field_free?(:title, values['title']) && field_free?(:slug, values['slug']))
+        unless(field_free?(:title, values[:title]) && field_free?(:slug, values[:slug]))
           errors[:conflict] = "Title or slug already in use!"
         end
         errors
