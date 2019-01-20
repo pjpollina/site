@@ -1,4 +1,4 @@
 <h1><%= post.title %></h1>
-<div class="post-timestamp">Posted <%= post.timestamp %></div>
+<div class="post-timestamp">Posted <%= post.date_formatted %></div>
 <p><%= post.parsed_body %></p>
 <% if admin %><button onclick="updatePostButton();">Edit</button><% end %>
