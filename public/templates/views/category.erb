@@ -1,6 +1,7 @@
-<h2 class="section-header">Category: <%= cat %></h2>
+<h2 class="section-header">Category: <%= cat.name %></h2>
+<div style="text-align: center;"><%= cat.desc %></div>
 <div class="post-feed">
-  <% recent_posts.reverse_each do |post| %>
+  <% cat.posts.reverse_each do |post| %>
   <article class="post-card">
     <a class="post-card-content" href="/<%= post['post_slug'] %>">
       <div class="title"><%= post['post_title'] %></div>
@@ -9,7 +10,7 @@
         <%= post['post_preview'] %>
       </section>
       <section class="category">
-        <%= post['post_category'] %>
+        <%= cat.name %>
       </section>
     </a>
   </article>
