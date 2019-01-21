@@ -15,23 +15,33 @@ module Website::Blog
       @next_id    = @sql_client.prepare "SELECT COALESCE(MAX(post_id) + 1, 0) AS next_id FROM posts"
       @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
-      @categories = @sql_client.prepare "SELECT DISTINCT post_category FROM posts"
       # Post getters
-      @get_post       = @sql_client.prepare "SELECT post_title, post_body, post_category, post_timestamp FROM posts WHERE post_slug=?"
-      @recent_posts_1 = @sql_client.prepare "SELECT post_slug, post_title, post_category, post_timestamp FROM posts ORDER BY post_timestamp DESC LIMIT ?"
-      @recent_posts_2 = @sql_client.prepare <<~SQL
-        SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
+      @get_post       = @sql_client.prepare <<~SQL
+        SELECT p.post_title, p.post_body, c.cat_name, post_timestamp
+        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) WHERE post_slug=?
+      SQL
+      @recent_posts_1 = @sql_client.prepare <<~SQL
+        SELECT post_slug, post_title, post_category, post_timestamp
         FROM posts ORDER BY post_timestamp DESC LIMIT ?
       SQL
-      @category_posts = @sql_client.prepare <<~SQL
-        SELECT post_slug, post_title, post_category, post_timestamp, SUBSTRING_INDEX(post_body, "\r\n", 1) AS post_preview
-        FROM posts WHERE post_category=?
+      @recent_posts_2 = @sql_client.prepare <<~SQL
+        SELECT p.post_slug, p.post_title, p.post_timestamp, SUBSTRING_INDEX(p.post_body, "\r\n", 1) AS post_preview,c.cat_name
+        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) ORDER BY post_timestamp DESC LIMIT ?
+      SQL
+      # Category functions
+      @categories       = @sql_client.prepare "SELECT cat_name FROM categories"
+      @get_category     = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
+      @category_check_a = @sql_client.prepare "INSERT IGNORE INTO categories(cat_id, cat_name, cat_desc) VALUES(?, ?, '')"
+      @category_check_b = @sql_client.prepare "SELECT cat_id FROM categories WHERE cat_name=?"
+      @category_posts   = @sql_client.prepare <<~SQL
+        SELECT p.post_slug, p.post_title, p.post_timestamp, SUBSTRING_INDEX(p.post_body, "\r\n", 1) AS post_preview, c.cat_name
+        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) WHERE cat_slug=?
       SQL
     end
 
     # Post modifiers
     def insert(title, slug, body, category)
-      @insert.execute(available_id, title, slug, body, category)
+      @insert.execute(available_id, title, slug, body, category_check(category))
     end
 
     def update(slug, body)
@@ -55,15 +65,11 @@ module Website::Blog
       @slug_free.execute(slug).first['used'] == 0
     end
 
-    def categories
-      @categories.execute({as: :array}).collect {|cat| cat[0]}
-    end
-
     # Post getters
     def get_post(slug)
       data = @get_post.execute(slug).first
       return nil if(data.nil?)
-      Post.new(data['post_title'], slug, data['post_body'], data['post_category'], data['post_timestamp'])
+      Post.new(data['post_title'], slug, data['post_body'], data['cat_name'], data['post_timestamp'])
     end
 
     def recent_posts(previews, quantity)
@@ -71,8 +77,21 @@ module Website::Blog
       statement.execute(quantity)
     end
 
-    def category_posts(category)
-      @category_posts.execute(category)
+    # Category functions
+    def categories
+      @categories.execute(as: :array).collect {|cat| cat[0]}
+    end
+
+    def get_category(slug)
+      data = @get_category.execute(slug).first
+      return nil if data.nil?
+      Category.new(data['cat_name'], slug, data['cat_desc'], @category_posts.execute(slug))
+    end
+
+    def category_check(name)
+      id = @sql_client.query("SELECT COALESCE(MAX(cat_id) + 1, 0) FROM categories", as: :array).first.first
+      @category_check_a.execute(id, name)
+      @category_check_b.execute(name, as: :array).first.first
     end
   end
 end
