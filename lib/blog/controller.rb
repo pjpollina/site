@@ -4,6 +4,7 @@ require './lib/http_server.rb'
 require './lib/page_builder.rb'
 require './lib/path_pattern.rb'
 require './lib/blog/post.rb'
+require './lib/blog/category.rb'
 require './lib/blog/database.rb'
 
 module Website
@@ -36,9 +37,9 @@ module Website
         when '/new_post'
           render_page("New Post", :new_post, true, categories: @database.categories)
         when @category_pattern
-          cat = @category_pattern[path][:cat].capitalize
-          if(@database.categories.include?(cat))
-            render_page(cat, :category, false, cat: cat, recent_posts: @database.category_posts(cat))
+          cat = @database.get_category(@category_pattern[path][:cat])
+          unless(cat.nil?)
+            render_page(cat.name, :category, false, cat: cat)
           else
             render_404
           end
