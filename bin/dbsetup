@@ -15,16 +15,19 @@ $dbclient = Mysql2::Client.new(
 if(ARGV.include? ARG_SOFT)
   $dbclient.query('USE blog')
   $dbclient.query('DROP TABLE posts')
+  $dbclient.query('DROP TABLE categories')
 else
   $dbclient.query('DROP DATABASE IF EXISTS blog')
   $dbclient.query('CREATE DATABASE blog')
   $dbclient.query('USE blog')
 end
 
+$dbclient.query(File.read('./sql/categories.sql').chomp(';'))
 $dbclient.query(File.read('./sql/posts.sql').chomp(';'))
 
 unless(ARGV.include? ARG_SOFT)
   $dbclient.query('DROP USER IF EXISTS blogapp@localhost')
   $dbclient.query("CREATE USER blogapp@localhost IDENTIFIED BY '#{ENV['mysql_blogapp_password']}'")
   $dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.posts TO blogapp@localhost')
+  $dbclient.query('GRANT SELECT, INSERT, UPDATE, DELETE ON blog.categories TO blogapp@localhost')
 end
