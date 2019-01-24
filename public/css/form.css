@@ -34,6 +34,9 @@
   background-color: #FFF;
   cursor: pointer; }
 .post-form #submit:disabled {
+  color: #545454;
+  border: 1px solid #A9A9A9;
+  background-color: #EBEBE4;
   cursor: not-allowed; }
 .post-form #submit:hover:not(:disabled) {
   background-color: #CCC;
