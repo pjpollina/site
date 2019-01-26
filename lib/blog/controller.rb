@@ -31,7 +31,7 @@ module Website
         @category_pattern ||= PathPattern.new("/category/:cat")
         case path
         when '/'
-          render_page("Home", :homepage, false, recent_posts: @database.recent_posts(true, 6))
+          render_page("Home", :homepage, false, recent_posts: @database.recent_posts(6))
         when '/archive'
           render_page("Archive", :archive, false, archive: fetch_archive)
         when '/new_post'
@@ -147,7 +147,7 @@ module Website
       def fetch_archive
         archive = {}
         active_year, active_month = nil, nil
-        @database.recent_posts(false, 65536).each do |post|
+        @database.recent_posts(65536).each do |post|
           ts = post['post_timestamp']
           if active_year != ts.year
             archive[ts.year] = {}

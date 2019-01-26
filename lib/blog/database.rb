@@ -16,15 +16,11 @@ module Website::Blog
       @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
       # Post getters
-      @get_post       = @sql_client.prepare <<~SQL
+      @get_post     = @sql_client.prepare <<~SQL
         SELECT p.post_title, p.post_body, c.cat_name, post_timestamp
         FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) WHERE post_slug=?
       SQL
-      @recent_posts_1 = @sql_client.prepare <<~SQL
-        SELECT post_slug, post_title, post_category, post_timestamp
-        FROM posts ORDER BY post_timestamp DESC LIMIT ?
-      SQL
-      @recent_posts_2 = @sql_client.prepare <<~SQL
+      @recent_posts = @sql_client.prepare <<~SQL
         SELECT p.post_slug, p.post_title, p.post_timestamp, SUBSTRING_INDEX(p.post_body, "\r\n", 1) AS post_preview,c.cat_name
         FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) ORDER BY post_timestamp DESC LIMIT ?
       SQL
@@ -72,9 +68,8 @@ module Website::Blog
       Post.new(data['post_title'], slug, data['post_body'], data['cat_name'], data['post_timestamp'])
     end
 
-    def recent_posts(previews, quantity)
-      statement = ((previews) ? @recent_posts_2 : @recent_posts_1)
-      statement.execute(quantity)
+    def recent_posts(quantity)
+      @recent_posts.execute(quantity)
     end
 
     # Category functions
