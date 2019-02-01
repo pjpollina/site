@@ -9,4 +9,8 @@ class Website::Blog::Category
     @desc  = desc
     @posts = posts
   end
+
+  def self.name_to_slug(name)
+    name.downcase.gsub(' ', '_')
+  end
 end
