@@ -7,5 +7,6 @@ CREATE VIEW fullposts AS
     post_slug,
     post_body,
     cat_name,
-    post_timestamp
+    post_timestamp,
+    SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview
   FROM posts INNER JOIN categories ON (post_category = cat_id);
