@@ -28,7 +28,7 @@ module Website::Blog
 
     # Post modifiers
     def insert(title, slug, body, category)
-      @insert.execute(available_id, title, slug, body, category_check(category))
+      @insert.execute(@next_id.execute.first['next_id'], title, slug, body, category_check(category))
     end
 
     def update(slug, body)
@@ -40,10 +40,6 @@ module Website::Blog
     end
 
     # Info checkers
-    def available_id
-      @next_id.execute.first['next_id']
-    end
-
     def title_free?(title)
       @title_free.execute(title).first['used'] == 0
     end
