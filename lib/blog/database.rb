@@ -17,11 +17,11 @@ module Website::Blog
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
       # Post getters
       @get_post     = @sql_client.prepare "SELECT * FROM fullposts WHERE post_slug=?"
-      @recent_posts = @sql_client.prepare "SELECT *, SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview FROM fullposts ORDER BY post_timestamp DESC LIMIT ?"
+      @recent_posts = @sql_client.prepare "SELECT * FROM fullposts ORDER BY post_timestamp DESC LIMIT ?"
       # Category functions
-      @categories       = @sql_client.prepare "SELECT cat_name FROM categories"
-      @get_category     = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
-      @category_posts   = @sql_client.prepare "SELECT *, SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview FROM fullposts WHERE cat_name=? ORDER BY post_timestamp"
+      @categories     = @sql_client.prepare "SELECT cat_name FROM categories"
+      @get_category   = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
+      @category_posts = @sql_client.prepare "SELECT * FROM fullposts WHERE cat_name=? ORDER BY post_timestamp"
     end
 
     # Post modifiers
