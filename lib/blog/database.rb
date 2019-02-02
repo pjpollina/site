@@ -21,8 +21,6 @@ module Website::Blog
       # Category functions
       @categories       = @sql_client.prepare "SELECT cat_name FROM categories"
       @get_category     = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
-      @category_check_a = @sql_client.prepare "INSERT IGNORE INTO categories(cat_id, cat_name, cat_desc) VALUES(?, ?, '')"
-      @category_check_b = @sql_client.prepare "SELECT cat_id FROM categories WHERE cat_name=?"
       @category_posts   = @sql_client.prepare "SELECT *, SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview FROM fullposts WHERE cat_name=? ORDER BY post_timestamp"
     end
 
@@ -71,9 +69,13 @@ module Website::Blog
     end
 
     def category_check(name)
+      @catcheck ||= {
+        insert: @sql_client.prepare("INSERT IGNORE INTO categories(cat_id, cat_name, cat_desc) VALUES(?, ?, '')"),
+        select: @sql_client.prepare("SELECT cat_id FROM categories WHERE cat_name=?")
+      }
       id = @sql_client.query("SELECT COALESCE(MAX(cat_id) + 1, 0) FROM categories", as: :array).first.first
-      @category_check_a.execute(id, name)
-      @category_check_b.execute(name, as: :array).first.first
+      @catcheck[:insert].execute(id, name)
+      @catcheck[:select].execute(name, as: :array).first.first
     end
   end
 end
