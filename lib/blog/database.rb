@@ -16,23 +16,14 @@ module Website::Blog
       @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
       @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
       # Post getters
-      @get_post     = @sql_client.prepare <<~SQL
-        SELECT p.post_title, p.post_body, c.cat_name, post_timestamp
-        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) WHERE post_slug=?
-      SQL
-      @recent_posts = @sql_client.prepare <<~SQL
-        SELECT p.post_slug, p.post_title, p.post_timestamp, SUBSTRING_INDEX(p.post_body, "\r\n", 1) AS post_preview,c.cat_name
-        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) ORDER BY post_timestamp DESC LIMIT ?
-      SQL
+      @get_post     = @sql_client.prepare "SELECT * FROM fullposts WHERE post_slug=?"
+      @recent_posts = @sql_client.prepare "SELECT *, SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview FROM fullposts ORDER BY post_timestamp DESC LIMIT ?"
       # Category functions
       @categories       = @sql_client.prepare "SELECT cat_name FROM categories"
       @get_category     = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
       @category_check_a = @sql_client.prepare "INSERT IGNORE INTO categories(cat_id, cat_name, cat_desc) VALUES(?, ?, '')"
       @category_check_b = @sql_client.prepare "SELECT cat_id FROM categories WHERE cat_name=?"
-      @category_posts   = @sql_client.prepare <<~SQL
-        SELECT p.post_slug, p.post_title, p.post_timestamp, SUBSTRING_INDEX(p.post_body, "\r\n", 1) AS post_preview, c.cat_name
-        FROM posts AS p INNER JOIN categories AS c ON (p.post_category = c.cat_id) WHERE cat_slug=?
-      SQL
+      @category_posts   = @sql_client.prepare "SELECT *, SUBSTRING_INDEX(post_body, '\r\n', 1) AS post_preview FROM fullposts WHERE cat_name=? ORDER BY post_timestamp"
     end
 
     # Post modifiers
@@ -80,7 +71,7 @@ module Website::Blog
     def get_category(slug)
       data = @get_category.execute(slug).first
       return nil if data.nil?
-      Category.new(data['cat_name'], slug, data['cat_desc'], @category_posts.execute(slug))
+      Category.new(data['cat_name'], slug, data['cat_desc'], @category_posts.execute(data['cat_name']))
     end
 
     def category_check(name)
