@@ -148,7 +148,7 @@ module Website
         archive = {}
         active_year, active_month = nil, nil
         @database.recent_posts(65536).each do |post|
-          ts = post['post_timestamp']
+          ts = post[:post_timestamp]
           if active_year != ts.year
             archive[ts.year] = {}
             active_year = ts.year

@@ -7,7 +7,7 @@
       <h3><%= month %></h3>
       <ul>
         <% archive[year][month].each do |post| %>
-          <li><a href=<%= "'/#{post['post_slug']}'" %>><%= post['post_title'] %></a> Posted <%= post['post_timestamp'].strftime('%m/%d/%Y') %></li>
+          <li><a href=<%= "'/#{post[:post_slug]}'" %>><%= post[:post_title] %></a> Posted <%= post[:post_timestamp].strftime('%m/%d/%Y') %></li>
         <% end %>
       </ul>
     </li>

@@ -39,22 +39,22 @@ module Website::Blog
 
     # Info checkers
     def title_free?(title)
-      @title_free.execute(title).first['used'] == 0
+      @title_free.execute(title, symbolize_keys: true).first[:used] == 0
     end
 
     def slug_free?(slug)
-      @slug_free.execute(slug).first['used'] == 0
+      @slug_free.execute(slug, symbolize_keys: true).first[:used] == 0
     end
 
     # Post getters
     def get_post(slug)
-      data = @get_post.execute(slug).first
+      data = @get_post.execute(slug, symbolize_keys: true).first
       return nil if(data.nil?)
-      Post.new(data['post_title'], slug, data['post_body'], data['cat_name'], data['post_timestamp'])
+      Post.new(data[:post_title], slug, data[:post_body], data[:cat_name], data[:post_timestamp])
     end
 
     def recent_posts(quantity)
-      @recent_posts.execute(quantity)
+      @recent_posts.execute(quantity, symbolize_keys: true)
     end
 
     # Category functions
@@ -63,9 +63,9 @@ module Website::Blog
     end
 
     def get_category(slug)
-      data = @get_category.execute(slug).first
+      data = @get_category.execute(slug, symbolize_keys: true).first
       return nil if data.nil?
-      Category.new(data['cat_name'], slug, data['cat_desc'], @category_posts.execute(data['cat_name']))
+      Category.new(data[:cat_name], slug, data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
     end
 
     def category_check(name)

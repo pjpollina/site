@@ -3,14 +3,14 @@
   <div class="post-feed">
     <% recent_posts.each do |post| %>
     <article class="post-card">
-      <a class="post-card-content" href="/<%= post['post_slug'] %>">
-        <div class="title"><%= post['post_title'] %></div>
-        <span class="post-timestamp"><%= post['post_timestamp'].strftime('%B %d, %Y') %></span>
+      <a class="post-card-content" href="/<%= post[:post_slug] %>">
+        <div class="title"><%= post[:post_title] %></div>
+        <span class="post-timestamp"><%= post[:post_timestamp].strftime('%B %d, %Y') %></span>
         <section class="body">
-          <%= post['post_preview'] %>
+          <%= post[:post_preview] %>
         </section>
         <section class="category">
-          <%= post['cat_name'] %>
+          <%= post[:cat_name] %>
         </section>
       </a>
     </article>
