@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './lib/config_info.rb'
+require './lib/website.rb'
 require './lib/http_server.rb'
 require './lib/blog/controller.rb'
 
