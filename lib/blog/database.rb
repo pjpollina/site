@@ -70,16 +70,6 @@ module Website
         return nil if data.nil?
         Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
       end
-
-      def category_check(name)
-        @catcheck ||= {
-          insert: @sql_client.prepare("INSERT IGNORE INTO categories(cat_id, cat_name, cat_desc) VALUES(?, ?, '')"),
-          select: @sql_client.prepare("SELECT cat_id FROM categories WHERE cat_name=?")
-        }
-        id = @sql_client.query("SELECT COALESCE(MAX(cat_id) + 1, 0) FROM categories", as: :array).first.first
-        @catcheck[:insert].execute(id, name)
-        @catcheck[:select].execute(name, as: :array).first.first
-      end
     end
   end
 end
