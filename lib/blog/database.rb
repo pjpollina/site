@@ -20,13 +20,16 @@ module Website
         @recent_posts = @sql_client.prepare "SELECT * FROM fullposts ORDER BY post_timestamp DESC LIMIT ?"
         # Category functions
         @categories     = @sql_client.prepare "SELECT cat_name FROM categories"
-        @get_category   = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_slug=?"
-        @category_posts = @sql_client.prepare "SELECT * FROM fullposts WHERE cat_name=? ORDER BY post_timestamp"
+        @get_category   = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_name=?"
+        @category_posts = @sql_client.prepare "SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp"
       end
 
       # Post modifiers
       def insert(title, slug, body, category)
         @insert.execute(title, slug, body, category)
+        unless(categories.include?(category))
+          @sql_client.query("INSERT INTO categories VALUES('#{category}', '')")
+        end
       end
 
       def update(slug, body)
@@ -63,9 +66,9 @@ module Website
       end
 
       def get_category(slug)
-        data = @get_category.execute(slug, symbolize_keys: true).first
+        data = @get_category.execute(Category.slug_to_name(slug), symbolize_keys: true).first
         return nil if data.nil?
-        Category.new(data[:cat_name], slug, data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
+        Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
       end
 
       def category_check(name)
