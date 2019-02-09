@@ -9,7 +9,7 @@ module Website
         # MySQL client
         @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
         # Post Insert/Update/Delete statements
-        @insert = @sql_client.prepare "INSERT INTO posts(post_id, post_title, post_slug, post_body, post_category) VALUES(?, ?, ?, ?, ?)"
+        @insert = @sql_client.prepare "INSERT INTO posts(post_title, post_slug, post_body, post_category) VALUES(?, ?, ?, ?)"
         @update = @sql_client.prepare "UPDATE posts SET post_body=? WHERE post_slug=?"
         @delete = @sql_client.prepare "DELETE FROM posts WHERE post_slug=?"
         # Info getters
@@ -27,7 +27,7 @@ module Website
 
       # Post modifiers
       def insert(title, slug, body, category)
-        @insert.execute(@next_id.execute.first['next_id'], title, slug, body, category_check(category))
+        @insert.execute(title, slug, body, category)
       end
 
       def update(slug, body)
