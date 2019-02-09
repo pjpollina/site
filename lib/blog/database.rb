@@ -13,7 +13,6 @@ module Website
         @update = @sql_client.prepare "UPDATE posts SET post_body=? WHERE post_slug=?"
         @delete = @sql_client.prepare "DELETE FROM posts WHERE post_slug=?"
         # Info getters
-        @next_id    = @sql_client.prepare "SELECT COALESCE(MAX(post_id) + 1, 0) AS next_id FROM posts"
         @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
         @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
         # Post getters
