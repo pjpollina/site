@@ -16,7 +16,7 @@ module Website
         @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
         @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
         # Post getters
-        @get_post     = @sql_client.prepare "SELECT * FROM fullposts WHERE post_slug=?"
+        @get_post     = @sql_client.prepare "SELECT * FROM posts WHERE post_slug=?"
         @recent_posts = @sql_client.prepare "SELECT * FROM fullposts ORDER BY post_timestamp DESC LIMIT ?"
         # Category functions
         @categories     = @sql_client.prepare "SELECT cat_name FROM categories"
@@ -50,7 +50,7 @@ module Website
       def get_post(slug)
         data = @get_post.execute(slug, symbolize_keys: true).first
         return nil if(data.nil?)
-        Post.new(data[:post_title], slug, data[:post_body], data[:cat_name], data[:post_timestamp])
+        Post.new(data[:post_title], slug, data[:post_body], data[:post_category], data[:post_timestamp])
       end
 
       def recent_posts(quantity)
