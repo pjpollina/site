@@ -1,5 +1,4 @@
-# Global hash of configuration settings
-# Loads file ./data/config.yaml
+# Global website namespace
 
 require 'yaml'
 
