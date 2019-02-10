@@ -13,12 +13,12 @@ module Website
       LAYOUT = PageBuilder::Layout.new('layout.erb')
 
       VIEWS = {
-        homepage:  'homepage.erb',
-        archive:   'archive.erb',
-        new_post:  'new_post.erb',
-        post:      'post.erb',
-        edit_post: 'edit_post.erb',
-        category:  'category.erb'
+        homepage:  PageBuilder::View.new('homepage.erb'),
+        archive:   PageBuilder::View.new('archive.erb'),
+        new_post:  PageBuilder::View.new('new_post.erb'),
+        post:      PageBuilder::View.new('post.erb'),
+        edit_post: PageBuilder::View.new('edit_post.erb'),
+        category:  PageBuilder::View.new('category.erb')
       }
 
       def initialize
@@ -54,7 +54,7 @@ module Website
           render_403
         else
           page = LAYOUT[name, @admin] do
-            PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
+            VIEWS[view][locals]
           end
           HTTPServer.html_response(page)
         end
