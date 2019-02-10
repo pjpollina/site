@@ -23,5 +23,19 @@ module Website
     def self.load_layout(name)
       Tilt::ERBTemplate.new("#{LAYOUTS}/#{name}")
     end
+
+    class Layout
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
+      end
+
+      def [](page_name, admin)
+        PageBuilder.load_layout(@name).render(PageBuilder.page_info(page_name, admin)) do
+          yield
+        end
+      end
+    end
   end
 end
