@@ -73,22 +73,16 @@ module Website
       def render_403(simple=false)
         page = File.read HTTPServer.web_file("403.html")
         unless(simple)
-          layout = PageBuilder::load_layout(LAYOUT)
-          context = PageBuilder::page_info("403", @admin)
-          page = layout.render(context) do
-            page
-          end
+          page = LAYOUT["403", @admin] { page }
         end
-        HTTPServer::html_response(page, 403, 'Forbidden')
+        HTTPServer.html_response(page, 403, 'Forbidden')
       end
 
       def render_404
-        layout = PageBuilder::load_layout(LAYOUT)
-        context = PageBuilder::page_info("404", @admin)
-        page = layout.render(context) do
+        page = LAYOUT["404", @admin] do
           File.read HTTPServer.web_file("404.html")
         end
-        HTTPServer::html_response(page, 404, 'Not Found')
+        HTTPServer.html_response(page, 404, 'Not Found')
       end
 
       # POST processors
