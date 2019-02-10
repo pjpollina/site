@@ -37,5 +37,17 @@ module Website
         end
       end
     end
+
+    class View
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
+      end
+
+      def [](locals={})
+        PageBuilder.load_view(@name).render(OpenStruct.new(locals))
+      end
+    end
   end
 end
