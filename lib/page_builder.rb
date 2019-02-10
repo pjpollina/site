@@ -25,8 +25,6 @@ module Website
     end
 
     class Layout
-      attr_reader :name
-
       def initialize(name)
         @name = name
       end
@@ -39,8 +37,6 @@ module Website
     end
 
     class View
-      attr_reader :name
-
       def initialize(name)
         @name = name
       end
