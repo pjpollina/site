@@ -10,7 +10,7 @@ require './lib/blog/database.rb'
 module Website
   module Blog
     class Controller
-      LAYOUT = 'layout.erb'
+      LAYOUT = PageBuilder::Layout.new('layout.erb')
 
       VIEWS = {
         homepage:  'homepage.erb',
@@ -53,8 +53,7 @@ module Website
         if(admin_locked && !@admin)
           render_403
         else
-          layout = PageBuilder.load_layout(LAYOUT)
-          page = layout.render(PageBuilder.page_info(name, @admin)) do
+          page = LAYOUT[name, @admin] do
             PageBuilder.load_view(VIEWS[view]).render(nil, locals || {})
           end
           HTTPServer.html_response(page)
