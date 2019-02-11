@@ -42,14 +42,14 @@ module Website
         unless(simple)
           page = LAYOUT["403", admin] { page }
         end
-        HTTPServer.html_response(page, 403, 'Forbidden')
+        HTTPServer.html_response(page, 403)
       end
 
       def self.render_404(admin)
         page = LAYOUT["404", admin] do
           File.read HTTPServer.web_file("404.html")
         end
-        HTTPServer.html_response(page, 404, 'Not Found')
+        HTTPServer.html_response(page, 404)
       end
     end
   end

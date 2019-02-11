@@ -70,9 +70,9 @@ module Website
       response << "\r\n#{body}"
     end
 
-    def self.html_response(html, status_code=200, status_text='OK')
+    def self.html_response(html, status_code=200)
       <<~RESPONSE
-        HTTP/1.1 #{status_code} #{status_text}\r
+        #{status_line(status_code)}\r
         Content-Type: text/html\r
         Content-Length: #{html.bytesize}\r
         Date: #{Time.now.httpdate}\r
