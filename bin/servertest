@@ -15,9 +15,9 @@ loop do
     case(request[:method])
     when 'GET'
       if(request[:path].end_with?(*Website::HTTPServer::MIME_TYPES.keys))
-        Website::HTTPServer.file_response(request[:path], socket, controller)
+        Website::HTTPServer.file_response(request[:path], socket, request[:admin])
       elsif(request[:path].end_with?('html'))
-        socket.print Website::HTTPServer.static_html(request[:path], controller)
+        socket.print Website::HTTPServer.static_html(request[:path], request[:admin])
       elsif(request[:path] == '/admin-logout')
         socket.print Website::HTTPServer.logout_admin
       elsif(request[:path].start_with? '/validate')

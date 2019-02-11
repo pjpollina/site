@@ -60,16 +60,16 @@ module Website
       RESPONSE
     end
 
-    def self.static_html(raw_filepath, controller)
+    def self.static_html(raw_filepath, admin)
       filepath = web_file(raw_filepath)
       if File.exist?(filepath) && !File.directory?(filepath)
         return html_response(File.read(filepath))
       else
-        return controller.render_404
+        return Blog::Renderer.render_404(admin)
       end
     end
 
-    def self.file_response(raw_filepath, socket, controller)
+    def self.file_response(raw_filepath, socket, admin)
       filepath = web_file(raw_filepath)
       if File.exist?(filepath) && !File.directory?(filepath)
         type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
@@ -87,7 +87,7 @@ module Website
           IO.copy_stream(file, socket)
         end
       else
-        socket.print controller.render_404
+        socket.print Blog::Renderer.render_404(admin)
       end
     end
 
