@@ -62,6 +62,14 @@ module Website
       "HTTP/1.1 #{status_code} #{HTTP_STATUSES[status_code]}"
     end
 
+    def self.response(status_code, body, headers={})
+      response = status_line(status_code) << "\r\n"
+      headers.each do |name, value|
+        response << "#{name}: #{value}\r\n"
+      end
+      response << "\r\n#{body}"
+    end
+
     def self.html_response(html, status_code=200, status_text='OK')
       <<~RESPONSE
         HTTP/1.1 #{status_code} #{status_text}\r
