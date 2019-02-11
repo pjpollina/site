@@ -48,6 +48,16 @@ module Website
       'jsx'  => 'application/javascript'
     }
 
+    HTTP_STATUSES = {
+      200 => 'OK',
+      201 => 'Created',
+      303 => 'See Other',
+      401 => 'Unauthorized',
+      403 => 'Forbidden',
+      404 => 'Not Found',
+      409 => 'Conflict'
+    }
+
     def self.html_response(html, status_code=200, status_text='OK')
       <<~RESPONSE
         HTTP/1.1 #{status_code} #{status_text}\r
