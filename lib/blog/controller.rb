@@ -1,7 +1,6 @@
 # Class that controls all blog features of the site
 
 require './lib/http_server.rb'
-require './lib/page_builder.rb'
 require './lib/path_pattern.rb'
 require './lib/blog/post.rb'
 require './lib/blog/category.rb'
@@ -10,17 +9,6 @@ require './lib/blog/database.rb'
 module Website
   module Blog
     class Controller
-      LAYOUT = PageBuilder::Layout.new('layout.erb')
-
-      VIEWS = {
-        homepage:  PageBuilder::View.new('homepage.erb'),
-        archive:   PageBuilder::View.new('archive.erb'),
-        new_post:  PageBuilder::View.new('new_post.erb'),
-        post:      PageBuilder::View.new('post.erb'),
-        edit_post: PageBuilder::View.new('edit_post.erb'),
-        category:  PageBuilder::View.new('category.erb')
-      }
-
       def initialize
         @ip_login_attempts = Hash.new(0)
         @database = Database.new
@@ -46,43 +34,6 @@ module Website
         else
           render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
         end
-      end
-
-      # Page Renderers
-      def render_page(name, view, admin_locked, locals)
-        if(admin_locked && !@admin)
-          render_403
-        else
-          page = LAYOUT[name, @admin] do
-            VIEWS[view][locals]
-          end
-          HTTPServer.html_response(page)
-        end
-      end
-
-      def render_post_page(slug, edit=false)
-        post = @database.get_post(slug)
-        if(post.nil?)
-          render_404
-        else
-          name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
-          render_page(name, view, edit, post: post, admin: @admin)
-        end
-      end
-
-      def render_403(simple=false)
-        page = File.read HTTPServer.web_file("403.html")
-        unless(simple)
-          page = LAYOUT["403", @admin] { page }
-        end
-        HTTPServer.html_response(page, 403, 'Forbidden')
-      end
-
-      def render_404
-        page = LAYOUT["404", @admin] do
-          File.read HTTPServer.web_file("404.html")
-        end
-        HTTPServer.html_response(page, 404, 'Not Found')
       end
 
       # POST processors
