@@ -17,7 +17,7 @@ module Website
       # Page Renderers
       def self.render_page(name, view, admin, admin_locked, locals)
         if(admin_locked && !admin)
-          render_403
+          render_403(admin)
         else
           page = LAYOUT[name, admin] do
             VIEWS[view][locals]
@@ -26,13 +26,12 @@ module Website
         end
       end
 
-      def self.render_post_page(slug, edit=false)
-        post = @database.get_post(slug)
+      def self.render_post_page(post, admin, edit=false)
         if(post.nil?)
-          render_404
+          render_404(admin)
         else
           name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
-          render_page(name, view, edit, post: post, admin: admin)
+          render_page(name, view, admin, edit, post: post, admin: admin)
         end
       end
 
