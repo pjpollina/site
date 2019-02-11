@@ -5,6 +5,7 @@ require './lib/path_pattern.rb'
 require './lib/blog/post.rb'
 require './lib/blog/category.rb'
 require './lib/blog/database.rb'
+require './lib/blog/renderer.rb'
 
 module Website
   module Blog
@@ -15,31 +16,31 @@ module Website
       end
 
       def respond(path, admin)
-        @admin = admin
         @category_pattern ||= PathPattern.new("/category/:cat")
         case path
         when '/'
-          render_page("Home", :homepage, false, recent_posts: @database.recent_posts(6))
+          Renderer.render_page("Home", :homepage, admin, false, recent_posts: @database.recent_posts(6))
         when '/archive'
-          render_page("Archive", :archive, false, archive: fetch_archive)
+          Renderer.render_page("Archive", :archive, admin, false, archive: fetch_archive)
         when '/new_post'
-          render_page("New Post", :new_post, true, categories: @database.categories)
+          Renderer.render_page("New Post", :new_post, admin, true, categories: @database.categories)
         when @category_pattern
           cat = @database.get_category(@category_pattern[path][:cat])
           unless(cat.nil?)
-            render_page(cat.name, :category, false, cat: cat)
+            Renderer.render_page(cat.name, :category, admin, false, cat: cat)
           else
-            render_404
+            Renderer.render_404(admin)
           end
         else
-          render_post_page(path[1..-1].chomp('?edit=true'), path.end_with?('?edit=true'))
+          post = @database.get_post(path[1..-1].chomp('?edit=true'))
+          Renderer.render_post_page(post, admin, path.end_with?('?edit=true'))
         end
       end
 
       # POST processors
       def post_new_blogpost(form_data, admin)
         unless(admin)
-          return render_403(true)
+          return Renderer.render_403(admin, true)
         end
         elements = HTTPServer.parse_form_data(form_data)
         errors = validate_post(elements)
@@ -70,7 +71,7 @@ module Website
       # PUT processors
       def put_updated_blogpost(form_data, admin)
         unless(admin)
-          return render_403(true)
+          return Renderer.render_403(admin, true)
         end
         elements = HTTPServer.parse_form_data(form_data)
         @database.update(elements[:slug], elements[:body])
@@ -80,7 +81,7 @@ module Website
       # DELETE processors
       def delete_blogpost(form_data, admin)
         unless(admin)
-          return render_403(true)
+          return Renderer.render_403(admin, true)
         end
         elements = HTTPServer.parse_form_data(form_data)
         @database.delete(elements[:slug])
