@@ -1,3 +1,5 @@
+# Helper module that renders pages
+
 require './lib/page_builder.rb'
 
 module Website
