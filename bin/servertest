@@ -23,7 +23,7 @@ loop do
       elsif(request[:path].start_with? '/validate')
         data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1]).to_a.flatten
         value = controller.field_free?(data[0], data[1])
-        socket.print "HTTP/1.1 200 OK\r\n\r\n#{value}\r\n\r\n"
+        socket.print HTTPServer.response(200, value)
       else
         socket.print controller.respond(request[:path], request[:admin])
       end

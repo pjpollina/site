@@ -49,10 +49,10 @@ module Website
           errors.each do |type, message|
             errmesg << "#{type} error: #{message}\n" 
           end
-          return "HTTP/1.1 409 Conflict\r\n\r\n#{errmesg.chomp}\r\n\r\n"
+          return HTTPServer.response(409, errmesg.chomp)
         else
           @database.insert(elements[:title], elements[:slug], elements[:body], elements[:category])
-          return "HTTP/1.1 201 Created\r\nLocation: /#{elements[:slug]}\r\n\r\n/#{elements[:slug]}\r\n\r\n"
+          return HTTPServer.response(201, elements[:slug], "Location": "/#{elements[:slug]}")
         end
       end
 
@@ -65,7 +65,7 @@ module Website
             return HTTPServer.login_admin(ip)
           end
         end
-        return "HTTP/1.1 401 Unauthorized\r\n\r\nFoobazz\r\n\r\n"
+        return HTTPServer.response(401, "")
       end
 
       # PUT processors
