@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require 'tilt/erb'
-require './lib/http_server.rb'
+require 'http_server'
 
 module Website
   module PageBuilder

@@ -5,7 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'openssl'
-require './lib/admin_session.rb'
+require 'admin_session'
 
 module Website
   class HTTPServer
