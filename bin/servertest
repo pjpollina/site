@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-require './lib/website.rb'
-require './lib/http_server.rb'
-require './lib/blog/controller.rb'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__)).gsub('bin', 'lib')
+
+require 'website'
+require 'http_server'
+require 'blog/controller'
 
 server = Website::HTTPServer.new
 controller = Website::Blog::Controller.new
