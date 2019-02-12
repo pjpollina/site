@@ -36,7 +36,7 @@ module Website
   end
 
   class HTTPServer
-    WEB_ROOT = './public/'
+    WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public/')
 
     MIME_TYPES = {
       'css'  => 'text/css',
