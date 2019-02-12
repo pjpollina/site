@@ -1,6 +1,6 @@
 # Helper module that renders pages
 
-require 'page_builder'
+require 'website/page_builder'
 
 module Website
   module Blog

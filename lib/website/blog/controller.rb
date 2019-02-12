@@ -1,11 +1,11 @@
 # Class that controls all blog features of the site
 
-require 'http_server'
-require 'path_pattern'
-require 'blog/post'
-require 'blog/category'
-require 'blog/database'
-require 'blog/renderer'
+require 'website/http_server'
+require 'website/path_pattern'
+require 'website/blog/post'
+require 'website/blog/category'
+require 'website/blog/database'
+require 'website/blog/renderer'
 
 module Website
   module Blog

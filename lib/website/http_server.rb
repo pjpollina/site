@@ -5,7 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'openssl'
-require 'admin_session'
+require 'website/admin_session'
 
 module Website
   class HTTPServer
