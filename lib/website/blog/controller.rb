@@ -2,10 +2,6 @@
 
 require 'website/http_server'
 require 'website/path_pattern'
-require 'website/blog/post'
-require 'website/blog/category'
-require 'website/blog/database'
-require 'website/blog/renderer'
 
 module Website
   module Blog
