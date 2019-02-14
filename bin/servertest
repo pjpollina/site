@@ -4,7 +4,7 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__)).gsub('bin', 'lib')
 
 require 'website'
 require 'website/http_server'
-require 'website/blog/controller'
+require 'website/blog'
 
 server = Website::HTTPServer.new
 controller = Website::Blog::Controller.new
