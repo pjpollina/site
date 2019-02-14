@@ -59,7 +59,7 @@ module Website
     }
 
     def self.status_line(status_code)
-      "HTTP/1.1 #{status_code} #{HTTP_STATUSES[status_code]}"
+      'HTTP/1.1 ' << status_code << ' ' << HTTP_STATUSES[status_code]
     end
 
     def self.response(status_code, body, headers={})
