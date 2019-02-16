@@ -36,8 +36,6 @@ module Website
   end
 
   class HTTPServer
-    WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public/')
-
     MIME_TYPES = {
       'css'  => 'text/css',
       'png'  => 'image/png',
@@ -171,10 +169,6 @@ module Website
         \r
         #{mesg}
       HEREDOC
-    end
-
-    def self.web_file(path)
-      WEB_ROOT + path
     end
 
     def self.cache_time(type)
