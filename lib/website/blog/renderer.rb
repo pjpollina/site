@@ -38,7 +38,7 @@ module Website
       end
 
       def self.render_403(admin, simple=false)
-        page = File.read HTTPServer.web_file("403.html")
+        page = File.read Website.web_file("403.html")
         unless(simple)
           page = LAYOUT["403", admin] { page }
         end
@@ -47,7 +47,7 @@ module Website
 
       def self.render_404(admin)
         page = LAYOUT["404", admin] do
-          File.read HTTPServer.web_file("404.html")
+          File.read Website.web_file("404.html")
         end
         HTTPServer.html_response(page, 404)
       end

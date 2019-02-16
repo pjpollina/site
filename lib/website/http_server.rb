@@ -81,7 +81,7 @@ module Website
     end
 
     def self.static_html(raw_filepath, admin)
-      filepath = web_file(raw_filepath)
+      filepath = Website.web_file(raw_filepath)
       if File.exist?(filepath) && !File.directory?(filepath)
         return html_response(File.read(filepath))
       else
@@ -90,7 +90,7 @@ module Website
     end
 
     def self.file_response(raw_filepath, socket, admin)
-      filepath = web_file(raw_filepath)
+      filepath = Website.web_file(raw_filepath)
       if File.exist?(filepath) && !File.directory?(filepath)
         type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
         File.open(filepath, 'rb') do |file|

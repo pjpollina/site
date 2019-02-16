@@ -6,8 +6,8 @@ require 'website/http_server'
 
 module Website
   module PageBuilder
-    VIEWS   = HTTPServer.web_file("templates/views")
-    LAYOUTS = HTTPServer.web_file("templates/layouts")
+    VIEWS   = Website.web_file("templates/views")
+    LAYOUTS = Website.web_file("templates/layouts")
 
     def self.load_view(name)
       Tilt::ERBTemplate.new("#{VIEWS}/#{name}")
