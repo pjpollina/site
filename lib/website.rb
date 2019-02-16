@@ -3,7 +3,7 @@
 require 'yaml'
 
 module Website
-  WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public/')
+  WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib', 'public/')
 
   def self.web_file(path)
     WEB_ROOT + path
