@@ -5,14 +5,16 @@ require 'tilt/erb'
 
 module Website
   module PageBuilder
+    extend self
+
     VIEWS   = Website.web_file("templates/views")
     LAYOUTS = Website.web_file("templates/layouts")
 
-    def self.load_view(name)
+    def load_view(name)
       Tilt::ERBTemplate.new("#{VIEWS}/#{name}")
     end
 
-    def self.load_layout(name)
+    def load_layout(name)
       Tilt::ERBTemplate.new("#{LAYOUTS}/#{name}")
     end
   end
