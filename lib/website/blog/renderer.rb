@@ -5,6 +5,8 @@ require 'website/page_builder'
 module Website
   module Blog
     module Renderer
+      extend self
+
       LAYOUT = PageBuilder::Layout.new('layout.erb')
 
       VIEWS = {
@@ -17,7 +19,7 @@ module Website
       }
 
       # Page Renderers
-      def self.render_page(name, view, admin, admin_locked, locals)
+      def render_page(name, view, admin, admin_locked, locals)
         if(admin_locked && !admin)
           render_403(admin)
         else
@@ -28,7 +30,7 @@ module Website
         end
       end
 
-      def self.render_post_page(post, admin, edit=false)
+      def render_post_page(post, admin, edit=false)
         if(post.nil?)
           render_404(admin)
         else
@@ -37,7 +39,7 @@ module Website
         end
       end
 
-      def self.render_403(admin, simple=false)
+      def render_403(admin, simple=false)
         page = File.read Website.web_file("403.html")
         unless(simple)
           page = LAYOUT["403", admin] { page }
@@ -45,7 +47,7 @@ module Website
         HTTPServer.html_response(page, 403)
       end
 
-      def self.render_404(admin)
+      def render_404(admin)
         page = LAYOUT["404", admin] do
           File.read Website.web_file("404.html")
         end
