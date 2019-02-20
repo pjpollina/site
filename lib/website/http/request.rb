@@ -32,6 +32,10 @@ module Website
         AdminSession.validate(@cookies[:session_id], @ip_address)
       end
 
+      def static_html?
+        @path.end_with?('.html')
+      end
+
       def self.[](socket)
         socket.eof?() ? nil : new(socket)
       end
