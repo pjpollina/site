@@ -57,69 +57,6 @@ module Website
       409 => 'Conflict'
     }
 
-    def self.status_line(status_code)
-      'HTTP/1.1 ' << status_code << ' ' << HTTP_STATUSES[status_code]
-    end
-
-    def self.response(status_code, body, headers={})
-      response = status_line(status_code) << "\r\n"
-      headers.each do |name, value|
-        response << "#{name}: #{value}\r\n"
-      end
-      response << "\r\n#{body}"
-    end
-
-    def self.html_response(html, status_code=200)
-      <<~RESPONSE
-        #{status_line(status_code)}\r
-        Content-Type: text/html\r
-        Content-Length: #{html.bytesize}\r
-        Date: #{Time.now.httpdate}\r
-        Connection: close\r
-        \r
-        #{html}
-      RESPONSE
-    end
-
-    def self.static_html(raw_filepath, admin)
-      filepath = Website.web_file(raw_filepath)
-      if File.exist?(filepath) && !File.directory?(filepath)
-        return html_response(File.read(filepath))
-      else
-        return Blog::Renderer.render_404(admin)
-      end
-    end
-
-    def self.file_response(raw_filepath, socket, admin)
-      filepath = Website.web_file(raw_filepath)
-      if File.exist?(filepath) && !File.directory?(filepath)
-        type = MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
-        File.open(filepath, 'rb') do |file|
-          socket.print <<~HEREDOC
-            HTTP/1.1 200 OK\r
-            Content-Type: #{type}\r
-            Content-Length: #{file.size}\r
-            Date: #{Time.now.httpdate}\r
-            Cache-Control: max-age=#{cache_time(type)}\r
-            Etag: "#{OpenSSL::Digest::MD5.digest(file.to_s)}"\r
-            Connection: close\r
-            \r
-          HEREDOC
-          IO.copy_stream(file, socket)
-        end
-      else
-        socket.print Blog::Renderer.render_404(admin)
-      end
-    end
-
-    def self.redirect(location='/')
-      <<~HEREDOC
-        HTTP/1.1 303 See Other\r
-        Location: #{location}\r
-        \r
-      HEREDOC
-    end
-
     def self.parse_form_data(form_data)
       elements = {}
       form_data.split('&').each do |element| 
@@ -127,37 +64,6 @@ module Website
         elements[key.to_sym] = URI.decode(value).gsub('+', ' ')
       end
       elements
-    end
-
-    def self.login_admin(client_ip, redirect='/')
-      AdminSession.set(client_ip)
-      <<~HEREDOC
-        HTTP/1.1 200 OK\r
-        Set-Cookie: #{AdminSession.cookie}\r
-        \r
-        #{redirect}
-      HEREDOC
-    end
-
-    def self.logout_admin
-      mesg = 'Logout successful'
-      <<~HEREDOC
-        HTTP/1.1 200 OK\r
-        Content-Type: text/html
-        Content-Length: #{mesg.bytesize}
-        Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
-        \r
-        #{mesg}
-      HEREDOC
-    end
-
-    def self.cache_time(type)
-      case type.split('/')[0]
-      when 'image'
-        return 60 * 60 * 2
-      else
-        return 60 * 5
-      end
     end
   end
 end
