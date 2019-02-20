@@ -5,6 +5,7 @@ require 'socket'
 require 'time'
 require 'uri'
 require 'openssl'
+require 'website/http/request'
 require 'website/admin_session'
 
 module Website
@@ -17,7 +18,7 @@ module Website
     def serve(https: false)
       begin
         socket = (https) ? @ssl.accept : @tcp.accept
-        request = self.class.process_request(socket)
+        request = HTTP::Request[socket]
         yield(socket, request)
         socket.close
       rescue OpenSSL::SSL::SSLError => error
