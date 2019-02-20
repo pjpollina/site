@@ -36,6 +36,10 @@ module Website
         @path.end_with?('.html')
       end
 
+      def file_request?
+        @path.end_with?(*HTTPServer::MIME_TYPES.keys)
+      end
+
       def self.[](socket)
         socket.eof?() ? nil : new(socket)
       end
