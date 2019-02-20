@@ -45,10 +45,10 @@ module Website
           errors.each do |type, message|
             errmesg << "#{type} error: #{message}\n" 
           end
-          return HTTPServer.response(409, errmesg.chomp)
+          return HTTP::Response.response(409, errmesg.chomp)
         else
           @database.insert(elements[:title], elements[:slug], elements[:body], elements[:category])
-          return HTTPServer.response(201, elements[:slug], "Location": "/#{elements[:slug]}")
+          return HTTP::Response.response(201, elements[:slug], "Location": "/#{elements[:slug]}")
         end
       end
 
@@ -58,10 +58,10 @@ module Website
           password = HTTPServer.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
             @ip_login_attempts[ip] = 0
-            return HTTPServer.login_admin(ip)
+            return HTTP::Response.login_admin(ip)
           end
         end
-        return HTTPServer.response(401, "")
+        return HTTP::Response.response(401, "")
       end
 
       # PUT processors
@@ -71,7 +71,7 @@ module Website
         end
         elements = HTTPServer.parse_form_data(form_data)
         @database.update(elements[:slug], elements[:body])
-        return HTTPServer.redirect(elements[:slug])
+        return HTTP::Response.redirect(elements[:slug])
       end
 
       # DELETE processors
@@ -81,7 +81,7 @@ module Website
         end
         elements = HTTPServer.parse_form_data(form_data)
         @database.delete(elements[:slug])
-        return HTTPServer.redirect('/')
+        return HTTP::Response.redirect('/')
       end
 
       # Data fetchers

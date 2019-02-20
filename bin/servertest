@@ -5,6 +5,7 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__)).gsub('bin', 'lib')
 require 'website'
 require 'website/http_server'
 require 'website/blog'
+require 'website/http/response'
 
 server = Website::HTTPServer.new
 controller = Website::Blog::Controller.new
@@ -17,15 +18,15 @@ loop do
     case(request.method)
     when 'GET'
       if(request.file_request?)
-        Website::HTTPServer.file_response(request.path, socket, request.admin?)
+        Website::HTTP::Response.file_response(request.path, socket, request.admin?)
       elsif(request.static_html?)
-        socket.print Website::HTTPServer.static_html(request.path, request.admin?)
+        socket.print Website::HTTP::Response.static_html(request.path, request.admin?)
       elsif(request.path == '/admin-logout')
-        socket.print Website::HTTPServer.logout_admin
+        socket.print Website::HTTP::Response.logout_admin
       elsif(request.path.start_with? '/validate')
         data = Website::HTTPServer.parse_form_data(request.path.split("?")[1]).to_a.flatten
         value = controller.field_free?(data[0], data[1])
-        socket.print Website::HTTPServer.response(200, value)
+        socket.print Website::HTTP::Response.response(200, value)
       else
         socket.print controller.respond(request.path, request.admin?)
       end
