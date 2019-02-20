@@ -12,34 +12,34 @@ loop do
   server.serve(https: true) do |socket, request|
     next if(request.nil?)
 
-    STDERR.puts "#{request[:method]} #{request[:path]} #{request[:client_type]}"
+    STDERR.puts request.request_line
 
-    case(request[:method])
+    case(request.method)
     when 'GET'
-      if(request[:path].end_with?(*Website::HTTPServer::MIME_TYPES.keys))
-        Website::HTTPServer.file_response(request[:path], socket, request[:admin])
-      elsif(request[:path].end_with?('html'))
-        socket.print Website::HTTPServer.static_html(request[:path], request[:admin])
-      elsif(request[:path] == '/admin-logout')
+      if(request.path.end_with?(*Website::HTTPServer::MIME_TYPES.keys))
+        Website::HTTPServer.file_response(request.path, socket, request.admin?)
+      elsif(request.path.end_with?('html'))
+        socket.print Website::HTTPServer.static_html(request.path, request.admin?)
+      elsif(request.path == '/admin-logout')
         socket.print Website::HTTPServer.logout_admin
-      elsif(request[:path].start_with? '/validate')
-        data = Website::HTTPServer.parse_form_data(request[:path].split("?")[1]).to_a.flatten
+      elsif(request.path.start_with? '/validate')
+        data = Website::HTTPServer.parse_form_data(request.path.split("?")[1]).to_a.flatten
         value = controller.field_free?(data[0], data[1])
         socket.print Website::HTTPServer.response(200, value)
       else
-        socket.print controller.respond(request[:path], request[:admin])
+        socket.print controller.respond(request.path, request.admin?)
       end
     when 'POST'
-      case request[:path]
+      case request.path
       when '/new_blog_post'
-        socket.print controller.post_new_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
+        socket.print controller.post_new_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
       when '/admin-login'
-        socket.print controller.post_admin_login(socket.read(request[:headers]['Content-Length'].to_i), request[:ip])
+        socket.print controller.post_admin_login(socket.read(request.headers[:content_length].to_i), request.ip_address)
       end
     when 'PUT'
-      socket.print controller.put_updated_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
+      socket.print controller.put_updated_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
     when 'DELETE'
-      socket.print controller.delete_blogpost(socket.read(request[:headers]['Content-Length'].to_i), request[:admin])
+      socket.print controller.delete_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
     end
   end
 end
