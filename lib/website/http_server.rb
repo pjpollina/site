@@ -120,27 +120,6 @@ module Website
       HEREDOC
     end
 
-    def self.process_request(socket)
-      return nil if(socket.eof?)
-      request = {}
-      request[:method], request[:path], request[:client_type] = socket.gets.split(' ')
-      request[:headers], request[:cookies] = {}, {}
-      while((line = socket.gets) && (line.chomp != ''))
-        key, value = line.chomp.split(': ', 2)
-        if(key == "Cookie")
-          value.split("; ").each do |cookie|
-            key, value = cookie.split("=")
-            request[:cookies][key] = value
-          end
-        else
-          request[:headers][key] = value
-        end
-      end
-      request[:ip] = socket.peeraddr[3]
-      request[:admin] = AdminSession.validate(request[:cookies]['session_id'], request[:ip])
-      request
-    end
-
     def self.parse_form_data(form_data)
       elements = {}
       form_data.split('&').each do |element| 
