@@ -44,10 +44,10 @@ module Website
           errors.each do |type, message|
             errmesg << "#{type} error: #{message}\n" 
           end
-          return HTTP::Response.response(409, errmesg.chomp)
+          return HTTP::Response[409, errmesg.chomp]
         else
           @database.insert(elements[:title], elements[:slug], elements[:body], elements[:category])
-          return HTTP::Response.response(201, elements[:slug], "Location": "/#{elements[:slug]}")
+          return HTTP::Response[201, elements[:slug], "Location" => "/#{elements[:slug]}"]
         end
       end
 
@@ -60,7 +60,7 @@ module Website
             return HTTP::Response.login_admin(ip)
           end
         end
-        return HTTP::Response.response(401, "")
+        return HTTP::Response[401, ""]
       end
 
       # PUT processors
