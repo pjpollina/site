@@ -35,16 +35,6 @@ module Website
   end
 
   class HTTPServer
-    MIME_TYPES = {
-      'css'  => 'text/css',
-      'png'  => 'image/png',
-      'jpg'  => 'image/jpeg',
-      'ico'  => 'image/x-icon',
-      'json' => 'application/json',
-      'js'   => 'application/javascript',
-      'jsx'  => 'application/javascript'
-    }
-
     HTTP_STATUSES = {
       200 => 'OK',
       201 => 'Created',
