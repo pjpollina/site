@@ -1,6 +1,7 @@
 # Class representing an incoming HTTP/1.1 request
 
 require 'website/admin_session'
+require 'website/http/mime_types'
 
 module Website
   module HTTP
@@ -37,7 +38,7 @@ module Website
       end
 
       def file_request?
-        @path.end_with?(*HTTPServer::MIME_TYPES.keys)
+        @path.end_with?(*HTTP::MIME_TYPES.keys)
       end
 
       def self.[](socket)
