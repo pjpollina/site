@@ -1,6 +1,5 @@
 # Class that controls all blog features of the site
 
-require 'website/http_server'
 require 'website/path_pattern'
 
 module Website
