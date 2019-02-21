@@ -3,8 +3,6 @@
 require 'time'
 require 'openssl'
 require 'website/admin_session'
-require 'website/http/statuses'
-require 'website/http/mime_types'
 
 module Website
   module HTTP

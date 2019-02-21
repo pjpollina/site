@@ -1,7 +1,6 @@
 # Class representing an incoming HTTP/1.1 request
 
 require 'website/admin_session'
-require 'website/http/mime_types'
 
 module Website
   module HTTP

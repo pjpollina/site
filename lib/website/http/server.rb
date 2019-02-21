@@ -3,8 +3,6 @@
 
 require 'socket'
 require 'openssl'
-require 'website/http/request'
-require 'website/admin_session'
 
 module Website
   module HTTP
