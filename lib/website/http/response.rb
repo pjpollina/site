@@ -12,7 +12,7 @@ module Website
       def status_line(status_code)
         'HTTP/1.1 ' << status_code << ' ' << HTTP::STATUSES[status_code]
       end
-  
+
       def response(status_code, body, headers={})
         response = status_line(status_code) << "\r\n"
         headers.each do |name, value|
@@ -20,7 +20,9 @@ module Website
         end
         response << "\r\n#{body}"
       end
-  
+
+      alias_method(:[], :response)
+
       def html_response(html, status_code=200)
         <<~RESPONSE
           #{status_line(status_code)}\r
@@ -32,7 +34,7 @@ module Website
           #{html}
         RESPONSE
       end
-  
+
       def static_html(raw_filepath, admin)
         filepath = Website.web_file(raw_filepath)
         if File.exist?(filepath) && !File.directory?(filepath)
@@ -41,7 +43,7 @@ module Website
           return Blog::Renderer.render_404(admin)
         end
       end
-  
+
       def file_response(raw_filepath, socket, admin)
         filepath = Website.web_file(raw_filepath)
         if File.exist?(filepath) && !File.directory?(filepath)
@@ -63,7 +65,7 @@ module Website
           socket.print Blog::Renderer.render_404(admin)
         end
       end
-  
+
       def redirect(location='/')
         <<~HEREDOC
           HTTP/1.1 303 See Other\r
@@ -81,7 +83,7 @@ module Website
           #{redirect}
         HEREDOC
       end
-  
+
       def logout_admin
         mesg = 'Logout successful'
         <<~HEREDOC
@@ -93,7 +95,7 @@ module Website
           #{mesg}
         HEREDOC
       end
-  
+
       def cache_time(type)
         case type.split('/')[0]
         when 'image'
