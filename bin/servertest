@@ -3,11 +3,11 @@
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__)).gsub('bin', 'lib')
 
 require 'website'
-require 'website/http_server'
 require 'website/blog'
+require 'website/http/server'
 require 'website/http/response'
 
-server = Website::HTTPServer.new
+server = Website::HTTP::Server.new
 controller = Website::Blog::Controller.new
 loop do
   server.serve(https: true) do |socket, request|
