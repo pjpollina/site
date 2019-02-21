@@ -56,14 +56,5 @@ module Website
       404 => 'Not Found',
       409 => 'Conflict'
     }
-
-    def self.parse_form_data(form_data)
-      elements = {}
-      form_data.split('&').each do |element| 
-        key, value = element.split('=', 2)
-        elements[key.to_sym] = URI.decode(value).gsub('+', ' ')
-      end
-      elements
-    end
   end
 end
