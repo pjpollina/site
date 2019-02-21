@@ -2,8 +2,6 @@
 # Handles all HTTP needs
 
 require 'socket'
-require 'time'
-require 'uri'
 require 'openssl'
 require 'website/http/request'
 require 'website/admin_session'

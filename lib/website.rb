@@ -1,5 +1,6 @@
 # Global website namespace
 
+require 'uri'
 require 'yaml'
 
 module Website
