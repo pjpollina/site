@@ -21,7 +21,7 @@ module Website
       @session = nil
 
       def set(client_ip)
-        @session = AdminSession.new(client_ip)
+        @session = new(client_ip)
       end
 
       def validate(session_id, client_ip)
@@ -36,6 +36,8 @@ module Website
       def unset
         @session = nil
       end
+
+      private :new
     end
   end
 end
