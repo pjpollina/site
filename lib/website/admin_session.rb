@@ -44,7 +44,7 @@ module Website
         HEREDOC
       end
 
-      def logout_admin
+      def logout_request
         mesg = 'Logout successful'
         <<~HEREDOC
           HTTP/1.1 200 OK\r
