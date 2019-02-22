@@ -16,26 +16,26 @@ module Website
     def expired?
       Time.now > @expiration
     end
-  end
 
-  class AdminSession
-    @@session = nil
+    class << self
+      @session = nil
 
-    def self.set(client_ip)
-      @@session = AdminSession.new(client_ip)
-    end
+      def set(client_ip)
+        @session = AdminSession.new(client_ip)
+      end
 
-    def self.validate(session_id, client_ip)
-      return false if(@@session.nil? || @@session.expired?)
-      (session_id == @@session.session_id) && (client_ip == @@session.client_ip)
-    end
+      def validate(session_id, client_ip)
+        return false if(@session.nil? || @session.expired?)
+        (session_id == @session.session_id) && (client_ip == @session.client_ip)
+      end
 
-    def self.cookie
-      "session_id=#{@@session.session_id}; Expires=#{@@session.expiration.httpdate}; HttpOnly"
-    end
+      def cookie
+        "session_id=#{@session.session_id}; Expires=#{@session.expiration.httpdate}; HttpOnly"
+      end
 
-    def self.unset
-      @@session = nil
+      def unset
+        @session = nil
+      end
     end
   end
 end
