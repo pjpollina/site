@@ -74,28 +74,6 @@ module Website
         HEREDOC
       end
 
-      def login_admin(client_ip, redirect='/')
-        AdminSession.set(client_ip)
-        <<~HEREDOC
-          HTTP/1.1 200 OK\r
-          Set-Cookie: #{AdminSession.cookie}\r
-          \r
-          #{redirect}
-        HEREDOC
-      end
-
-      def logout_admin
-        mesg = 'Logout successful'
-        <<~HEREDOC
-          HTTP/1.1 200 OK\r
-          Content-Type: text/html
-          Content-Length: #{mesg.bytesize}
-          Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
-          \r
-          #{mesg}
-        HEREDOC
-      end
-
       def cache_time(type)
         case type.split('/')[0]
         when 'image'

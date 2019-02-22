@@ -1,5 +1,6 @@
 # All in one admin session class/singleton thing
 
+require 'time'
 require 'digest'
 require 'securerandom'
 
@@ -31,6 +32,28 @@ module Website
 
       def cookie
         "session_id=#{@session.session_id}; Expires=#{@session.expiration.httpdate}; HttpOnly"
+      end
+
+      def login_admin(client_ip, redirect='/')
+        AdminSession.set(client_ip)
+        <<~HEREDOC
+          HTTP/1.1 200 OK\r
+          Set-Cookie: #{AdminSession.cookie}\r
+          \r
+          #{redirect}
+        HEREDOC
+      end
+
+      def logout_admin
+        mesg = 'Logout successful'
+        <<~HEREDOC
+          HTTP/1.1 200 OK\r
+          Content-Type: text/html
+          Content-Length: #{mesg.bytesize}
+          Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
+          \r
+          #{mesg}
+        HEREDOC
       end
 
       def unset
