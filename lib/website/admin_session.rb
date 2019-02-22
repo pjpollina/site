@@ -34,7 +34,7 @@ module Website
         "session_id=#{@session.session_id}; Expires=#{@session.expiration.httpdate}; HttpOnly"
       end
 
-      def login_admin(client_ip, redirect='/')
+      def login_request(client_ip, redirect='/')
         AdminSession.set(client_ip)
         <<~HEREDOC
           HTTP/1.1 200 OK\r

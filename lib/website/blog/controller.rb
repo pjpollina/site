@@ -57,7 +57,7 @@ module Website
           password = Website.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
             @ip_login_attempts[ip] = 0
-            return AdminSession.login_admin(ip)
+            return AdminSession.login_request(ip)
           end
         end
         return HTTP::Response[401, ""]
