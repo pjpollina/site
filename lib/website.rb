@@ -4,6 +4,7 @@ require 'uri'
 require 'yaml'
 
 module Website
+  ROOT = File.expand_path(File.dirname(__FILE__)).chomp('lib')
   WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib', 'public/')
 
   def self.web_file(path)
