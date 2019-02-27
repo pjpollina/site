@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='UTF-8'/>
+  <meta charset="utf-8"/>
   <link rel="shortcut icon" href="/pictures/icons/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/post.css">
@@ -22,16 +22,16 @@
 <body>
   <header>
     <div class="wrapper">
-      <a class="navbar-title" href='/'><%= $config_info[:site_name] %></a>
+      <a class="navbar-title" href="/"><%= $config_info[:site_name] %></a>
       <nav class="navbar">
-        <a class="navbar-link" href='/archive'>Archive</a>
+        <a class="navbar-link" href="/archive">Archive</a>
         <% if admin %>
         <div class="navbar-dropdown" id="admin-tab">
           <button class="navbar-link">
             Admin
             <div class="navbar-dropdown-content" id="admin-tab-content">
-              <a href='/new_post'>New Post</a>
-              <a href='/admin-logout'>Log Out</a>
+              <a href="/new_post">New Post</a>
+              <a href="/admin-logout">Log Out</a>
             </div>
           </button>
         </div>
