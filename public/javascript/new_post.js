@@ -26,6 +26,18 @@ $(document).ready(function() {
     }
   });
 
+  let slug_edited = false;
+
+  $("#title").bind('change', () => {
+    if(!slug_edited) {
+      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
+    }
+  });
+
+  $("#slug").bind('change', () => {
+    slug_edited = true;
+  });
+
   $("#new-post").bind('blur click', () => {
     if($("#new-post").validate().checkForm()) {
       $("#submit").prop('disabled', false);
