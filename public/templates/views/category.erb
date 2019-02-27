@@ -7,7 +7,7 @@
       <div class="title"><%= post[:post_title] %></div>
       <span class="post-timestamp"><%= post[:post_timestamp].strftime('%B %d, %Y') %></span>
       <section class="body">
-        <%= post[:post_preview] %>
+        <%= post[:post_preview].gsub(?<, '&lt;').gsub(?>, '&gt;') %>
       </section>
       <section class="category">
         <%= cat.name %>
