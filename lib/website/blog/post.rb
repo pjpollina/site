@@ -22,6 +22,10 @@ module Website
       def parsed_body
         Kramdown::Document.new(@body).to_html
       end
+
+      def category_link
+        '<a href="/category/' << Category.name_to_slug(@category) << '">' << @category << '</a>'
+      end
     end
   end
 end
