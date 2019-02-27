@@ -1,6 +1,8 @@
 <article class="blog-post">
-  <h1><%= post.title %></h1>
-  <span class="post-timestamp">Posted <%= post.date_formatted %> &middot; <%= post.category %></span>
-  <p><%= post.parsed_body %></p>
+  <span class="metaheader"><%= post.date_formatted %>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<%= post.category %></span>
+  <span class="title"><%= post.title %></span>
+  <section class="body">
+    <%= post.parsed_body %>
+  </section>
   <% if admin %><button onclick="updatePostButton();">Edit</button><% end %>
 </article>
