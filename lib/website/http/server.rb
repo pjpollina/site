@@ -13,14 +13,10 @@ module Website
       end
 
       def serve(https: false)
-        begin
-          socket = (https) ? @ssl.accept : @tcp.accept
-          request = HTTP::Request[socket]
-          yield(socket, request)
-          socket.close
-        rescue OpenSSL::SSL::SSLError => error
-          STDERR.puts("SSL Error: #{error.message}")
-        end
+        socket = accept(https) || return
+        request = HTTP::Request[socket]
+        yield(socket, request)
+        socket.close
       end
 
       private
