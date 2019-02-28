@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/form.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/post_feed.css">
-  <title><%= "#{$config_info[:site_name]} | #{page_name}" %></title>
+  <title><%= "#{Website.config_info[:site_name]} | #{page_name}" %></title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script src="/javascript/dropdown.js"></script>
@@ -23,7 +23,7 @@
 <body>
   <header>
     <div class="wrapper">
-      <a class="navbar-title" href="/"><%= $config_info[:site_name] %></a>
+      <a class="navbar-title" href="/"><%= Website.config_info[:site_name] %></a>
       <nav class="navbar">
         <a class="navbar-link" href="/archive">Archive</a>
         <% if admin %>

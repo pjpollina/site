@@ -7,7 +7,7 @@ require 'openssl'
 module Website
   module HTTP
     class Server
-      def initialize(hostname: $config_info[:host_name], port: $config_info[:port])
+      def initialize(hostname: Website.config_info[:host_name], port: Website.config_info[:port])
         @tcp = TCPServer.new(hostname, port)
         @ssl = OpenSSL::SSL::SSLServer.new(@tcp, ssl_context)
       end
