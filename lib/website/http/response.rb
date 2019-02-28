@@ -47,7 +47,7 @@ module Website
       def file_response(raw_filepath, socket, admin)
         filepath = Website.web_file(raw_filepath)
         if File.exist?(filepath) && !File.directory?(filepath)
-          type = HTTP::MIME_TYPES[filepath[-3..-1]] || 'application/octet-stream'
+          type = HTTP::MIME_TYPES[filepath.split('.')[-1]] || 'application/octet-stream'
           File.open(filepath, 'rb') do |file|
             socket.print <<~HEREDOC
               HTTP/1.1 200 OK\r
