@@ -3,5 +3,16 @@
 require 'yaml'
 
 module Website
-  $config_info = Hash[YAML.load(File.read(File.expand_path(File.dirname(__FILE__)).gsub('lib', 'data/config.yaml'))).map {|k, v| [k.to_sym, v]}]
+  extend self
+
+  def config_info
+    @config_info ||= begin
+      hash = Hash.new("")
+      path = File.expand_path(File.dirname(__FILE__)).gsub('lib', 'data/config.yaml')
+      YAML.load_file(path).each do |key, value|
+        hash[key.to_sym] = value
+      end
+      hash
+    end
+  end
 end
