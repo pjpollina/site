@@ -12,7 +12,7 @@ loop do
   server.serve(https: true) do |socket, request|
     next if(request.nil?)
 
-    STDERR.puts request.request_line
+    puts "request from ip " << request.ip_address << " at " << Time.now.httpdate << " -- " << request.request_line
 
     case(request.method)
     when 'GET'
