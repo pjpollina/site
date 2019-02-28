@@ -34,7 +34,7 @@ module Website
         unless(admin)
           return Renderer.render_403(admin, true)
         end
-        elements = Website.parse_form_data(form_data)
+        elements = Utils.parse_form_data(form_data)
         errors = validate_post(elements)
         unless(errors == {})
           errmesg = ''
@@ -51,7 +51,7 @@ module Website
       def post_admin_login(form_data, ip)
         unless(@ip_login_attempts[ip] >= 3)
           @ip_login_attempts[ip] += 1
-          password = Website.parse_form_data(form_data)[:password]
+          password = Utils.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
             @ip_login_attempts[ip] = 0
             return AdminSession.login_request(ip)
@@ -65,7 +65,7 @@ module Website
         unless(admin)
           return Renderer.render_403(admin, true)
         end
-        elements = Website.parse_form_data(form_data)
+        elements = Utils.parse_form_data(form_data)
         @database.update(elements[:slug], elements[:body])
         return HTTP::Response.redirect(elements[:slug])
       end
@@ -75,7 +75,7 @@ module Website
         unless(admin)
           return Renderer.render_403(admin, true)
         end
-        elements = Website.parse_form_data(form_data)
+        elements = Utils.parse_form_data(form_data)
         @database.delete(elements[:slug])
         return HTTP::Response.redirect('/')
       end
