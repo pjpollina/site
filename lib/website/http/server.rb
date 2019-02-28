@@ -13,10 +13,11 @@ module Website
       end
 
       def serve(https: false)
-        socket = accept(https) || return
-        request = HTTP::Request[socket]
-        yield(socket, request)
-        socket.close
+        Thread.fork(accept(https) || return) do |socket|
+          request = HTTP::Request[socket]
+          yield(socket, request)
+          socket.close
+        end
       end
 
       private
