@@ -25,6 +25,15 @@ module Website
 
       private
 
+      def accept(https)
+        begin
+          return (https) ? @ssl.accept : @tcp.accept
+        rescue OpenSSL::SSL::SSLError => error
+          STDERR.puts("SSL Error: #{error.message}")
+          return nil
+        end
+      end
+
       def ssl_context
         ssl_context = OpenSSL::SSL::SSLContext.new
         ssl_context.ssl_version = :SSLv23
