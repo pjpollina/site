@@ -108,4 +108,8 @@ h1, h2, h3 {
 
 .section-header {
   text-align: center;
+  font-size: 24px;
+  font-weight: 450;
+  margin-top: 20px;
+  font-family: 'Ubuntu', sans-serif;
 }
