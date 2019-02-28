@@ -1,5 +1,7 @@
 # Class for a blog category object
 
+require 'website/path_pattern'
+
 module Website
   module Blog
     class Category
@@ -10,6 +12,8 @@ module Website
         @desc  = desc
         @posts = posts
       end
+
+      PATTERN = PathPattern.new("/category/:cat")
 
       def self.name_to_slug(name)
         name.downcase.gsub(' ', '_')
