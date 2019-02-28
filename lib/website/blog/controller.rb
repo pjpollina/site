@@ -1,7 +1,5 @@
 # Class that controls all blog features of the site
 
-require 'website/path_pattern'
-
 module Website
   module Blog
     class Controller
@@ -11,7 +9,6 @@ module Website
       end
 
       def respond(path, admin)
-        @category_pattern ||= PathPattern.new("/category/:cat")
         case path
         when '/'
           Renderer.render_page("Home", :homepage, admin, false, recent_posts: @database.recent_posts(6))
@@ -19,8 +16,8 @@ module Website
           Renderer.render_page("Archive", :archive, admin, false, archive: fetch_archive)
         when '/new_post'
           Renderer.render_page("New Post", :new_post, admin, true, categories: @database.categories)
-        when @category_pattern
-          cat = @database.get_category(@category_pattern[path][:cat])
+        when Category::PATTERN
+          cat = @database.get_category(Category::PATTERN[path][:cat])
           unless(cat.nil?)
             Renderer.render_page(cat.name, :category, admin, false, cat: cat)
           else
