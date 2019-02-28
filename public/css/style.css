@@ -113,3 +113,23 @@ h1, h2, h3 {
   margin-top: 20px;
   font-family: 'Ubuntu', sans-serif;
 }
+
+.about-me {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px; }
+.about-me article {
+  font-size: 1.25em;
+  font-weight: lighter; }
+.about-me figure {
+  margin: 0.5em 2.5em 1.0em;
+  padding: 0.5em;
+  background: #FFF;
+  text-align: center;
+  border: thin var(--dopalette-text-dark) solid;
+  box-shadow: 8px 14px 38px #010E280E, 1px 3px 8px #010E2807;
+  transform: rotate(-2deg); }
+.about-me figure img {
+  width: 12.5em;
+  height: 12.5em;
+}
