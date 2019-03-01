@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/form.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/post_feed.css">
+  <link rel="stylesheet" href="/css/social_icons.css">
   <title><%= "#{Website.config_info[:site_name]} | #{page_name}" %></title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
@@ -45,6 +46,17 @@
   </main>
   <footer>
     <div class="wrapper">
+      <div class="social-icons">
+        <a href="https://linkedin.com/in/pjpollina">
+          <svg class="linkedin"><use xlink:href="/pictures/icons/social_icons.svg#linkedin"/></svg>
+        </a>
+        <a href="https://github.com/pjpollina">
+          <svg class="github"><use xlink:href="/pictures/icons/social_icons.svg#github"/></svg>
+        </a>
+        <a href="/rss.xml">
+          <svg class="rss" ><use xlink:href="/pictures/icons/social_icons.svg#rss"/></svg>
+        </a>
+      </div>
       <p style="text-align: center;">&copy; <%= Time.now.year %> PJ Pollina</p>
     </div>
   </footer>
