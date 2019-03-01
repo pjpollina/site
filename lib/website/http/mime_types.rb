@@ -9,6 +9,7 @@ module Website
       'jpg'  => 'image/jpeg',
       'jpeg' => 'image/jpeg',
       'ico'  => 'image/x-icon',
+      'svg'  => 'image/svg+xml',
       'json' => 'application/json',
       'js'   => 'application/javascript',
       'jsx'  => 'application/javascript'
