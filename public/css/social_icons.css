@@ -1,0 +1,20 @@
+.social-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+.social-icons a {
+  padding: 0em 1em;
+  fill: var(--dopalette-text-light); }
+.social-icons a:hover {
+  fill: #FFF;
+}
+
+.social-icons svg {
+  width: 2.25em;
+  height: 2.25em;
+  padding: 0.5em;
+}
