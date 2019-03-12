@@ -56,6 +56,12 @@
   padding: 8px;
 }
 
+.post-form #desc {
+  width: 675px;
+  height: 50px;
+  padding: 8px;
+}
+
 .post-form #delete-post {
   width: 340px;
   height: 30px;
