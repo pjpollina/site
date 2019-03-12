@@ -5,11 +5,12 @@ require 'kramdown'
 module Website
   module Blog
     class Post
-      attr_reader :title, :slug, :body, :category, :timestamp
+      attr_reader :title, :slug, :desc, :body, :category, :timestamp
 
-      def initialize(title, slug, body, category, timestamp)
+      def initialize(title, slug, desc, body, category, timestamp)
         @title     = title
         @slug      = slug
+        @desc      = desc
         @body      = body
         @category  = category
         @timestamp = timestamp

@@ -43,7 +43,7 @@ module Website
           end
           return HTTP::Response[409, errmesg.chomp]
         else
-          @database.insert(elements[:title], elements[:slug], elements[:body], elements[:category])
+          @database.insert(elements[:title], elements[:slug], elements[:desc], elements[:body], elements[:category])
           return HTTP::Response[201, elements[:slug], "Location" => "/#{elements[:slug]}"]
         end
       end

@@ -9,7 +9,7 @@ module Website
         # MySQL client
         @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
         # Post Insert/Update/Delete statements
-        @insert = @sql_client.prepare "INSERT INTO posts(post_title, post_slug, post_body, post_category) VALUES(?, ?, ?, ?)"
+        @insert = @sql_client.prepare "INSERT INTO posts(post_title, post_slug, post_desc, post_body, post_category) VALUES(?, ?, ?, ?, ?)"
         @update = @sql_client.prepare "UPDATE posts SET post_body=? WHERE post_slug=?"
         @delete = @sql_client.prepare "DELETE FROM posts WHERE post_slug=?"
         # Info checkers
@@ -25,8 +25,8 @@ module Website
       end
 
       # Post Insert/Update/Delete statements
-      def insert(title, slug, body, category)
-        @insert.execute(title, slug, body, category)
+      def insert(title, slug, desc, body, category)
+        @insert.execute(title, slug, desc, body, category)
         unless(categories.include?(category))
           @sql_client.query("INSERT INTO categories VALUES('#{category}', '')")
         end
@@ -53,7 +53,7 @@ module Website
       def get_post(slug)
         data = @get_post.execute(slug, symbolize_keys: true).first
         return nil if(data.nil?)
-        Post.new(data[:post_title], slug, data[:post_body], data[:post_category], data[:post_timestamp])
+        Post.new(data[:post_title], slug, data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp])
       end
 
       def recent_posts(quantity)
