@@ -12,7 +12,8 @@ module Website
       'svg'  => 'image/svg+xml',
       'json' => 'application/json',
       'js'   => 'application/javascript',
-      'jsx'  => 'application/javascript'
+      'jsx'  => 'application/javascript',
+      'rss'  => 'application/rss+xml'
     }
   end
 end
