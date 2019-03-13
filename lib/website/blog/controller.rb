@@ -6,6 +6,8 @@ module Website
       def initialize
         @ip_login_attempts = Hash.new(0)
         @database = Database.new
+        @rss_feed = RSS.new
+        @rss_feed.update(@database)
       end
 
       def respond(path, admin)
@@ -44,6 +46,7 @@ module Website
           return HTTP::Response[409, errmesg.chomp]
         else
           @database.insert(elements[:title], elements[:slug], elements[:desc], elements[:body], elements[:category])
+          @rss_feed.update(@database)
           return HTTP::Response[201, elements[:slug], "Location" => "/#{elements[:slug]}"]
         end
       end
@@ -67,6 +70,7 @@ module Website
         end
         elements = Utils.parse_form_data(form_data)
         @database.update(elements[:slug], elements[:body])
+        @rss_feed.update(@database)
         return HTTP::Response.redirect(elements[:slug])
       end
 
@@ -77,6 +81,7 @@ module Website
         end
         elements = Utils.parse_form_data(form_data)
         @database.delete(elements[:slug])
+        @rss_feed.update(@database)
         return HTTP::Response.redirect('/')
       end
 
