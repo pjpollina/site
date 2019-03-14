@@ -32,14 +32,14 @@ loop do
     when 'POST'
       case request.path
       when '/new_blog_post'
-        socket.print controller.post_new_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
+        socket.print controller.post_new_blogpost(request.content, request.admin?)
       when '/admin-login'
-        socket.print controller.post_admin_login(socket.read(request.headers[:content_length].to_i), request.ip_address)
+        socket.print controller.post_admin_login(request.content, request.ip_address)
       end
     when 'PUT'
-      socket.print controller.put_updated_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
+      socket.print controller.put_updated_blogpost(request.content, request.admin?)
     when 'DELETE'
-      socket.print controller.delete_blogpost(socket.read(request.headers[:content_length].to_i), request.admin?)
+      socket.print controller.delete_blogpost(request.content, request.admin?)
     end
   end
 end
