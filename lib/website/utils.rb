@@ -26,5 +26,9 @@ module Website
       end
       return path
     end
+
+    def parse_query(path)
+      parse_form_data(path.split("?")[1])
+    end
   end
 end
