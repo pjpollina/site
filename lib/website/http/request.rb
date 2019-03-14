@@ -5,7 +5,7 @@ require 'website/admin_session'
 module Website
   module HTTP
     class Request
-      attr_reader :method, :path, :headers, :cookies, :ip_address
+      attr_reader :method, :path, :headers, :cookies, :ip_address, :content
 
       def initialize(socket)
         @method, @path = socket.gets.split(' ')[0..1]
@@ -22,6 +22,11 @@ module Website
           end
         end
         @ip_address = socket.peeraddr[3]
+        if(@headers.keys.include?(:content_length))
+          @content = socket.read(@headers[:content_length].to_i)
+        else
+          @content = ''
+        end
       end
 
       def request_line
