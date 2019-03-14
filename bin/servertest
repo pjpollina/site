@@ -23,7 +23,7 @@ loop do
       elsif(request.path == '/admin-logout')
         socket.print Website::AdminSession.logout_request
       elsif(request.path.start_with? '/validate')
-        data = Website::Utils.parse_form_data(request.path.split("?")[1]).to_a.flatten
+        data = Website::Utils.parse_query(path).flatten
         value = controller.field_free?(data[0], data[1])
         socket.print Website::HTTP::Response[200, value]
       else
