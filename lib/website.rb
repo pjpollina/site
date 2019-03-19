@@ -5,6 +5,8 @@ require 'yaml'
 module Website
   extend self
 
+  VERSION = '0.1.0'
+
   def config_info
     @config_info ||= begin
       hash = Hash.new("")
