@@ -90,12 +90,8 @@ module Website
         archive = {}
         @database.recent_posts(65536).each do |post|
           year, month = post[:post_timestamp].year, post[:post_timestamp].strftime("%B").to_sym
-          if(archive[year].nil?)
-            archive[year] = {}
-          end
-          if(archive[year][month].nil?)
-            archive[year][month] = []
-          end
+          archive[year] ||= {}
+          archive[year][month] ||= []
           archive[year][month] << post
         end
         archive
