@@ -88,18 +88,15 @@ module Website
       # Data fetchers
       def fetch_archive
         archive = {}
-        active_year, active_month = nil, nil
         @database.recent_posts(65536).each do |post|
-          ts = post[:post_timestamp]
-          if active_year != ts.year
-            archive[ts.year] = {}
-            active_year = ts.year
+          year, month = post[:post_timestamp].year, post[:post_timestamp].strftime("%B").to_sym
+          if(archive[year].nil?)
+            archive[year] = {}
           end
-          if active_month != ts.strftime('%B')
-            archive[active_year][ts.strftime('%B')] = []
-            active_month = ts.strftime('%B')
+          if(archive[year][month].nil?)
+            archive[year][month] = []
           end
-          archive[active_year][active_month] << post
+          archive[year][month] << post
         end
         archive
       end
