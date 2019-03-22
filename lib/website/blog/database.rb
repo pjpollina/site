@@ -73,6 +73,15 @@ module Website
         return nil if data.nil?
         Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
       end
+
+      # Archive amount getters
+      def get_category_counts
+        counts = {}
+        categories.each do |category|
+          counts[category] = @get_category_count.execute(category).first['COUNT(*)']
+        end
+        counts
+      end
     end
   end
 end
