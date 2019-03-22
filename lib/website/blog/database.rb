@@ -23,8 +23,8 @@ module Website
         @categories     = @sql_client.prepare "SELECT cat_name FROM categories"
         @get_category   = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_name=?"
         # Archive amount getters
-        @get_period_cnt   = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=?"
-        @get_category_cnt = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE post_category=?"
+        @get_period_count   = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=?"
+        @get_category_count = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE post_category=?"
       end
 
       # Post Insert/Update/Delete statements
