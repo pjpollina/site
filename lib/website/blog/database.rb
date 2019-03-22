@@ -75,6 +75,17 @@ module Website
       end
 
       # Archive amount getters
+      def get_month_counts(year)
+        counts = {}
+        (1..12).each do |month|
+          count = @get_period_count.execute(month, year).first['COUNT(*)']
+          unless(count == 0)
+            counts[month] = count
+          end
+        end
+        counts
+      end
+
       def get_category_counts
         counts = {}
         categories.each do |category|
