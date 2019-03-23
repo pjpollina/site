@@ -30,5 +30,14 @@ module Website
     def parse_query(path)
       parse_form_data(path.split("?")[1])
     end
+
+    def name_to_slug(name)
+      name.downcase.gsub(' ', '_')
+    end
+
+    def slug_to_name(slug)
+      words = slug.split('_').collect {|word| word.capitalize }
+      words.join(' ')
+    end
   end
 end

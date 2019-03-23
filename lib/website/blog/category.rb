@@ -14,15 +14,6 @@ module Website
       end
 
       PATTERN = PathPattern.new("/category/:cat")
-
-      def self.name_to_slug(name)
-        name.downcase.gsub(' ', '_')
-      end
-
-      def self.slug_to_name(slug)
-        words = slug.split('_').collect {|word| word.capitalize }
-        words.join(' ')
-      end
     end
   end
 end
