@@ -25,7 +25,7 @@ module Website
       end
 
       def category_link
-        '<a href="/category/' << Category.name_to_slug(@category) << '">' << @category << '</a>'
+        '<a href="/category/' << Utils.name_to_slug(@category) << '">' << @category << '</a>'
       end
     end
   end

@@ -69,7 +69,7 @@ module Website
       end
 
       def get_category(slug)
-        data = @get_category.execute(Category.slug_to_name(slug), symbolize_keys: true).first
+        data = @get_category.execute(Utils.slug_to_name(slug), symbolize_keys: true).first
         return nil if data.nil?
         Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
       end
