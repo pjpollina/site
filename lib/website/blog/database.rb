@@ -75,7 +75,11 @@ module Website
         Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
       end
 
-      # Archive amount getters
+      # Archive info getters
+      def get_first_year
+        @get_first_year.execute(symbolize_keys: true).first[:year]
+      end
+  
       def get_month_counts(year)
         counts = {}
         (1..12).each do |month|
