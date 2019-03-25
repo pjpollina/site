@@ -14,3 +14,12 @@
   <% end %>
   </ul>
 <% end %>
+
+<section>
+  <span class="section-header">Categories</span>
+  <div style="margin: 1em 0em">
+    <% categories.each do |category| %>
+    <a href="/category/<%= Website::Utils.name_to_slug(category) %>"><%= "#{category} (#{counts[category]})" %></a><br>
+    <% end %>
+  </div>
+</section>
