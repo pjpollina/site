@@ -61,6 +61,10 @@ module Website
         Post.new(data[:post_title], slug, data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp])
       end
 
+      def month_posts(month, year)
+        @month_posts.execute(month, year, symbolize_keys: true)
+      end
+
       def recent_posts(quantity)
         @recent_posts.execute(quantity, symbolize_keys: true)
       end
