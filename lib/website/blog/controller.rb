@@ -15,7 +15,7 @@ module Website
         when '/'
           Renderer.render_page("Home", :homepage, admin, false, recent_posts: @database.recent_posts(6))
         when '/archive'
-          Renderer.render_page("Archive", :archive, admin, false, archive: fetch_archive, categories: @database.categories, counts: @database.get_category_counts)
+          Renderer.render_page("Archive", :archive, admin, false, archive: fetch_archive, archives: @database.get_full_archive, categories: @database.categories, counts: @database.get_category_counts)
         when '/new_post'
           Renderer.render_page("New Post", :new_post, admin, true, categories: @database.categories)
         when Category::PATTERN
