@@ -3,6 +3,8 @@
 module Website
   module Blog
     class Controller
+      MONTH_PATTERN = PathPattern.new("/archive/:year/:month")
+
       def initialize
         @ip_login_attempts = Hash.new(0)
         @database = Database.new
