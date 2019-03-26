@@ -16,6 +16,17 @@
 <% end %>
 
 <section>
+  <span class="section-header">Archives</span>
+  <div style="margin: 1em 0em">
+    <% archives.each do |year, months| %>
+      <% months.each do |month, count| %>
+      <a href="/archive/<%= "#{Date::MONTHNAMES[month].downcase}_#{year}" %>"><%= "#{Date::MONTHNAMES[month]} #{year} (#{count})" %></a>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<section>
   <span class="section-header">Categories</span>
   <div style="margin: 1em 0em">
     <% categories.each do |category| %>
