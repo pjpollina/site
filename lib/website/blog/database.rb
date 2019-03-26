@@ -79,7 +79,7 @@ module Website
       def get_first_year
         @get_first_year.execute(symbolize_keys: true).first[:year]
       end
-  
+
       def get_month_counts(year)
         counts = {}
         (1..12).each do |month|
@@ -89,6 +89,14 @@ module Website
           end
         end
         counts
+      end
+
+      def get_full_archive
+        archive = {}
+        (get_first_year..Time.now.year).each do |year|
+          archive[year] = get_month_counts(year)
+        end
+        archive
       end
 
       def get_category_counts
