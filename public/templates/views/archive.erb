@@ -20,7 +20,7 @@
   <div style="margin: 1em 0em">
     <% archives.each do |year, months| %>
       <% months.each do |month, count| %>
-      <a href="/archive/<%= "#{Date::MONTHNAMES[month].downcase}_#{year}" %>"><%= "#{Date::MONTHNAMES[month]} #{year} (#{count})" %></a>
+      <a href="/archive/<%= "#{year}/#{Date::MONTHNAMES[month].downcase}" %>"><%= "#{Date::MONTHNAMES[month]} #{year} (#{count})" %></a>
       <% end %>
     <% end %>
   </div>
