@@ -27,6 +27,18 @@ module Website
           else
             Renderer.render_404(admin)
           end
+        when MONTH_PATTERN
+          data = MONTH_PATTERN[path]
+          unless(data.nil?)
+            posts = @database.month_posts(Date::MONTHNAMES.index(data[:month].capitalize), data[:year])
+            unless(posts.count == 0)
+              Renderer.render_page("Archive for #{data[:month].capitalize} #{data[:year]}", :month, admin, false, posts: posts, month: data[:month].capitalize, year: data[:year])
+            else
+              Renderer.render_404(admin)
+            end
+          else
+            Renderer.render_404(admin)
+          end
         else
           post = @database.get_post(path[1..-1].chomp('?edit=true'))
           Renderer.render_post_page(post, admin, path.end_with?('?edit=true'))
