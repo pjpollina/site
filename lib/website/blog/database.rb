@@ -17,6 +17,7 @@ module Website
         @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
         # Post getters
         @get_post       = @sql_client.prepare "SELECT * FROM posts WHERE post_slug=?"
+        @month_posts    = @sql_client.prepare "SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp"
         @recent_posts   = @sql_client.prepare "SELECT * FROM posts ORDER BY post_timestamp DESC LIMIT ?"
         @category_posts = @sql_client.prepare "SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp"
         # Category functions
