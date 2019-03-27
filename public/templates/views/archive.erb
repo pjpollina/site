@@ -1,5 +1,5 @@
-<section style="margin-top: 20px">
-  <span class="section-header">Archives</span>
+<section>
+  <div class="section-header" style="text-align: left">Archives</div>
   <div style="margin: 1em 0em">
     <% archives.each do |year, months| %>
       <% months.each do |month, count| %>
@@ -10,7 +10,7 @@
 </section>
 
 <section>
-  <span class="section-header">Categories</span>
+  <div class="section-header" style="text-align: left">Categories</div>
   <div style="margin: 1em 0em">
     <% categories.each do |category| %>
     <a href="/category/<%= Website::Utils.name_to_slug(category) %>"><%= "#{category} (#{counts[category]})" %></a><br>
