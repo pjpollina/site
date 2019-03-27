@@ -1,21 +1,4 @@
-<h1>Archive</h1>
-<% archive.each_key do |year| %>
-  <h2><%= year %></h2>
-  <ul>
-  <% archive[year].each_key do |month| %>
-    <li>
-      <h3><%= month %></h3>
-      <ul>
-        <% archive[year][month].each do |post| %>
-          <li><a href=<%= "'/#{post[:post_slug]}'" %>><%= post[:post_title] %></a> Posted <%= post[:post_timestamp].strftime('%m/%d/%Y') %></li>
-        <% end %>
-      </ul>
-    </li>
-  <% end %>
-  </ul>
-<% end %>
-
-<section>
+<section style="margin-top: 20px">
   <span class="section-header">Archives</span>
   <div style="margin: 1em 0em">
     <% archives.each do |year, months| %>
