@@ -40,6 +40,11 @@ module Website
         end
       end
 
+      def render_static_page(path, name, admin)
+        page = LAYOUT[name, admin] { File.read Utils.web_file(path) }
+        HTTP::Response.html_response(page)
+      end
+
       def render_403(admin, simple=false)
         page = File.read Utils.web_file("403.html")
         unless(simple)
