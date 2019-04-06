@@ -20,6 +20,8 @@ module Website
           Renderer.render_page("Archive", :archive, admin, false, archives: @database.get_full_archive, categories: @database.categories, counts: @database.get_category_counts)
         when '/new_post'
           Renderer.render_page("New Post", :new_post, admin, true, categories: @database.categories)
+        when '/favgrids'
+          Renderer.render_static_page("favgrids.html", "Favgrids", admin)
         when Category::PATTERN
           cat = @database.get_category(Category::PATTERN[path][:cat])
           unless(cat.nil?)
