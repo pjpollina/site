@@ -41,7 +41,9 @@ module Website
       end
 
       def render_static_page(path, name, admin)
-        page = LAYOUT[name, admin] { File.read Utils.web_file(path) }
+        page = LAYOUT[name, admin] do
+          File.read Utils.web_file(path)
+        end
         HTTP::Response.html_response(page)
       end
 
