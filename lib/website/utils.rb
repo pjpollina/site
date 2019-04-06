@@ -10,6 +10,10 @@ module Website
       WEB_ROOT + path
     end
 
+    def web_file_exists?(path)
+      File.exist?(web_file(path)) && !File.directory?(path)
+    end
+
     def parse_form_data(form_data)
       elements = {}
       form_data.split('&').each do |element| 
