@@ -35,9 +35,10 @@ module Website
         RESPONSE
       end
 
-      def static_html(path, admin)
-        if Utils.web_file_exists?(path)
-          return html_response(File.read(path))
+      def static_html(raw_filepath, admin)
+        filepath = Utils.web_file(raw_filepath)
+        if File.exist?(filepath) && !File.directory?(filepath)
+          return html_response(File.read(filepath))
         else
           return Blog::Renderer.render_404(admin)
         end
