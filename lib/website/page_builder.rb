@@ -3,13 +3,14 @@
 require 'ostruct'
 require 'tilt/erb'
 require 'website/utils'
+require 'website/web_file'
 
 module Website
   module PageBuilder
     extend self
 
-    VIEWS   = Utils.web_file("templates/views")
-    LAYOUTS = Utils.web_file("templates/layouts")
+    VIEWS   = WebFile.expand_path("templates/views")
+    LAYOUTS = WebFile.expand_path("templates/layouts")
 
     def load_view(name)
       Tilt::ERBTemplate.new("#{VIEWS}/#{name}")
