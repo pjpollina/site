@@ -1,5 +1,6 @@
 # Helper module that renders pages
 
+require 'website/web_file'
 require 'website/page_builder'
 
 module Website
@@ -42,13 +43,13 @@ module Website
 
       def render_static_page(path, name, admin)
         page = LAYOUT[name, admin] do
-          File.read Utils.web_file(path)
+          WebFile.read(path)
         end
         HTTP::Response.html_response(page)
       end
 
       def render_403(admin, simple=false)
-        page = File.read Utils.web_file("403.html")
+        page = WebFile.read("403.html")
         unless(simple)
           page = LAYOUT["403", admin] { page }
         end
@@ -57,7 +58,7 @@ module Website
 
       def render_404(admin)
         page = LAYOUT["404", admin] do
-          File.read Utils.web_file("404.html")
+          WebFile.read("404.html")
         end
         HTTP::Response.html_response(page, 404)
       end
