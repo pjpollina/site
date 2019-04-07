@@ -2,6 +2,7 @@
 
 require 'time'
 require 'openssl'
+require 'website/web_file'
 require 'website/admin_session'
 
 module Website
@@ -36,17 +37,17 @@ module Website
       end
 
       def static_html(path, admin)
-        if Utils.web_file_exists?(path)
-          return html_response(File.read(Utils.web_file(path)))
+        if WebFile.exists?(path)
+          return html_response(WebFile.read(path))
         else
           return Blog::Renderer.render_404(admin)
         end
       end
 
       def file_response(path, socket, admin)
-        if Utils.web_file_exists?(path)
+        if WebFile.exists?(path)
           type = HTTP::MIME_TYPES[path.split('.')[-1]] || 'application/octet-stream'
-          File.open(Utils.web_file(path), 'rb') do |file|
+          WebFile.open(path, 'rb') do |file|
             socket.print <<~HEREDOC
               HTTP/1.1 200 OK\r
               Content-Type: #{type}\r
