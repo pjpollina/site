@@ -43,11 +43,10 @@ module Website
         end
       end
 
-      def file_response(raw_filepath, socket, admin)
-        filepath = Utils.web_file(raw_filepath)
-        if File.exist?(filepath) && !File.directory?(filepath)
-          type = HTTP::MIME_TYPES[filepath.split('.')[-1]] || 'application/octet-stream'
-          File.open(filepath, 'rb') do |file|
+      def file_response(path, socket, admin)
+        if Utils.web_file_exists?(path)
+          type = HTTP::MIME_TYPES[path.split('.')[-1]] || 'application/octet-stream'
+          File.open(Utils.web_file(path), 'rb') do |file|
             socket.print <<~HEREDOC
               HTTP/1.1 200 OK\r
               Content-Type: #{type}\r
