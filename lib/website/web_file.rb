@@ -11,7 +11,7 @@ module Website
     end
 
     def exists?(path)
-      File.exist?(web_file(path)) && !File.directory?(path)
+      File.exist?(expand_path(path)) && !File.directory?(expand_path(path))
     end
 
     def open(path, mode="r")
