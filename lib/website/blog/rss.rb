@@ -5,7 +5,7 @@ require 'website/web_file'
 module Website
   module Blog
     class RSS
-      TEMPLATE = Tilt::ERBTemplate.new(WebFile.expand_path('templates/feed.erb'))
+      TEMPLATE = Tilt::ERBTemplate.new(WebFile['templates/feed.erb'])
 
       def initialize(post_count: 5, feed_path: 'feed.rss')
         @post_count = post_count
