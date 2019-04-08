@@ -34,7 +34,8 @@ module Website
           unless(data.nil?)
             posts = @database.month_posts(Date::MONTHNAMES.index(data[:month].capitalize), data[:year])
             unless(posts.count == 0)
-              Renderer.render_page("Archive for #{data[:month].capitalize} #{data[:year]}", :month, admin, false, posts: posts, month: data[:month].capitalize, year: data[:year])
+              period = "#{data[:month].capitalize} #{data[:year]}"
+              Renderer.render_page("Archive for #{period}", :post_feed, admin, false, title: "Posts from #{period}", posts: posts)
             else
               Renderer.render_404(admin)
             end
