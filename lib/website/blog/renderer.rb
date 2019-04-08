@@ -22,6 +22,10 @@ module Website
       }
 
       # Page Renderers
+      def render_view(view, locals)
+        VIEWS[view][locals]
+      end
+
       def render_page(name, view, admin, admin_locked, locals)
         if(admin_locked && !admin)
           render_403(admin)
