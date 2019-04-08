@@ -17,7 +17,8 @@ module Website
         post:      PageBuilder::View.new('post.erb'),
         edit_post: PageBuilder::View.new('edit_post.erb'),
         category:  PageBuilder::View.new('category.erb'),
-        month:     PageBuilder::View.new('month.erb')
+        month:     PageBuilder::View.new('month.erb'),
+        post_feed: PageBuilder::View.new('post_feed.erb')
       }
 
       # Page Renderers
