@@ -25,7 +25,7 @@ module Website
         when Category::PATTERN
           cat = @database.get_category(Category::PATTERN[path][:cat])
           unless(cat.nil?)
-            Renderer.render_page(cat.name, :category, admin, false, cat: cat)
+            Renderer.render_page(cat.name, :post_feed, admin, false, title: "Posts in category #{cat.name}", posts: cat.posts.reverse_each)
           else
             Renderer.render_404(admin)
           end
