@@ -10,6 +10,8 @@ module Website
       WEB_ROOT + path
     end
 
+    alias_method(:[], :expand_path)
+
     def exists?(path)
       File.exist?(expand_path(path)) && !File.directory?(expand_path(path))
     end
