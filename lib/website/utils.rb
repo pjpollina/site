@@ -4,16 +4,6 @@ module Website
   module Utils
     extend self
 
-    WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public/')
-
-    def web_file(path)
-      WEB_ROOT + path
-    end
-
-    def web_file_exists?(path)
-      File.exist?(web_file(path)) && !File.directory?(path)
-    end
-
     def parse_form_data(form_data)
       elements = {}
       form_data.split('&').each do |element| 
