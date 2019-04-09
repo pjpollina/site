@@ -9,8 +9,8 @@ module Website
   module PageBuilder
     extend self
 
-    VIEWS   = WebFile["templates/views"]
-    LAYOUTS = WebFile["templates/layouts"]
+    VIEWS   = WebFile["/templates/views"]
+    LAYOUTS = WebFile["/templates/layouts"]
 
     def load_view(name)
       Tilt::ERBTemplate.new("#{VIEWS}/#{name}")
