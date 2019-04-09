@@ -4,10 +4,10 @@ module Website
   module WebFile
     extend self
 
-    WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public/')
+    WEB_ROOT = File.expand_path(File.dirname(__FILE__)).gsub('lib/website', 'public')
 
     def expand_path(path)
-      WEB_ROOT + path
+      WEB_ROOT + ((path.start_with?('/')) ? '' : '/') + path
     end
 
     alias_method(:[], :expand_path)
