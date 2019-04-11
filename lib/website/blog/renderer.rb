@@ -18,11 +18,16 @@ module Website
         post_feed: Template.load_view('post_feed.erb')
       }
 
-      # Page Renderers
+      # Part Renderers
+      def render_layout(name, admin)
+        LAYOUT[page_name: name, admin: admin] { yield }
+      end
+
       def render_view(view, locals)
         VIEWS[view][locals]
       end
 
+      # Page Renderers
       def render_page(name, view, admin, admin_locked, locals)
         if(admin_locked && !admin)
           render_403(admin)
