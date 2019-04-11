@@ -11,12 +11,12 @@ module Website
       LAYOUT = PageBuilder::Layout.new('layout.erb')
 
       VIEWS = {
-        homepage:  PageBuilder::View.new('homepage.erb'),
-        archive:   PageBuilder::View.new('archive.erb'),
-        new_post:  PageBuilder::View.new('new_post.erb'),
-        post:      PageBuilder::View.new('post.erb'),
-        edit_post: PageBuilder::View.new('edit_post.erb'),
-        post_feed: PageBuilder::View.new('post_feed.erb')
+        homepage:  Template.load_view('homepage.erb'),
+        archive:   Template.load_view('archive.erb'),
+        new_post:  Template.load_view('new_post.erb'),
+        post:      Template.load_view('post.erb'),
+        edit_post: Template.load_view('edit_post.erb'),
+        post_feed: Template.load_view('post_feed.erb')
       }
 
       # Page Renderers
