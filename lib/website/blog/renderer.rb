@@ -32,8 +32,8 @@ module Website
         if(admin_locked && !admin)
           render_403(admin)
         else
-          page = LAYOUT[page_name: name, admin: admin] do
-            VIEWS[view][locals]
+          page = render_layout(name, admin) do
+            render_view(view, locals)
           end
           HTTP::Response.html_response(page)
         end
@@ -49,7 +49,7 @@ module Website
       end
 
       def render_static_page(path, name, admin)
-        page = LAYOUT[page_name: name, admin: admin] do
+        page = render_layout(name, admin) do
           WebFile.read(path)
         end
         HTTP::Response.html_response(page)
@@ -58,13 +58,13 @@ module Website
       def render_403(admin, simple=false)
         page = WebFile.read("403.html")
         unless(simple)
-          page = LAYOUT[page_name: "403", admon: admin] { page }
+          page = render_layout("403", admin) { page }
         end
         HTTP::Response.html_response(page, 403)
       end
 
       def render_404(admin)
-        page = LAYOUT[page_name: "404", admin: admin] do
+        page = render_layout("404", admin) do
           WebFile.read("404.html")
         end
         HTTP::Response.html_response(page, 404)
