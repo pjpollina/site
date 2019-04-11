@@ -13,7 +13,7 @@ module Website
       return elements
     end
 
-    def full_uri
+    def full_url
       path = 'https://' <<  Website.config_info[:host_name]
       unless([443, 80].include?(Website.config_info[:port]))
         path << ":#{Website.config_info[:port]}"

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <rss version="2.0">
   <title><%= Website.config_info[:site_name] %></title>
-  <link><%= Website::Utils.full_uri %>/</link>
+  <link><%= Website::Utils.full_url %>/</link>
   <description><%= Website.config_info[:site_desc] %></description>
   <% posts.each do |post| %>
   <item>
     <title><%= post[:post_title] %></title>
-    <link><%= Website::Utils.full_uri %>/<%= post[:post_slug] %></link>
+    <link><%= Website::Utils.full_url %>/<%= post[:post_slug] %></link>
     <description><%= post[:post_desc] %></description>
     <pubdate><%= post[:post_timestamp].httpdate %></pubdate>
     <category><%= post[:post_category] %></category>
