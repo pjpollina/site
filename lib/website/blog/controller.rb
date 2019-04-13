@@ -9,6 +9,7 @@ module Website
         @ip_login_attempts = Hash.new(0)
         @database = Database.new
         @rss_feed = RSS.new
+        @blacklist = Blacklist.new
         @rss_feed.update(@database)
       end
 
@@ -69,12 +70,15 @@ module Website
       end
 
       def post_admin_login(form_data, ip)
-        unless(@ip_login_attempts[ip] >= 3)
-          @ip_login_attempts[ip] += 1
+        unless(@blacklist.banned?(ip))
+          @blacklist.add_attempt(ip)
           password = Utils.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
-            @ip_login_attempts[ip] = 0
+            @blacklist.clear_attempts
             return AdminSession.login_request(ip)
+          elsif(@blacklist.banned?(ip))
+            @blacklist.blacklist_ip(ip)
+            puts("IP address #{ip} has been blacklisted")
           end
         end
         return HTTP::Response[401, ""]
