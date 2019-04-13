@@ -6,7 +6,6 @@ module Website
       MONTH_PATTERN = PathPattern.new("/archive/:year/:month")
 
       def initialize
-        @ip_login_attempts = Hash.new(0)
         @database = Database.new
         @rss_feed = RSS.new
         @blacklist = Blacklist.new
@@ -78,7 +77,7 @@ module Website
             return AdminSession.login_request(ip)
           elsif(@blacklist.banned?(ip))
             @blacklist.blacklist_ip(ip)
-            puts("IP address #{ip} has been blacklisted")
+            puts "IP address #{ip} has been blacklisted"
           end
         end
         return HTTP::Response[401, ""]
