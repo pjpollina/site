@@ -5,7 +5,6 @@ module Website
         @blacklist = Website.data_file(filename)
         @ip_login_attempts = Hash.new(0)
         load_blacklist
-        puts @ip_login_attempts
       end
 
       def banned?(ip)
