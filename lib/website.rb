@@ -12,7 +12,7 @@ module Website
   def config_info
     @config_info ||= begin
       hash = Hash.new("")
-      path = File.expand_path(File.dirname(__FILE__)).gsub('lib', 'data/config.yml')
+      path = data_file("config.yml")
       YAML.load_file(path).each do |key, value|
         hash[key.to_sym] = value
       end
