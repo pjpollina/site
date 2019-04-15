@@ -1,3 +1,5 @@
+# Class that tracks and blacklists IPs with too many failed login attempts
+
 module Website
   module Blog
     class Blacklist
