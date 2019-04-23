@@ -1,5 +1,5 @@
 site_name: "PJ's Site"
 host_name: "localhost"
 port:       4000
-description: >-
+desc: >-
   This site sucks lol
