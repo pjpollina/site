@@ -62,13 +62,5 @@ module Website
         end
         HTTP::Response.html_response(page, code)
       end
-
-      def render_404(admin)
-        page = render_layout("404", admin) do
-          WebFile.read("404.html")
-        end
-        HTTP::Response.html_response(page, 404)
-      end
-    end
   end
 end
