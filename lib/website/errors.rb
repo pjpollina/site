@@ -16,7 +16,7 @@ module Website
     }
 
     def get_error(status_code)
-      ERRORS[status_code] || ERRORS[404]
+      ERRORS[status_code] || Error.new(status_code, "Unknown", "The hack fraud who programmed this site forgot to add a response for this error.")
     end
 
     alias_method(:[], :get_error)
