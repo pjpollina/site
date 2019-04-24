@@ -73,7 +73,7 @@ module Website
           @blacklist.add_attempt(ip)
           password = Utils.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
-            @blacklist.clear_attempts
+            @blacklist.clear_attempts(ip)
             return AdminSession.login_request(ip)
           elsif(@blacklist.banned?(ip))
             @blacklist.blacklist_ip(ip)
