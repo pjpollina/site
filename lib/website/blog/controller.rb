@@ -27,7 +27,7 @@ module Website
           unless(cat.nil?)
             Renderer.render_page(cat.name, :post_feed, admin, false, title: "Posts in category #{cat.name}", posts: cat.posts.reverse_each)
           else
-            Renderer.render_404(admin)
+            Renderer.render_error_page(404, admin)
           end
         when MONTH_PATTERN
           data = MONTH_PATTERN[path]
@@ -37,10 +37,10 @@ module Website
               period = "#{data[:month].capitalize} #{data[:year]}"
               Renderer.render_page("Archive for #{period}", :post_feed, admin, false, title: "Posts from #{period}", posts: posts)
             else
-              Renderer.render_404(admin)
+              Renderer.render_error_page(404, admin)
             end
           else
-            Renderer.render_404(admin)
+            Renderer.render_error_page(404, admin)
           end
         else
           post = @database.get_post(path[1..-1].chomp('?edit=true'))

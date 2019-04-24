@@ -40,7 +40,7 @@ module Website
         if WebFile.exists?(path)
           return html_response(WebFile.read(path))
         else
-          return Blog::Renderer.render_404(admin)
+          return Blog::Renderer.render_error_page(404, admin)
         end
       end
 
@@ -61,7 +61,7 @@ module Website
             IO.copy_stream(file, socket)
           end
         else
-          socket.print Blog::Renderer.render_404(admin)
+          socket.print Blog::Renderer.render_error_page(404, admin)
         end
       end
 

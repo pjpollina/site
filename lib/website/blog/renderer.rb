@@ -42,7 +42,7 @@ module Website
 
       def render_post_page(post, admin, edit=false)
         if(post.nil?)
-          render_404(admin)
+          render_error_page(404, admin)
         else
           name, view = ((edit) ? ["Editing Post #{post.title}", :edit_post] : [post.title, :post])
           render_page(name, view, admin, edit, post: post, admin: admin)
