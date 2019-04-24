@@ -63,14 +63,6 @@ module Website
         HTTP::Response.html_response(page, code)
       end
 
-      def render_403(admin, simple=false)
-        page = WebFile.read("403.html")
-        unless(simple)
-          page = render_layout("403", admin) { page }
-        end
-        HTTP::Response.html_response(page, 403)
-      end
-
       def render_404(admin)
         page = render_layout("404", admin) do
           WebFile.read("404.html")
