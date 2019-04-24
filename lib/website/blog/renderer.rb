@@ -1,5 +1,6 @@
 # Helper module that renders pages
 
+require 'website/errors'
 require 'website/template'
 
 module Website
@@ -53,6 +54,13 @@ module Website
           WebFile.read(path)
         end
         HTTP::Response.html_response(page)
+      end
+
+      def render_error_page(code, admin)
+        page = render_layout(Errors[code].status_message, admin) do
+          Errors.render_error(code)
+        end
+        HTTP::Response.html_response(page, code)
       end
 
       def render_403(admin, simple=false)
