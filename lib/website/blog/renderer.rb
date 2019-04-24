@@ -62,5 +62,6 @@ module Website
         end
         HTTP::Response.html_response(page, code)
       end
+    end
   end
 end
