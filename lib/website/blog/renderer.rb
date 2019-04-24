@@ -31,7 +31,7 @@ module Website
       # Page Renderers
       def render_page(name, view, admin, admin_locked, locals)
         if(admin_locked && !admin)
-          render_403(admin)
+          render_error_page(403, admin)
         else
           page = render_layout(name, admin) do
             render_view(view, locals)
