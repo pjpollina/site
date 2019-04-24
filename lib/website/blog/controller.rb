@@ -51,7 +51,7 @@ module Website
       # POST processors
       def post_new_blogpost(form_data, admin)
         unless(admin)
-          return Renderer.render_403(admin, true)
+          return Errors.render_error(403)
         end
         elements = Utils.parse_form_data(form_data)
         errors = validate_post(elements)
@@ -86,7 +86,7 @@ module Website
       # PUT processors
       def put_updated_blogpost(form_data, admin)
         unless(admin)
-          return Renderer.render_403(admin, true)
+          return Errors.render_error(403)
         end
         elements = Utils.parse_form_data(form_data)
         @database.update(elements[:slug], elements[:body])
@@ -97,7 +97,7 @@ module Website
       # DELETE processors
       def delete_blogpost(form_data, admin)
         unless(admin)
-          return Renderer.render_403(admin, true)
+          return Errors.render_error(403)
         end
         elements = Utils.parse_form_data(form_data)
         @database.delete(elements[:slug])
