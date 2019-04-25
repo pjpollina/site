@@ -46,6 +46,14 @@ $(document).ready(function() {
     }
   });
 
+  $("#body-uploader").bind('change', () => {
+    let reader = new FileReader();
+    reader.readAsText($("#body-uploader").get(0).files[0]);
+    $(reader).on('load', (data) => {
+      $("#body").val(data.target.result);
+    });
+  });
+
   $("#new-post").submit(event => {
     event.preventDefault();
     $.ajax({
