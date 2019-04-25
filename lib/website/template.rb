@@ -7,7 +7,7 @@ require 'website/web_file'
 
 module Website
   class Template
-    ROOT = WebFile["/templates/"]
+    ROOT = WebFile["/"].gsub("public", "templates")
 
     def initialize(filename)
       @filename = filename
