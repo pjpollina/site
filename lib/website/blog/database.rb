@@ -71,7 +71,7 @@ module Website
 
       # Category functions
       def categories
-        @categories.execute(as: :array).collect {|cat| cat[0]}
+        @categories.execute(as: :array).collect(&:first)
       end
 
       def get_category(slug)

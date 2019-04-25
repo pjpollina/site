@@ -30,7 +30,7 @@ module Website
     end
 
     def slug_to_name(slug)
-      words = slug.split('_').collect {|word| word.capitalize }
+      words = slug.split('_').collect(&:capitalize)
       words.join(' ')
     end
   end
