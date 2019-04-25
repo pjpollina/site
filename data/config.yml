@@ -1,5 +1,5 @@
 site_name: "PJ's Site"
 host_name: "localhost"
 port:       4000
-desc: >-
+site_desc: >-
   The fabulous homepage and sub-par blog of a self-taught programmer from Long Island.
