@@ -22,12 +22,13 @@ function slug_autocomplete() {
 }
 
 function handle_body_upload() {
-  $("#body-uploader").bind('change', () => {
+  let uploader = document.getElementById("body-uploader");
+  uploader.addEventListener("change", () => {
     let reader = new FileReader();
-    reader.readAsText($("#body-uploader").get(0).files[0]);
-    $(reader).on('load', (data) => {
-      $("#body").val(data.target.result);
-    });
+    reader.readAsText(uploader.files[0]);
+    reader.onload = function(data) {
+      document.getElementById("body").value = data.target.result;
+    };
   });
 }
 
