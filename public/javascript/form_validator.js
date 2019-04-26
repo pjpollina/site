@@ -29,11 +29,11 @@ function validate(element) {
 }
 
 function submitCheck() {
-	let submit = document.getElementById("submit");
-	let fields = document.getElementsByClassName("error");
+  let submit = document.getElementById("submit");
+  let fields = document.getElementsByClassName("error");
   for(let i = 0; i < fields.length; i++) {
-  	if(fields[i].innerHTML.length) {
-    	submit.disabled = true;
+    if(fields[i].innerHTML.length) {
+      submit.disabled = true;
       return;
     }
   }
