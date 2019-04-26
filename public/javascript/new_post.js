@@ -9,14 +9,14 @@ function slug_autocomplete() {
   if(this.slug_edited === undefined) {
     this.slug_edited = false;
   }
-
-  $("#title").bind('change', () => {
+  let title = document.getElementById("title");
+  let slug = document.getElementById("slug");
+  title.addEventListener("change", () => {
     if(!this.slug_edited) {
-      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
+      slug.value = title.value.replace(/\s/g, '_').toLowerCase();
     }
   });
-
-  $("#slug").bind('change', () => {
+  slug.addEventListener("change", () => {
     this.slug_edited = true;
   });
 }
