@@ -43,10 +43,10 @@
 }
 
 .post-form .error {
-  border-color: #D43F3A; }
-.post-form label.error {
+  display: none;
   width: 375px;
   padding: 4px;
+  border-color: #D43F3A;
   background-color: lightsalmon;
 }
 
