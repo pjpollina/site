@@ -1,20 +1,4 @@
-function slug_autocomplete() {
-  if(this.slug_edited === undefined) {
-    this.slug_edited = false;
-  }
-
-  $("#title").bind('change', () => {
-    if(!this.slug_edited) {
-      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
-    }
-  });
-
-  $("#slug").bind('change', () => {
-    this.slug_edited = true;
-  });
-}
-
-$(document).ready(function() {
+function init_validator() {
   $.validator.addMethod("regex", function(value, element, regex) {
     return this.optional(element) || new RegExp(regex).test(value);
   });
@@ -42,8 +26,6 @@ $(document).ready(function() {
     }
   });
 
-  slug_autocomplete();
-
   $("#new-post").bind('blur click', () => {
     if($("#new-post").validate().checkForm()) {
       $("#submit").prop('disabled', false);
@@ -51,6 +33,27 @@ $(document).ready(function() {
       $("#submit").prop('disabled', true);
     }
   });
+}
+
+function slug_autocomplete() {
+  if(this.slug_edited === undefined) {
+    this.slug_edited = false;
+  }
+
+  $("#title").bind('change', () => {
+    if(!this.slug_edited) {
+      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
+    }
+  });
+
+  $("#slug").bind('change', () => {
+    this.slug_edited = true;
+  });
+}
+
+$(document).ready(function() {
+  init_validator();
+  slug_autocomplete();
 
   $("#body-uploader").bind('change', () => {
     let reader = new FileReader();
