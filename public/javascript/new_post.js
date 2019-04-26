@@ -61,11 +61,7 @@ function handle_body_upload() {
   });
 }
 
-$(document).ready(function() {
-  init_validator();
-  slug_autocomplete();
-  handle_body_upload();
-
+function submit_new_post() {
   $("#new-post").submit(event => {
     event.preventDefault();
     $.ajax({
@@ -90,6 +86,12 @@ $(document).ready(function() {
       }
     });
   });
+}
 
+$(document).ready(function() {
+  init_validator();
+  slug_autocomplete();
+  handle_body_upload();
+  submit_new_post();
   return 0;
 });
