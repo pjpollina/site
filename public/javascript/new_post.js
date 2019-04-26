@@ -33,28 +33,21 @@ function handle_body_upload() {
 }
 
 function submit_new_post() {
-  $("#new-post").submit(event => {
+  let form = document.getElementById("new-post");
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
-    $.ajax({
-      type: "POST",
-      url: "new_blog_post",
-      data: $("#new-post").serialize(),
-      success:function(data) {
-        document.location = data;
-      },
-      error:function(data) {
-        switch(data.status) {
-          case 403:
-            $("main").html(data.responseText);
-            break;
-          case 409:
-            alert(data.responseText);
-            break;
-          default:
-            alert('An unknown error occured');
-            break;
-        }
+    let ajax = new XMLHttpRequest();
+    ajax.open(form.getAttribute("method"), form.getAttribute("action"), true);
+    ajax.onload = function() {
+      switch(ajax.status) {
+        case 200:
+          document.location = "/" + ajax.responseText;
+          break;
+        default:
+          alert("An unknown error has occured");
+          break;
       }
-    });
+    }
+    ajax.send($(form).serialize());
   });
 }
