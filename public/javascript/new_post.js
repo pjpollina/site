@@ -51,10 +51,7 @@ function slug_autocomplete() {
   });
 }
 
-$(document).ready(function() {
-  init_validator();
-  slug_autocomplete();
-
+function handle_body_upload() {
   $("#body-uploader").bind('change', () => {
     let reader = new FileReader();
     reader.readAsText($("#body-uploader").get(0).files[0]);
@@ -62,6 +59,12 @@ $(document).ready(function() {
       $("#body").val(data.target.result);
     });
   });
+}
+
+$(document).ready(function() {
+  init_validator();
+  slug_autocomplete();
+  handle_body_upload();
 
   $("#new-post").submit(event => {
     event.preventDefault();
@@ -87,5 +90,6 @@ $(document).ready(function() {
       }
     });
   });
+
   return 0;
 });
