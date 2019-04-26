@@ -1,3 +1,19 @@
+function slug_autocomplete() {
+  if(this.slug_edited === undefined) {
+    this.slug_edited = false;
+  }
+
+  $("#title").bind('change', () => {
+    if(!this.slug_edited) {
+      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
+    }
+  });
+
+  $("#slug").bind('change', () => {
+    this.slug_edited = true;
+  });
+}
+
 $(document).ready(function() {
   $.validator.addMethod("regex", function(value, element, regex) {
     return this.optional(element) || new RegExp(regex).test(value);
@@ -26,17 +42,7 @@ $(document).ready(function() {
     }
   });
 
-  let slug_edited = false;
-
-  $("#title").bind('change', () => {
-    if(!slug_edited) {
-      $("#slug").val($("#title").val().replace(/\s/g, '_').toLowerCase());
-    }
-  });
-
-  $("#slug").bind('change', () => {
-    slug_edited = true;
-  });
+  slug_autocomplete();
 
   $("#new-post").bind('blur click', () => {
     if($("#new-post").validate().checkForm()) {
