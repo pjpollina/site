@@ -2,6 +2,7 @@ function validate(element) {
   let input = element.value;
   let error = document.getElementById(element.id + "-error");
   error.innerHTML = "";
+  error.style.display = "none";
   if(element.required && !input.length) {
     error.style.display = "flex";
     error.innerHTML = "Field cannot be blank";
