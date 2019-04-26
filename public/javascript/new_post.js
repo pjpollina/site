@@ -1,3 +1,11 @@
+$(document).ready(function() {
+  init_validator();
+  slug_autocomplete();
+  handle_body_upload();
+  submit_new_post();
+  return 0;
+});
+
 function init_validator() {
   $.validator.addMethod("regex", function(value, element, regex) {
     return this.optional(element) || new RegExp(regex).test(value);
@@ -87,11 +95,3 @@ function submit_new_post() {
     });
   });
 }
-
-$(document).ready(function() {
-  init_validator();
-  slug_autocomplete();
-  handle_body_upload();
-  submit_new_post();
-  return 0;
-});
