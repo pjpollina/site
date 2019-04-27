@@ -1,4 +1,4 @@
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", () => {
   slug_autocomplete();
   handle_body_upload();
   submit_new_post();
