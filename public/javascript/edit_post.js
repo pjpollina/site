@@ -1,20 +1,8 @@
 $(document).ready(function() {
   function errorCallback(data) {
     $("main").html(data.responseText);
-  } 
-
-  $("#edit-post").submit(event => {
-    let url = window.location.href.split('?')[0];
-    event.preventDefault();
-    $.ajax({
-      type: "PUT",
-      url: url,
-      data: $("#edit-post").serialize(),
-      success:() => document.location = url,
-      error:(data) => errorCallback(data)
-    });
-  });
-
+  }
+  sendPostUpdate();
   $("#delete-post").click(event => {
     event.preventDefault();
     if(!confirm("Are you sure?")) {
@@ -29,3 +17,24 @@ $(document).ready(function() {
     });
   });
 });
+
+function sendPostUpdate() {
+  let url = window.location.href.split('?')[0];
+  let form = document.getElementById("edit-post");
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    let ajax = new XMLHttpRequest();
+    ajax.open("PUT", url, true);
+    ajax.onload = function() {
+      switch(ajax.status) {
+        case 200:
+          document.location = url;
+          break;
+        default:
+          alert("An unknown error has occured");
+          break;
+      }
+    };
+    ajax.send(new URLSearchParams(new FormData(form)).toString());
+  });
+}
