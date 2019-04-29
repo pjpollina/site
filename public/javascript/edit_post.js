@@ -1,7 +1,4 @@
-$(document).ready(function() {
-  function errorCallback(data) {
-    $("main").html(data.responseText);
-  }
+document.addEventListener("DOMContentLoaded", () => {
   sendPostUpdate();
   sendPostDelete();
 });
