@@ -48,6 +48,6 @@ function submit_new_post() {
           break;
       }
     }
-    ajax.send($(form).serialize());
+    ajax.send(new URLSearchParams(new FormData(form)).toString());
   });
 }
