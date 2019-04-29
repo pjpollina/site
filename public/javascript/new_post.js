@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  slug_autocomplete();
-  handle_body_upload();
-  submit_new_post();
+  slugAutoFill();
+  handleBodyUpload();
+  submitNewPost();
   return 0;
 });
 
-function slug_autocomplete() {
+function slugAutoFill() {
   if(this.slug_edited === undefined) {
     this.slug_edited = false;
   }
@@ -21,7 +21,7 @@ function slug_autocomplete() {
   });
 }
 
-function handle_body_upload() {
+function handleBodyUpload() {
   let uploader = document.getElementById("body-uploader");
   uploader.addEventListener("change", () => {
     let reader = new FileReader();
@@ -32,7 +32,7 @@ function handle_body_upload() {
   });
 }
 
-function submit_new_post() {
+function submitNewPost() {
   let form = document.getElementById("new-post");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
