@@ -11,7 +11,7 @@ module Website
       extend self
 
       def status_line(status_code)
-        'HTTP/1.1 ' << status_code << ' ' << HTTP::STATUSES[status_code]
+        "HTTP/1.1 #{status_code} #{HTTP::STATUSES[status_code.to_i]}"
       end
 
       def response(status_code, body, headers={})
