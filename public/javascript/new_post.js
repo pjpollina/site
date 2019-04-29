@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   slugAutoFill();
   handleBodyUpload();
   submitNewPost();
-  return 0;
 });
 
 function slugAutoFill() {
@@ -34,7 +33,7 @@ function handleBodyUpload() {
 
 function submitNewPost() {
   let form = document.getElementById("new-post");
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", event => {
     event.preventDefault();
     let ajax = new XMLHttpRequest();
     ajax.open(form.getAttribute("method"), form.getAttribute("action"), true);
