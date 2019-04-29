@@ -1,7 +1,12 @@
-$(document).ready(function() {
-  $(".navbar-dropdown").on("mouseenter mouseleave", (event) => {
-    let contentId = "#" + event.currentTarget.id + "-content";
-    let displayType = (event.type == "mouseenter") ? "block" : "none";
-    $(contentId).css({"display": displayType});
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  let dropdowns = document.getElementsByClassName("navbar-dropdown");
+  for(let i = 0; i < dropdowns.length; i++) {
+    dropdowns[i].addEventListener("mouseenter", dropdownMenuEvent);
+    dropdowns[i].addEventListener("mouseleave", dropdownMenuEvent);
+  }
 });
+
+function dropdownMenuEvent(event) {
+  let content = document.getElementById(event.currentTarget.id + "-content");
+  content.style.display = (event.type == "mouseenter") ? "block" : "none";
+}
