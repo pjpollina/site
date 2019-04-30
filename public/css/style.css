@@ -115,3 +115,23 @@ h1, h2, h3 {
   width: 12.5em;
   height: 12.5em;
 }
+
+.blog-post {
+  margin: 40px 0 60px; }
+.blog-post .title {
+  font-size: 2.25em;
+  font-weight: 500;
+  text-align: center;
+  font-family: 'Ubuntu', 'sans-serif';
+  display: block; }
+.blog-post .metaheader {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  display: block;
+  text-transform: uppercase;
+  color: var(--dopalette-text-light); }
+.blog-post .body {
+  font-size: 1.125em;
+}
