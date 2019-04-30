@@ -4,5 +4,5 @@
   <section class="body">
     <%= post.parsed_body %>
   </section>
-  <% if admin %><button onclick="updatePostButton();">Edit</button><% end %>
+  <% if admin %><button onclick="window.location.search += '?edit=true';">Edit</button><% end %>
 </article>
