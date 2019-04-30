@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="/css/post_feed.css">
   <link rel="stylesheet" href="/css/social_icons.css">
   <title><%= "#{Website.config_info[:site_name]} | #{page_name}" %></title>
-  <script src="/javascript/dropdown.js"></script>
   <script src="/javascript/special_buttons.js"></script>
 </head>
 
@@ -59,4 +58,17 @@
     </div>
   </footer>
 </body>
+
+<script>
+  let dropdowns = document.getElementsByClassName("navbar-dropdown");
+  for(let i = 0; i < dropdowns.length; i++) {
+    dropdowns[i].addEventListener("mouseenter", dropdownMenuEvent);
+    dropdowns[i].addEventListener("mouseleave", dropdownMenuEvent);
+  }
+
+  function dropdownMenuEvent(event) {
+    let content = document.getElementById(event.currentTarget.id + "-content");
+    content.style.display = (event.type == "mouseenter") ? "block" : "none";
+  }
+</script>
 </html>
