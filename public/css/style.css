@@ -72,8 +72,7 @@ h1, h2, h3 {
 .error-page {
   text-align: center;
   font-size: 2em; }
-.error-page h1 {
-  text-align: center;
+.error-page .section-header {
   font-size: 6em;
   margin: 40px; }
 .error-page button {
