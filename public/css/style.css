@@ -69,21 +69,6 @@ h1, h2, h3 {
   padding: 0px 45px;
 }
 
-.post-list {
-  margin-left: 0;
-  list-style: none; }
-.post-list > li {
-  margin-bottom: 30px; }
-.post-list > li > a {
-  display: block;
-  font-size: 24px;
-}
-
-.post-timestamp {
-  font-size: 14px;
-  color: var(--dopalette-text-light);
-}
-
 .error-page {
   text-align: center;
   font-size: 2em; }
