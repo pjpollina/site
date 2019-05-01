@@ -1,5 +1,5 @@
 site_name: "PJ's Site"
-host_name: "localhost"
-port:       4000
+host_name: "pjpollina.info"
+port:       443
 site_desc: >-
   The fabulous homepage and sub-par blog of a self-taught programmer from Long Island.
