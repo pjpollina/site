@@ -23,16 +23,14 @@ module Website
       private
 
       def accept(https)
-        econn = 0
         begin
           return (https) ? @ssl.accept : @tcp.accept
         rescue OpenSSL::SSL::SSLError => error
           STDERR.puts("SSL Error: #{error.message}")
           return nil
         rescue Errno::ECONNRESET => error
-          econn += 1
-          retry unless econn > 5
-          STDERR.puts("Connection reset too many times")
+          STDERR.puts("Connection reset")
+          retry
         end
       end
 
