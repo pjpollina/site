@@ -39,7 +39,7 @@ function submitNewPost() {
     ajax.open(form.getAttribute("method"), form.getAttribute("action"), true);
     ajax.onload = function() {
       switch(ajax.status) {
-        case 200:
+        case 201:
           document.location = "/" + ajax.responseText;
           break;
         default:
