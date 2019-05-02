@@ -28,6 +28,9 @@ module Website
         rescue OpenSSL::SSL::SSLError => error
           STDERR.puts("SSL Error: #{error.message}")
           return nil
+        rescue Errno::ECONNRESET => error
+          STDERR.puts("Connection reset")
+          retry
         end
       end
 
