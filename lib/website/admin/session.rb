@@ -19,6 +19,10 @@ module Website
         Time.now > @expiration
       end
 
+      def validate(session_id, client_ip)
+        (!expired?) && (session_id == @session_id) && (client_ip == @client_ip)
+      end
+
       class << self
         @session = nil
 
