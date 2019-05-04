@@ -1,6 +1,6 @@
 # Class representing an incoming HTTP/1.1 request
 
-require 'website/admin_session'
+require 'website/admin/session'
 
 module Website
   module HTTP

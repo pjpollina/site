@@ -3,7 +3,7 @@
 require 'time'
 require 'openssl'
 require 'website/web_file'
-require 'website/admin_session'
+require 'website/admin/session'
 
 module Website
   module HTTP
