@@ -5,9 +5,11 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__)).gsub('bin', 'lib')
 require 'website'
 require 'website/blog'
 require 'website/http'
+require 'website/admin/controller'
 
 server = Website::HTTP::Server.new
 controller = Website::Blog::Controller.new
+admin = Website::Admin::Controller.new
 loop do
   server.serve(https: true) do |socket, request|
     next if(request.nil?)
@@ -34,7 +36,7 @@ loop do
       when '/new_blog_post'
         socket.print controller.post_new_blogpost(request.content, request.admin?)
       when '/admin-login'
-        socket.print controller.post_admin_login(request.content, request.ip_address)
+        socket.print admin.post_admin_login(request.content, request.ip_address)
       end
     when 'PUT'
       socket.print controller.put_updated_blogpost(request.content, request.admin?)
