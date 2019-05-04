@@ -8,7 +8,6 @@ module Website
       def initialize
         @database = Database.new
         @rss_feed = RSS.new
-        @blacklist = Blacklist.new
         @rss_feed.update(@database)
       end
 
@@ -64,21 +63,6 @@ module Website
           @rss_feed.update(@database)
           return HTTP::Response[201, elements[:slug], "Location" => "/#{elements[:slug]}"]
         end
-      end
-
-      def post_admin_login(form_data, ip)
-        unless(@blacklist.banned?(ip))
-          @blacklist.add_attempt(ip)
-          password = Utils.parse_form_data(form_data)[:password]
-          if(password == ENV['blogapp_author_password'])
-            @blacklist.clear_attempts(ip)
-            return AdminSession.login_request(ip)
-          elsif(@blacklist.banned?(ip))
-            @blacklist.blacklist_ip(ip)
-            puts "IP address #{ip} has been blacklisted"
-          end
-        end
-        return HTTP::Response[401, ""]
       end
 
       # PUT processors
