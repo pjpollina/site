@@ -34,7 +34,7 @@ module Website
       end
 
       def admin?
-        AdminSession.validate(@cookies[:session_id], @ip_address)
+        Admin::Session.validate(@cookies[:session_id], @ip_address)
       end
 
       def static_html?
