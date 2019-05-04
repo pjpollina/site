@@ -1,7 +1,7 @@
 # Class that tracks and blacklists IPs with too many failed login attempts
 
 module Website
-  module Blog
+  module Admin
     class Blacklist
       def initialize(filename=".blacklist")
         @blacklist = Website.data_file(filename)
