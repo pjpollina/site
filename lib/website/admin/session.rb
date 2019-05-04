@@ -23,6 +23,10 @@ module Website
         (!expired?) && (session_id == @session_id) && (client_ip == @client_ip)
       end
 
+      def cookie
+        "session_id=#{@session_id}; Expires=#{@expiration.httpdate}; HttpOnly"
+      end
+
       class << self
         @session = nil
 
