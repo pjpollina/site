@@ -19,9 +19,9 @@ loop do
     case(request.method)
     when 'GET'
       if(request.file_request?)
-        Website::HTTP::Response.file_response(request.path, socket, request.admin?)
+        Website::HTTP::Response.file_response(request.path, socket, admin.validate(request.cookies[:session_id], request.ip_address))
       elsif(request.static_html?)
-        socket.print Website::HTTP::Response.static_html(request.path, request.admin?)
+        socket.print Website::HTTP::Response.static_html(request.path, admin.validate(request.cookies[:session_id], request.ip_address))
       elsif(request.path == '/admin-logout')
         socket.print Website::Admin::Session.logout_request
       elsif(request.path.start_with? '/validate')
@@ -29,19 +29,19 @@ loop do
         value = controller.field_free?(data[0], data[1])
         socket.print Website::HTTP::Response[200, value]
       else
-        socket.print controller.respond(request.path, request.admin?)
+        socket.print controller.respond(request.path, admin.validate(request.cookies[:session_id], request.ip_address))
       end
     when 'POST'
       case request.path
       when '/new_blog_post'
-        socket.print controller.post_new_blogpost(request.content, request.admin?)
+        socket.print controller.post_new_blogpost(request.content, admin.validate(request.cookies[:session_id], request.ip_address))
       when '/admin-login'
         socket.print admin.post_admin_login(request.content, request.ip_address)
       end
     when 'PUT'
-      socket.print controller.put_updated_blogpost(request.content, request.admin?)
+      socket.print controller.put_updated_blogpost(request.content, admin.validate(request.cookies[:session_id], request.ip_address))
     when 'DELETE'
-      socket.print controller.delete_blogpost(request.content, request.admin?)
+      socket.print controller.delete_blogpost(request.content, admin.validate(request.cookies[:session_id], request.ip_address))
     end
   end
 end
