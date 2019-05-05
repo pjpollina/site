@@ -45,6 +45,11 @@ module Website
         return HTTP::Response[401, ""]
       end
 
+      def logout(request)
+        remove_session(request.cookies[:session_id], request.ip_address)
+        return logout_response()
+      end
+
       def login_response(session, redirect='/')
         <<~HEREDOC
           HTTP/1.1 200 OK\r
