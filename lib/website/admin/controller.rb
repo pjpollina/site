@@ -53,6 +53,15 @@ module Website
           #{redirect}
         HEREDOC
       end
+
+      def logout_response(redirect='/')
+        <<~HEREDOC
+          HTTP/1.1 200 OK\r
+          Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
+          \r
+          <script>alert('Logout successful'); window.location.href='/';</script>
+        HEREDOC
+      end
     end
   end
 end
