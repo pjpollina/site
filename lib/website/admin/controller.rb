@@ -22,6 +22,10 @@ module Website
         return session
       end
 
+      def remove_session(session_id, client_ip)
+        @sessions.reject! {|session| session.validate(session_id, client_ip) }
+      end
+
       def validate(session_id, client_ip)
         @sessions.any? {|session| session.validate(session_id, client_ip)}
       end
