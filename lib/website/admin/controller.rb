@@ -6,8 +6,11 @@ require 'website/admin/blacklist'
 module Website
   module Admin
     class Controller
+      MAX_SESSIONS = 3
+
       def initialize
         @blacklist = Blacklist.new
+        @sessions = []
       end
 
       def post_admin_login(form_data, ip)
