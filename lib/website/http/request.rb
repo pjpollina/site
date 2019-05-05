@@ -33,10 +33,6 @@ module Website
         "#{@method} #{@path} HTTP/1.1"
       end
 
-      def admin?
-        Admin::Session.validate(@cookies[:session_id], @ip_address)
-      end
-
       def static_html?
         @path.end_with?('.html')
       end
