@@ -68,8 +68,6 @@ module Website
         def unset
           @session = nil
         end
-
-        private :new
       end
     end
   end
