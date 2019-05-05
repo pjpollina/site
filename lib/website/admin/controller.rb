@@ -30,7 +30,7 @@ module Website
         @sessions.any? {|session| session.validate(session_id, client_ip)}
       end
 
-      def post_admin_login(form_data, ip)
+      def login(form_data, ip)
         unless(@blacklist.banned?(ip))
           @blacklist.add_attempt(ip)
           password = Utils.parse_form_data(form_data)[:password]
