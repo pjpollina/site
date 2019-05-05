@@ -64,7 +64,7 @@ module Website
           HTTP/1.1 200 OK\r
           Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
           \r
-          <script>alert('Logout successful'); window.location.href='/';</script>
+          <script>alert('Logout successful'); window.location.href='#{redirect}';</script>
         HEREDOC
       end
     end
