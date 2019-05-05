@@ -1,7 +1,4 @@
 # Class that controls administration related things
-# Eventually, anyway
-
-require 'website/admin/blacklist'
 
 module Website
   module Admin
