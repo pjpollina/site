@@ -13,13 +13,22 @@ module Website
         @sessions = []
       end
 
+      def add_session(client_ip)
+        session = Session.new(client_ip)
+        if(@sessions.count > MAX_SESSIONS)
+          @sessions.shift
+        end
+        @sessions << session
+        return session
+      end
+
       def post_admin_login(form_data, ip)
         unless(@blacklist.banned?(ip))
           @blacklist.add_attempt(ip)
           password = Utils.parse_form_data(form_data)[:password]
           if(password == ENV['blogapp_author_password'])
             @blacklist.clear_attempts(ip)
-            return Admin::Session.login_request(ip)
+            return login_response(add_session(ip))
           elsif(@blacklist.banned?(ip))
             @blacklist.blacklist_ip(ip)
             puts "IP address #{ip} has been blacklisted"
