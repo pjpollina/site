@@ -23,7 +23,7 @@ loop do
       elsif(request.static_html?)
         socket.print Website::HTTP::Response.static_html(request.path, admin.validate(request.cookies[:session_id], request.ip_address))
       elsif(request.path == '/admin-logout')
-        socket.print Website::Admin::Session.logout_request
+        socket.print admin.logout(request)
       elsif(request.path.start_with? '/validate')
         data = Website::Utils.parse_query(request.path).flatten
         value = controller.field_free?(data[0], data[1])
