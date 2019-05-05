@@ -1,4 +1,4 @@
-# All in one admin session class/singleton thing
+# Class representing an active admin session
 
 require 'time'
 require 'digest'
@@ -25,49 +25,6 @@ module Website
 
       def cookie
         "session_id=#{@session_id}; Expires=#{@expiration.httpdate}; HttpOnly"
-      end
-
-      class << self
-        @session = nil
-
-        def set(client_ip)
-          @session = new(client_ip)
-        end
-
-        def validate(session_id, client_ip)
-          return false if(@session.nil? || @session.expired?)
-          (session_id == @session.session_id) && (client_ip == @session.client_ip)
-        end
-
-        def cookie
-          "session_id=#{@session.session_id}; Expires=#{@session.expiration.httpdate}; HttpOnly"
-        end
-
-        def login_request(client_ip, redirect='/')
-          Session.set(client_ip)
-          <<~HEREDOC
-            HTTP/1.1 200 OK\r
-            Set-Cookie: #{Session.cookie}\r
-            \r
-            #{redirect}
-          HEREDOC
-        end
-
-        def logout_request
-          mesg = 'Logout successful'
-          <<~HEREDOC
-            HTTP/1.1 200 OK\r
-            Content-Type: text/html
-            Content-Length: #{mesg.bytesize}
-            Set-Cookie: session_id=; Expires=#{Time.now.httpdate}; HttpOnly\r
-            \r
-            #{mesg}
-          HEREDOC
-        end
-
-        def unset
-          @session = nil
-        end
       end
     end
   end
