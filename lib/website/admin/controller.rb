@@ -22,6 +22,10 @@ module Website
         return session
       end
 
+      def validate(session_id, client_ip)
+        @sessions.any? {|session| session.validate(session_id, client_ip)}
+      end
+
       def post_admin_login(form_data, ip)
         unless(@blacklist.banned?(ip))
           @blacklist.add_attempt(ip)
