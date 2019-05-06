@@ -123,6 +123,16 @@ h1, h2, h3 {
   height: 12.5em;
 }
 
+@media (max-width: 480px) {
+  .about-me {
+    display: block; }
+  .about-me article {
+    font-size: 1em; }
+  .about-me figure {
+    display: none;
+  }
+}
+
 .blog-post {
   margin: 40px 0 60px; }
 .blog-post .title {
