@@ -67,3 +67,12 @@
 .navbar-dropdown-content a:hover {
   background-color: #DDD;
 }
+
+@media (max-width: 480px) {
+  .navbar-title {
+    padding: 0;
+  }
+  .navbar-link, .navbar-dropdown {
+    display: none;
+  }
+}
