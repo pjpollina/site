@@ -69,6 +69,13 @@ h1, h2, h3 {
   padding: 0px 45px;
 }
 
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 0 1em;
+    box-sizing: border-box;
+  }
+}
+
 .error-page {
   text-align: center;
   font-size: 2em; }
