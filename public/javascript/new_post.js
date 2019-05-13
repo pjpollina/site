@@ -38,13 +38,14 @@ function submitNewPost() {
     let ajax = new XMLHttpRequest();
     ajax.open(form.getAttribute("method"), form.getAttribute("action"), true);
     ajax.onload = function() {
-      switch(ajax.status) {
-        case 201:
-          document.location = "/" + ajax.responseText;
-          break;
-        default:
+      if(ajax.status == 201) {
+        document.location = "/" + ajax.responseText;
+      } else {
+        if(ajax.responseText === "") {
           alert("An unknown error has occured");
-          break;
+        } else {
+          alert(ajax.responseText);
+        }
       }
     }
     ajax.send(new URLSearchParams(new FormData(form)).toString());
