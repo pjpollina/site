@@ -78,7 +78,7 @@ module Website
       end
 
       def get_category(slug)
-        Category.from_name(Utils.slug_to_name(slug))
+        Category.from_name(@mysql, Utils.slug_to_name(slug))
       end
 
       # Archive info getters
