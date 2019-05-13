@@ -14,9 +14,6 @@ module Website
         @insert = @sql_client.prepare "INSERT INTO posts(post_title, post_slug, post_desc, post_body, post_category) VALUES(?, ?, ?, ?, ?)"
         @update = @sql_client.prepare "UPDATE posts SET post_body=? WHERE post_slug=?"
         @delete = @sql_client.prepare "DELETE FROM posts WHERE post_slug=?"
-        # Info checkers
-        @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
-        @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
         # Post getters
         @month_posts    = @sql_client.prepare "SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp"
         @category_posts = @sql_client.prepare "SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp"
