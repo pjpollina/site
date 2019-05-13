@@ -22,6 +22,20 @@ module Website
         end
         return cats
       end
+
+      def self.from_name(mysql, name)
+        cat = nil
+        mysql.connect do |client|
+          stmt = client.prepare("SELECT cat_name, cat_desc FROM categories WHERE cat_name=?")
+          data = stmt.execute(name, symbolize_keys: true).first
+          unless(data.nil?)
+            stmt = client.prepare("SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp")
+            cat = new(data[:cat_name], data[:cat_desc], stmt.execute(data[:cat_name], symbolize_keys: true))
+          end
+          stmt.close
+        end
+        return cat
+      end
     end
   end
 end
