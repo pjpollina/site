@@ -53,7 +53,13 @@ module Website
       end
 
       def slug_free?(slug)
-        @slug_free.execute(slug, symbolize_keys: true).first[:used] == 0
+        result = false
+        @mysql.connect do |client|
+          stmt = client.prepare("SELECT EXISTS(SELECT * FROM posts WHERE post_slug=?) AS used")
+          result = stmt.execute(slug, symbolize_keys: true).first[:used] == 0
+          stmt.close
+        end
+        return result
       end
 
       # Post getters
