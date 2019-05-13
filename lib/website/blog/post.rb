@@ -40,6 +40,16 @@ module Website
         end
         return post
       end
+
+      def self.recent(mysql, limit)
+        posts = []
+        mysql.connect do |client|
+          stmt = client.prepare("SELECT * FROM posts ORDER BY post_timestamp DESC LIMIT ?")
+          stmt.execute(limit, symbolize_keys: true).each {|post| posts << post }
+          stmt.close
+        end
+        return posts
+      end
     end
   end
 end
