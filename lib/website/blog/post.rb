@@ -27,6 +27,19 @@ module Website
       def category_link
         '<a href="/category/' << Utils.name_to_slug(@category) << '">' << @category << '</a>'
       end
+
+      def self.from_slug(mysql, slug)
+        post = nil
+        mysql.connect do |client|
+          stmt = client.prepare("SELECT * FROM posts WHERE post_slug=?")
+          data = stmt.execute(slug, symbolize_keys: true).first
+          unless(data.nil?)
+            post = new(data[:post_title], slug, data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp])
+          end
+          stmt.close
+        end
+        return post
+      end
     end
   end
 end
