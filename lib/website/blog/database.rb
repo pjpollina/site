@@ -18,17 +18,11 @@ module Website
         @title_free = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used"
         @slug_free  = @sql_client.prepare "SELECT EXISTS(SELECT * FROM posts WHERE post_slug =?) AS used"
         # Post getters
-        @get_post       = @sql_client.prepare "SELECT * FROM posts WHERE post_slug=?"
         @month_posts    = @sql_client.prepare "SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp"
-        @recent_posts   = @sql_client.prepare "SELECT * FROM posts ORDER BY post_timestamp DESC LIMIT ?"
         @category_posts = @sql_client.prepare "SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp"
-        # Category functions
-        @categories   = @sql_client.prepare "SELECT cat_name FROM categories"
-        @get_category = @sql_client.prepare "SELECT cat_name, cat_desc FROM categories WHERE cat_name=?"
         # Archive info getters
         @get_first_year     = @sql_client.prepare "SELECT YEAR(post_timestamp) AS year FROM posts ORDER BY post_timestamp  ASC LIMIT 1"
         @get_period_count   = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=?"
-        @get_category_count = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE post_category=?"
       end
 
       # Post Insert/Update/Delete statements
@@ -58,9 +52,7 @@ module Website
 
       # Post getters
       def get_post(slug)
-        data = @get_post.execute(slug, symbolize_keys: true).first
-        return nil if(data.nil?)
-        Post.new(data[:post_title], slug, data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp])
+        Post.from_slug(@mysql, slug)
       end
 
       def month_posts(month, year)
@@ -68,18 +60,16 @@ module Website
       end
 
       def recent_posts(quantity)
-        @recent_posts.execute(quantity, symbolize_keys: true)
+        Post.recent(@mysql, quantity)
       end
 
       # Category functions
       def categories
-        @categories.execute(as: :array).collect(&:first)
+        Category.all(@mysql)
       end
 
       def get_category(slug)
-        data = @get_category.execute(Utils.slug_to_name(slug), symbolize_keys: true).first
-        return nil if data.nil?
-        Category.new(data[:cat_name], data[:cat_desc], @category_posts.execute(data[:cat_name], symbolize_keys: true))
+        Category.from_name(Utils.slug_to_name(slug))
       end
 
       # Archive info getters
@@ -107,11 +97,7 @@ module Website
       end
 
       def get_category_counts
-        counts = {}
-        categories.each do |category|
-          counts[category] = @get_category_count.execute(category).first['COUNT(*)']
-        end
-        counts
+        Category.counts(@mysql)
       end
     end
   end
