@@ -43,7 +43,13 @@ module Website
 
       # Info checkers
       def title_free?(title)
-        @title_free.execute(title, symbolize_keys: true).first[:used] == 0
+        result = false
+        @mysql.connect do |client|
+          stmt = client.prepare("SELECT EXISTS(SELECT * FROM posts WHERE post_title=?) AS used")
+          result = stmt.execute(title, symbolize_keys: true).first[:used] == 0
+          stmt.close
+        end
+        return result
       end
 
       def slug_free?(slug)
