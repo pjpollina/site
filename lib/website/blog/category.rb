@@ -36,6 +36,18 @@ module Website
         end
         return cat
       end
+
+      def self.counts(mysql)
+        counts = Hash[all(mysql).collect {|cat| [cat, 0]}]
+        mysql.connect do |client|
+          stmt = client.prepare("SELECT COUNT(*) as count FROM posts WHERE post_category=?")
+          counts.keys.each do |cat|
+            counts[cat] = stmt.execute(cat).first['count']
+          end
+          stmt.close
+        end
+        return counts
+      end
     end
   end
 end
