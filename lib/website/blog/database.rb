@@ -92,7 +92,12 @@ module Website
 
       # Archive info getters
       def get_first_year
-        @get_first_year.execute(symbolize_keys: true).first[:year]
+        @mysql.connect do |client|
+          stmt = client.prepare("SELECT YEAR(post_timestamp) AS year FROM posts ORDER BY post_timestamp ASC LIMIT 1")
+          year = stmt.execute(symbolize_keys: true).first[:year]
+          stmt.close
+          return year
+        end
       end
 
       def get_month_counts(year)
