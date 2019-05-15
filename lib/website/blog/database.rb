@@ -112,7 +112,7 @@ module Website
       def get_month_counts(year)
         counts = {}
         (1..12).each do |month|
-          count = @get_period_count.execute(month, year).first['COUNT(*)']
+          count = get_period_count(month, year)
           unless(count == 0)
             counts[month] = count
           end
