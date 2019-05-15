@@ -74,7 +74,13 @@ module Website
       end
 
       def month_posts(month, year)
-        @month_posts.execute(month, year, symbolize_keys: true)
+        posts = []
+        @mysql.connect do |client|
+          stmt = client.prepare("SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp")
+          posts = stmt.execute(month, year, symbolize_keys: true).each {|post| posts << post }
+          stmt.close
+        end
+        return posts
       end
 
       def recent_posts(quantity)
