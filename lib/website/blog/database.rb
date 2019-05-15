@@ -1,15 +1,12 @@
 # Wrapper for SQL database client used for blog
 
-require 'mysql2'
 require 'website/mysql'
 
 module Website
   module Blog
     class Database
       def initialize
-        # MySQL client
         @mysql = MySQL.new('blogapp', ENV['mysql_blogapp_password'], 'blog')
-        @sql_client = Mysql2::Client.new(username: 'blogapp', password: ENV['mysql_blogapp_password'], database: 'blog')
       end
 
       # Post Insert/Update/Delete statements
