@@ -14,7 +14,7 @@ module Website
         @month_posts    = @sql_client.prepare "SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp"
         @category_posts = @sql_client.prepare "SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp"
         # Archive info getters
-        @get_first_year     = @sql_client.prepare "SELECT YEAR(post_timestamp) AS year FROM posts ORDER BY post_timestamp  ASC LIMIT 1"
+        @get_first_year     = @sql_client.prepare "SELECT YEAR(post_timestamp) AS year FROM posts ORDER BY post_timestamp ASC LIMIT 1"
         @get_period_count   = @sql_client.prepare "SELECT COUNT(*) FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=?"
       end
 
