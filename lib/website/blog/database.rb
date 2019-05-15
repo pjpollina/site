@@ -44,7 +44,11 @@ module Website
       end
 
       def delete(slug)
-        @delete.execute(slug)
+        @mysql.connect do |client|
+          stmt = client.prepare("DELETE FROM posts WHERE post_slug=?")
+          stmt.execute(slug)
+          stmt.close
+        end
       end
 
       # Info checkers
