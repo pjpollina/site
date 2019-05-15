@@ -100,6 +100,15 @@ module Website
         end
       end
 
+      def get_period_count(month, year)
+        @mysql.connect do |client|
+          stmt = client.prepare("SELECT COUNT(*) AS count FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=?")
+          count = stmt.execute(month, year, symbolize_keys: true).first[:count]
+          stmt.close
+          return count
+        end
+      end
+
       def get_month_counts(year)
         counts = {}
         (1..12).each do |month|
