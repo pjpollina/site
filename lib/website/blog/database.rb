@@ -24,9 +24,14 @@ module Website
 
       # Post Insert/Update/Delete statements
       def insert(title, slug, desc, body, category)
-        @insert.execute(title, slug, desc, body, category)
-        unless(categories.include?(category))
-          @sql_client.query("INSERT INTO categories VALUES('#{category}', '')")
+        @mysql.connect do |client|
+          stmt = client.prepare("INSERT INTO posts(post_title, post_slug, post_desc, post_body, post_category) VALUES(?, ?, ?, ?, ?)")
+          stmt.execute(title, slug, desc, body, category)
+          unless(categories.include?(category))
+            stmt = client.prepare("INSERT INTO categories VALUES(?, '')")
+            stmt.execute(category)
+          end
+          stmt.close
         end
       end
 
