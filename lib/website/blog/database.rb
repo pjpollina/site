@@ -36,7 +36,11 @@ module Website
       end
 
       def update(slug, body)
-        @update.execute(body, slug)
+        @mysql.connect do |client|
+          stmt = client.prepare("UPDATE posts SET post_body=? WHERE post_slug=?")
+          stmt.execute(body, slug)
+          stmt.close
+        end
       end
 
       def delete(slug)
