@@ -33,5 +33,9 @@ module Website
       words = slug.split('_').collect(&:capitalize)
       words.join(' ')
     end
+
+    def expand_path(root, path)
+      root + ((path.start_with?('/')) ? '' : '/') + path
+    end
   end
 end
