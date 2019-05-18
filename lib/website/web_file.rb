@@ -7,7 +7,7 @@ module Website
     WEB_ROOT = REPO_ROOT + "public"
 
     def expand_path(path)
-      WEB_ROOT + ((path.start_with?('/')) ? '' : '/') + path
+      Utils.expand_path(WEB_ROOT, path)
     end
 
     alias_method(:[], :expand_path)

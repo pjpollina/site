@@ -10,7 +10,7 @@ module Website
   REPO_ROOT = File.expand_path(File.dirname(__FILE__)).chomp("lib")
 
   def data_file(path)
-    REPO_ROOT + "data" + ((path.start_with?('/')) ? '' : '/') + path
+    Utils.expand_path(REPO_ROOT + "data", path)
   end
 
   def config_info

@@ -20,7 +20,7 @@ module Website
     alias_method(:[], :render)
 
     def template
-      Tilt::ERBTemplate.new(ROOT + @filename)
+      Tilt::ERBTemplate.new(Utils.expand_path(ROOT, @filename))
     end
 
     def self.load_view(filename)
