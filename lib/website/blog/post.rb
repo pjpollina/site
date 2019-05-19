@@ -7,14 +7,14 @@ module Website
     class Post
       attr_reader :title, :slug, :desc, :body, :category, :timestamp, :preview
 
-      def initialize(title, slug, desc, body, category, timestamp, preview=nil)
-        @title     = title
-        @slug      = slug
-        @desc      = desc
-        @body      = body
-        @category  = category
-        @timestamp = timestamp
-        @preview   = preview
+      def initialize(data)
+        @title     = data[:post_title]
+        @slug      = data[:post_slug]
+        @desc      = data[:post_desc]
+        @body      = data[:post_body]
+        @category  = data[:post_category]
+        @timestamp = data[:post_timestamp]
+        @preview   = data[:post_preview]
       end
 
       def date_formatted
