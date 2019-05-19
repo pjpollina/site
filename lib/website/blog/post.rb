@@ -5,15 +5,16 @@ require 'kramdown'
 module Website
   module Blog
     class Post
-      attr_reader :title, :slug, :desc, :body, :category, :timestamp
+      attr_reader :title, :slug, :desc, :body, :category, :timestamp, :preview
 
-      def initialize(title, slug, desc, body, category, timestamp)
+      def initialize(title, slug, desc, body, category, timestamp, preview=nil)
         @title     = title
         @slug      = slug
         @desc      = desc
         @body      = body
         @category  = category
         @timestamp = timestamp
+        @preview   = preview
       end
 
       def date_formatted
