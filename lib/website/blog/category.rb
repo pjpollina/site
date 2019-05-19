@@ -31,7 +31,7 @@ module Website
           unless(data.nil?)
             stmt = client.prepare("SELECT * FROM posts WHERE post_category=? ORDER BY post_timestamp")
             posts = stmt.execute(data[:cat_name], symbolize_keys: true).collect do |data|
-              Post.new(data[:post_title], data[:post_slug], data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp], data[:post_preview])
+              Post.new(data)
             end
             cat = new(data[:cat_name], data[:cat_desc], posts)
           end

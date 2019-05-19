@@ -35,7 +35,7 @@ module Website
           stmt = client.prepare("SELECT * FROM posts WHERE post_slug=?")
           data = stmt.execute(slug, symbolize_keys: true).first
           unless(data.nil?)
-            post = new(data[:post_title], slug, data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp])
+            post = new(data)
           end
           stmt.close
         end
@@ -47,7 +47,7 @@ module Website
         mysql.connect do |client|
           stmt = client.prepare("SELECT * FROM posts ORDER BY post_timestamp DESC LIMIT ?")
           stmt.execute(limit, symbolize_keys: true).each do |data|
-            posts << new(data[:post_title], data[:post_slug], data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp], data[:post_preview])
+            posts << new(data)
           end
           stmt.close
         end
@@ -59,7 +59,7 @@ module Website
         mysql.connect do |client|
           stmt = client.prepare("SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp")
           posts = stmt.execute(month, year, symbolize_keys: true).collect do |data|
-            Post.new(data[:post_title], data[:post_slug], data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp], data[:post_preview])
+            new(data)
           end
           stmt.close
         end
