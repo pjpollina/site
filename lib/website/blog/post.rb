@@ -46,7 +46,9 @@ module Website
         posts = []
         mysql.connect do |client|
           stmt = client.prepare("SELECT * FROM posts ORDER BY post_timestamp DESC LIMIT ?")
-          stmt.execute(limit, symbolize_keys: true).each {|post| posts << post }
+          stmt.execute(limit, symbolize_keys: true).each do |data|
+            posts << new(data[:post_title], data[:post_slug], data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp], data[:post_preview])
+          end
           stmt.close
         end
         return posts
