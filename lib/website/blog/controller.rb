@@ -91,7 +91,7 @@ module Website
       def fetch_archive
         archive = {}
         @database.recent_posts(65536).each do |post|
-          year, month = post[:post_timestamp].year, post[:post_timestamp].strftime("%B").to_sym
+          year, month = post.timestamp.year, post.timestamp.strftime("%B").to_sym
           archive[year] ||= {}
           archive[year][month] ||= []
           archive[year][month] << post
