@@ -5,11 +5,11 @@
   <description><%= Website.config_info[:site_desc] %></description>
   <% posts.each do |post| %>
   <item>
-    <title><%= post[:post_title] %></title>
-    <link><%= Website::Utils.full_url %>/<%= post[:post_slug] %></link>
-    <description><%= post[:post_desc] %></description>
-    <pubdate><%= post[:post_timestamp].httpdate %></pubdate>
-    <category><%= post[:post_category] %></category>
+    <title><%= post.title %></title>
+    <link><%= Website::Utils.full_url %>/<%= post.slug %></link>
+    <description><%= post.desc %></description>
+    <pubdate><%= post.timestamp.httpdate %></pubdate>
+    <category><%= post.category %></category>
   </item>
   <% end %>
 </rss>

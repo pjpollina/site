@@ -2,14 +2,14 @@
 <div class="post-feed">
   <% posts.each do |post| %>
   <article class="post-card">
-    <a class="post-card-content" href="/<%= post[:post_slug] %>">
-      <div class="title"><%= post[:post_title] %></div>
-      <span class="post-timestamp"><%= post[:post_timestamp].strftime('%B %d, %Y') %></span>
+    <a class="post-card-content" href="/<%= post.slug %>">
+      <div class="title"><%= post.title %></div>
+      <span class="post-timestamp"><%= post.date_formatted %></span>
       <section class="body">
-        <%= post[:post_preview].gsub(?<, '&lt;').gsub(?>, '&gt;') %>
+        <%= post.preview.gsub(?<, '&lt;').gsub(?>, '&gt;') %>
       </section>
       <section class="category">
-        <%= post[:post_category] %>
+        <%= post.category %>
       </section>
     </a>
   </article>
