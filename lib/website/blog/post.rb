@@ -53,6 +53,18 @@ module Website
         end
         return posts
       end
+
+      def self.from_month(mysql, month, year)
+        posts = []
+        mysql.connect do |client|
+          stmt = client.prepare("SELECT * FROM posts WHERE MONTH(post_timestamp)=? AND YEAR(post_timestamp)=? ORDER BY post_timestamp")
+          posts = stmt.execute(month, year, symbolize_keys: true).collect do |data|
+            Post.new(data[:post_title], data[:post_slug], data[:post_desc], data[:post_body], data[:post_category], data[:post_timestamp], data[:post_preview])
+          end
+          stmt.close
+        end
+        return posts
+      end
     end
   end
 end
