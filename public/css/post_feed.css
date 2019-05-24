@@ -4,6 +4,12 @@
   flex-wrap: wrap;
 }
 
+@media (max-width: 480px) {
+ .post-feed {
+   width: inherit;
+ }
+}
+
 .post-card {
   margin: 20px 20px 40px;
   border-radius: 5px;
@@ -17,6 +23,14 @@
 .post-card:hover {
   backface-visibility: hidden;
   transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  .post-card {
+    margin: 0.75em 0; }
+  .post-card:hover {
+    transform: none;
+  }
 }
 
 .post-card-content {
