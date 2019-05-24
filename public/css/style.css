@@ -131,10 +131,6 @@ h1, h2, h3 {
   .about-me figure {
     display: none;
   }
-
-  #recent-posts {
-    display: none;
-  }
 }
 
 .blog-post {
