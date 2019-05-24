@@ -75,4 +75,10 @@
   .navbar-link, .navbar-dropdown {
     display: none;
   }
+  .navbar-link:last-child {
+    display: block;
+    font-size: 1em;
+    font-weight: 300;
+    width: 90px;
+  }
 }
