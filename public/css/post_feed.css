@@ -1,13 +1,7 @@
 .post-feed {
-  width: 1040px;
+  width: inherit;
   display: flex;
   flex-wrap: wrap;
-}
-
-@media (max-width: 480px) {
- .post-feed {
-   width: inherit;
- }
 }
 
 .post-card {
