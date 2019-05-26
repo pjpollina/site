@@ -24,6 +24,13 @@ body {
   background: url("/pictures/background.jpg") no-repeat fixed;
 }
 
+@media (min-width: 1280px) {
+  body {
+    background-color: var(--dopalette-background);
+    background-image: none;
+  }
+}
+
 header {
   height: 60px;
   position: relative;
