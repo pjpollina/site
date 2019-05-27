@@ -5,7 +5,7 @@ require 'yaml'
 module Website
   extend self
 
-  VERSION = '0.2.0'
+  VERSION = '0.2.1'
 
   REPO_ROOT = File.expand_path(File.dirname(__FILE__)).chomp("lib")
 
