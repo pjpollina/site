@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test</title>
+  </head>
+
+  <body>
+    <canvas id="frame" width="250px" height="250px" style="cursor: pointer"></canvas>
+    <img id="frame-source" src="/pictures/headshot.jpg" style="display: none">
+  </body>
+
+  <script>
+    let canvas = {
+      element : document.getElementById("frame"),
+      xPos    : 0,
+      yPos    : 0,
+      image   : document.getElementById("frame-source"),
+      context : document.getElementById("frame").getContext('2d'),
+      moveVertical : function(units) {
+        this.yPos += units;
+        if(this.yPos > 0) {
+          this.yPos = 0;
+        }
+        let bottom = (this.image.height - 250) * -1;
+        if(this.yPos < bottom) {
+          this.yPos = bottom;
+        }
+      },
+      moveHorizontal : function(units) {
+        this.xPos += units;
+        if(this.xPos > 0) {
+          this.xPos = 0;
+        }
+        let right = (this.image.width - 250) * -1;
+        if(this.xPos < right) {
+          this.xPos = right;
+        }
+      }
+    };
+
+    let mouseStatus = {
+      xPos : 0,
+      yPos : 0,
+      isDragging   : false,
+      withinCanvas : false
+    };
+
+    canvas.element.onmouseenter = () => { mouseStatus.withinCanvas = true  };
+    canvas.element.onmouseleave = () => {
+      mouseStatus.withinCanvas = false;
+      mouseStatus.isDragging = false;
+    };
+    canvas.element.onmouseup = () => { mouseStatus.isDragging = false };
+    canvas.element.onmousedown = function(event) {
+      mouseStatus.xPos = event.pageX - this.offsetLeft;
+      mouseStatus.yPos = event.pageY - this.offsetTop;
+      mouseStatus.isDragging = true;
+    };
+    canvas.element.onmousemove = function(event) {
+      if(mouseStatus.isDragging) {
+        let xPos = event.pageX - this.offsetLeft;
+        let yPos = event.pageY - this.offsetTop;
+        canvas.moveVertical(yPos - mouseStatus.yPos);
+        canvas.moveHorizontal(xPos - mouseStatus.xPos);
+        mouseStatus.yPos = yPos;
+        mouseStatus.xPos = xPos;
+      }
+    }
+
+    setInterval(() => { canvas.context.drawImage(canvas.image, canvas.xPos, canvas.yPos) }, 1000/60);
+  </script>
+</html>
